@@ -3,14 +3,27 @@ package archipelagoon;
 import archipelagoon.ap.APContext;
 import archipelagoon.ap.mapping.LocationState;
 import archipelagoon.ap.mapping.items.Goods;
+import archipelagoon.ap.mapping.items.Items;
 import archipelagoon.ap.mapping.locations.Additions;
+import archipelagoon.ap.mapping.locations.Shops;
 import archipelagoon.config.ArchipelagoConfigEntry;
 import archipelagoon.config.ItemIndexConfigEntry;
 import archipelagoon.config.LocationStateRegistry;
+import archipelagoon.data.APInventoryEntry;
+import archipelagoon.data.APShopEntry;
+import archipelagoon.data.APShopExtension;
 import legend.core.GameEngine;
+import legend.game.inventory.Equipment;
 import legend.game.inventory.Good;
+import legend.game.inventory.InventoryEntry;
 import legend.game.inventory.Item;
 import legend.game.inventory.ItemRegistryEvent;
+import legend.game.inventory.ItemStack;
+import legend.game.inventory.screens.GatherShopExtensionsEvent;
+import legend.game.inventory.screens.ShopScreen;
+import legend.game.modding.coremod.shops.EquipmentShopExtension;
+import legend.game.modding.coremod.shops.GoodShopExtension;
+import legend.game.modding.coremod.shops.ItemShopExtension;
 import legend.game.modding.events.battle.BattleEndedEvent;
 import legend.game.modding.events.characters.AdditionUnlockEvent;
 import legend.game.modding.events.gamestate.GameLoadedEvent;
@@ -26,6 +39,7 @@ import legend.game.saves.ConfigRegistryEvent;
 import legend.game.saves.ConfigStorageLocation;
 import legend.game.saves.StringConfigEntry;
 import legend.game.types.GameState52c;
+import legend.lodmod.LodMod;
 import org.legendofdragoon.modloader.Mod;
 import org.legendofdragoon.modloader.events.EventListener;
 import org.legendofdragoon.modloader.registries.Registrar;
@@ -34,10 +48,12 @@ import org.legendofdragoon.modloader.registries.RegistryId;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
 import static legend.core.GameEngine.EVENTS;
+import static legend.game.Scus94491BpeSegment_800b.gameState_800babc8;
 
 @Mod(id = Archipelagoon.MOD_ID, version = "^3.0.0")
 public class Archipelagoon {
@@ -84,6 +100,11 @@ public class Archipelagoon {
   }
 
   @EventListener
+  public void gatherShopExtensions(final GatherShopExtensionsEvent event) {
+    event.addExtension(new APShopExtension(),999);
+  }
+
+  @EventListener
   public void gameLoaded(final GameLoadedEvent game) {
     this.state = game.gameState;
     try {
@@ -120,7 +141,7 @@ public class Archipelagoon {
       return;
     }
 
-    if (!event.addition.isUnlocked(event.charData, event.additionStats)) {
+    if (!event.addition.isUnlocked(gameState_800babc8, event.charData, event.additionStats)) {
       return;
     }
 
@@ -130,22 +151,29 @@ public class Archipelagoon {
 
   @EventListener
   public void shopContents(final ShopContentsEvent event) {
-//    final List<Long> shopSlots = Shops.getShopLocationIds(event.shop.getRegistryId().entryId()).stream().toList();
-//    final List<LocationState> locationStates = GameEngine.CONFIG.getConfig(LOCATION_STATE_REGISTRY.get());
-//    final List<LocationState> slots = locationStates.stream()
-//      .filter(ls -> shopSlots.contains(ls.getLocationID())).toList();
-//
-//    final List<ShopScreen.ShopEntry<InventoryEntry<?>>> adjustedContents = new ArrayList<>();
-//    int index = 0;
-//    for (final LocationState locationState : slots) {
-//      final String itemId = Items.getEntryIdFromAPItemId(locationState.getItemID());
-//      final RegistryId registryId = new RegistryId(LodMod.MOD_ID, itemId);
-//      final int price = event.contents.get(index).price;
-//
+    final List<Long> shopSlots = Shops.getShopLocationIds(event.shop.getRegistryId().entryId()).stream().toList();
+    final List<LocationState> locationStates = GameEngine.CONFIG.getConfig(LOCATION_STATE_REGISTRY.get());
+    final List<LocationState> slots = locationStates.stream()
+      .filter(ls -> shopSlots.contains(ls.getLocationID())).toList();
+
+    final List<APShopEntry> adjustedContents = new ArrayList<>();
+
+    int index = 0;
+    for (final LocationState locationState : slots) {
+      final String itemId = Items.getEntryIdFromAPItemId(locationState.getItemID());
+      final RegistryId registryId = new RegistryId(LodMod.MOD_ID, itemId);
+      final int price = event.contents.get(index).price; // original price (for now)
+      final APInventoryEntry entry = new APInventoryEntry(locationState.getLocationID());
+
+
+      adjustedContents.add(new APShopEntry(entry, price, locationState.getLocationID()));
+
+
 //      if (GameEngine.REGISTRIES.items.hasEntry(registryId)) {
 //        // this is an item from legend of dragoon
 //        final Item item = GameEngine.REGISTRIES.items.getEntry(registryId).get();
-//        adjustedContents.add(new ShopScreen.ShopEntry<>(new ItemStack(item), price));
+
+////        adjustedContents.add(new ShopScreen.ShopEntry<>(new ItemStack(item), price));
 //      } else if (GameEngine.REGISTRIES.equipment.hasEntry(registryId)) {
 //        // this is equipment from legend of dragoon
 //        final Equipment equipment = GameEngine.REGISTRIES.equipment.getEntry(registryId).get();
@@ -173,10 +201,10 @@ public class Archipelagoon {
 //      }
 //
 //      index++;
-//    }
-//
-//    event.contents.clear();
-//    event.contents.addAll(adjustedContents);
+    }
+
+    event.contents.clear();
+    event.contents.addAll((Collection)adjustedContents);
   }
 
   @EventListener

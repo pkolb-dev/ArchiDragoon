@@ -15,7 +15,7 @@ public final class Locations {
     LOCATION_MAP.putAll(Additions.getStaticMap());
 //    LOCATION_MAP.putAll(Chests.getStaticMap());
 //    LOCATION_MAP.putAll(Events.getStaticMap());
-//    LOCATION_MAP.putAll(Shops.getStaticFlatMap()); // TODO: make flat map of... things.
+    LOCATION_MAP.putAll(Shops.getStaticFlatMap()); // TODO: make flat map of... things.
     LOCATION_MAP.putAll(Enemies.getStaticMap());
 
     for (final Map.Entry<Long, String> entry :LOCATION_MAP.entrySet()) {
