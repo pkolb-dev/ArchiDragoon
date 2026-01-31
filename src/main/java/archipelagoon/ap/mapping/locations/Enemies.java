@@ -4,11 +4,12 @@ import org.legendofdragoon.modloader.registries.RegistryId;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public final class Enemies {
-  private static final Map<Long, String> ENEMY_LOCATIONS = new HashMap<>();
-  private static final Map<String, Long> ENEMY_LOCATIONS_REVERSE = new HashMap<>();
+  private static final Map<Long, String> ENEMY_LOCATIONS = new LinkedHashMap<>();
+  private static final Map<String, Long> ENEMY_LOCATIONS_REVERSE = new LinkedHashMap<>();
 
   static {
     ENEMY_LOCATIONS.put(108_70001L, "knight_of_sandora_knight_of_sandora_commander");

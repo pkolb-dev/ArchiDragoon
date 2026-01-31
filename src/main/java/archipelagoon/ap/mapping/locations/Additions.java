@@ -3,12 +3,12 @@ package archipelagoon.ap.mapping.locations;
 import org.legendofdragoon.modloader.registries.RegistryId;
 
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public final class Additions {
-  private static final Map<Long, String> ADDITION_LOCATIONS = new HashMap<>();
-  private static final Map<String, Long> ADDITION_LOCATIONS_REVERSE = new HashMap<>();
+  private static final Map<Long, String> ADDITION_LOCATIONS = new LinkedHashMap<>();
+  private static final Map<String, Long> ADDITION_LOCATIONS_REVERSE = new LinkedHashMap<>();
 
   static {
 //    ADDITION_LOCATIONS.put(10860000L, "double_slash");

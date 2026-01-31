@@ -16,6 +16,7 @@ import org.legendofdragoon.modloader.registries.RegistryId;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Objects;
 
@@ -23,6 +24,8 @@ import static archipelagoon.Archipelagoon.ADDRESS_CONFIG;
 import static archipelagoon.Archipelagoon.LOCATION_STATE_REGISTRY;
 import static archipelagoon.Archipelagoon.PASSWORD_CONFIG;
 import static archipelagoon.Archipelagoon.SLOT_NAME_CONFIG;
+import static java.lang.IO.print;
+
 public class APContext {
   private static final APContext INSTANCE = new APContext();
   private APClient client;
@@ -62,6 +65,10 @@ public class APContext {
 
   public void triggerDeathFromAP() {
     // TODO: figure out how to deathlink
+  }
+
+  public void checkShopPurchase(final Long locationId) {
+    this.client.checkLocation(locationId);
   }
 
   public void checkAdditionLocation(final RegistryId event_id) {
@@ -122,5 +129,19 @@ public class APContext {
 
   public List<Long> getReceivedItemIDs() {
     return this.client.getItemManager().getReceivedItemIDs();
+  }
+
+  public void applyLocationState(final Long locationId) {
+    final List<LocationState> locationStates = new ArrayList<>(GameEngine.CONFIG.getConfig(LOCATION_STATE_REGISTRY.get()));
+
+
+    for (final LocationState ls : locationStates) {
+      if (ls.getLocationID() == locationId) {
+        ls.setApplied(true);
+        break;
+      }
+    }
+
+    GameEngine.CONFIG.setConfig(LOCATION_STATE_REGISTRY.get(), locationStates);
   }
 }

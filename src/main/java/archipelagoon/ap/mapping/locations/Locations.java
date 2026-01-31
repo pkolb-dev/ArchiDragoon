@@ -4,17 +4,17 @@ import org.legendofdragoon.modloader.registries.RegistryId;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 // PK - use this to look up item ID from AP item id
 public final class Locations {
-  private static final Map<Long, String> LOCATION_MAP = new HashMap<>();
-  private static final Map<String, Long> LOCATION_MAP_REVERSE = new HashMap<>();
+  private static final Map<Long, String> LOCATION_MAP = new LinkedHashMap<>();
+  private static final Map<String, Long> LOCATION_MAP_REVERSE = new LinkedHashMap<>();
 
   static {
     LOCATION_MAP.putAll(Additions.getStaticMap());
 //    LOCATION_MAP.putAll(Chests.getStaticMap());
-//    LOCATION_MAP.putAll(Events.getStaticMap());
     LOCATION_MAP.putAll(Shops.getStaticFlatMap()); // TODO: make flat map of... things.
     LOCATION_MAP.putAll(Enemies.getStaticMap());
 

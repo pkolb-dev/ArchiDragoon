@@ -9,6 +9,7 @@ import archipelagoon.ap.mapping.locations.Shops;
 import archipelagoon.config.ArchipelagoConfigEntry;
 import archipelagoon.config.ItemIndexConfigEntry;
 import archipelagoon.config.LocationStateRegistry;
+import archipelagoon.data.APIconUiType;
 import archipelagoon.data.APInventoryEntry;
 import archipelagoon.data.APShopEntry;
 import archipelagoon.data.APShopExtension;
@@ -24,6 +25,7 @@ import legend.game.inventory.screens.ShopScreen;
 import legend.game.modding.coremod.shops.EquipmentShopExtension;
 import legend.game.modding.coremod.shops.GoodShopExtension;
 import legend.game.modding.coremod.shops.ItemShopExtension;
+import legend.game.modding.events.RenderEvent;
 import legend.game.modding.events.battle.BattleEndedEvent;
 import legend.game.modding.events.characters.AdditionUnlockEvent;
 import legend.game.modding.events.gamestate.GameLoadedEvent;
@@ -53,6 +55,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import static legend.core.GameEngine.EVENTS;
+import static legend.game.SItem.buildUiRenderable;
 import static legend.game.Scus94491BpeSegment_800b.gameState_800babc8;
 
 @Mod(id = Archipelagoon.MOD_ID, version = "^3.0.0")
@@ -145,7 +148,7 @@ public class Archipelagoon {
       return;
     }
 
-    locationState.setApplied(true);
+    APContext.getContext().applyLocationState(locationState.getLocationID());
     APContext.getContext().checkAdditionLocation(event.addition.getRegistryId());
   }
 
@@ -163,7 +166,7 @@ public class Archipelagoon {
       final String itemId = Items.getEntryIdFromAPItemId(locationState.getItemID());
       final RegistryId registryId = new RegistryId(LodMod.MOD_ID, itemId);
       final int price = event.contents.get(index).price; // original price (for now)
-      final APInventoryEntry entry = new APInventoryEntry(locationState.getLocationID());
+      final APInventoryEntry entry = new APInventoryEntry(locationState);
 
 
       adjustedContents.add(new APShopEntry(entry, price, locationState.getLocationID()));
@@ -209,7 +212,24 @@ public class Archipelagoon {
 
   @EventListener
   public void shopBuy(final ShopBuyEvent event) {
+    if(!(event.item instanceof APInventoryEntry)) {
+      return;
+    }
 
+
+    final APInventoryEntry entry = (APInventoryEntry)event.item;
+    final APContext ctx = APContext.getContext();
+    final List<LocationState> locationStates =GameEngine.CONFIG.getConfig(LOCATION_STATE_REGISTRY.get());
+    final LocationState locationState = locationStates.stream()
+      .filter(ls -> ls.getLocationID() == entry.locationId)
+      .findFirst()
+      .orElse(null);
+    if (locationState == null) {
+      return;
+    }
+
+    ctx.applyLocationState(locationState.getLocationID());
+    ctx.checkShopPurchase(entry.locationId);
   }
 
   @EventListener
@@ -271,5 +291,12 @@ public class Archipelagoon {
   @EventListener
   public void gameStateChanged(final GameStateEvent event) {
     this.state = event.gameState;
+  }
+
+  @EventListener
+  public void onRender(final RenderEvent event) {
+    if(APIconUiType._ICONS.obj == null) {
+      APIconUiType._ICONS.obj = buildUiRenderable(APIconUiType._ICONS, "AP icons");
+    }
   }
 }

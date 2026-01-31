@@ -13,8 +13,17 @@ import static archipelagoon.Archipelagoon.LOCATION_STATE_REGISTRY;
 
 public class APInventoryEntry implements InventoryEntry<APInventoryEntry>{
   public final Long locationId;
-  public APInventoryEntry(final Long locationId) {
-    this.locationId = locationId;
+  public final int flags;
+  public final String playerName;
+  public final String itemName;
+  public boolean isApplied;
+
+  public APInventoryEntry(final LocationState  locationState) {
+    this.locationId = locationState.getLocationID();
+    this.flags = locationState.getFlags();
+    this.playerName = locationState.getPlayerName();
+    this.itemName = locationState.getItemName();
+    this.isApplied = locationState.isApplied();
   }
 
   @Override
@@ -24,13 +33,7 @@ public class APInventoryEntry implements InventoryEntry<APInventoryEntry>{
 
   @Override
   public ItemIcon getIcon() {
-    final List<LocationState> locationStates = GameEngine.CONFIG.getConfig(LOCATION_STATE_REGISTRY.get());
-    final LocationState locationState = locationStates.stream().filter(ls -> ls.getLocationID() == this.locationId).findFirst().orElse(null);
-    if  (locationState == null) {
-      return null;
-    }
-
-    if ((locationState.getFlags() & NetworkItem.ADVANCEMENT) != 0) {
+    if ((this.flags & NetworkItem.ADVANCEMENT) != 0) {
       return APIcon.PRIORITY;
     } else {
       return APIcon.OTHER;
@@ -39,12 +42,12 @@ public class APInventoryEntry implements InventoryEntry<APInventoryEntry>{
 
   @Override
   public String getNameTranslationKey() {
-    return "some name";
+    return this.itemName;
   }
 
   @Override
   public String getDescriptionTranslationKey() {
-    return "some key";
+    return String.format("%s's %s", this.playerName, this.itemName);
   }
 
   @Override
