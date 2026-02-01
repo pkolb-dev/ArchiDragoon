@@ -87,8 +87,7 @@ public class Archipelagoon {
 
   @EventListener
   public void registerItems(final ItemRegistryEvent event) {
-    // do stuff when registering items
-    // TODO
+    APItems.register(event);
   }
 
   @EventListener
