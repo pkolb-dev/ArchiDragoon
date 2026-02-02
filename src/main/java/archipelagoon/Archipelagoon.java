@@ -75,8 +75,6 @@ public class Archipelagoon {
   public static final RegistryDelegate<StringConfigEntry> PASSWORD_CONFIG = CONFIG_REGISTRAR.register("password", () -> new StringConfigEntry("", 1, ConfigStorageLocation.CAMPAIGN, ConfigCategory.OTHER));
   public static final RegistryDelegate<ItemIndexConfigEntry> LAST_ITEM_INDEX = CONFIG_REGISTRAR.register("last_item_index", () -> new ItemIndexConfigEntry(0));
   public static final RegistryDelegate<LocationStateRegistry> LOCATION_STATE_REGISTRY = CONFIG_REGISTRAR.register("location_states", LocationStateRegistry::new);
-//  public static final RegistryDelegate<Item> AP_PRIORITY_ITEM = ITEM_REGISTRAR.register("ap_priority_item", () -> new APPriorityItem(100));
-//  public static final RegistryDelegate<Item> AP_OTHER_ITEM = ITEM_REGISTRAR.register("ap_other_item", () -> new APOtherItem(50));
 
   private GameState52c state;
   private static final Logger LOGGER = Logger.getLogger(Archipelagoon.class.getName());
@@ -170,40 +168,6 @@ public class Archipelagoon {
 
 
       adjustedContents.add(new APShopEntry(entry, price, locationState.getLocationID()));
-
-
-//      if (GameEngine.REGISTRIES.items.hasEntry(registryId)) {
-//        // this is an item from legend of dragoon
-//        final Item item = GameEngine.REGISTRIES.items.getEntry(registryId).get();
-
-////        adjustedContents.add(new ShopScreen.ShopEntry<>(new ItemStack(item), price));
-//      } else if (GameEngine.REGISTRIES.equipment.hasEntry(registryId)) {
-//        // this is equipment from legend of dragoon
-//        final Equipment equipment = GameEngine.REGISTRIES.equipment.getEntry(registryId).get();
-//        adjustedContents.add(new ShopScreen.ShopEntry<>(equipment, price));
-//      } else if (GameEngine.REGISTRIES.goods.hasEntry(registryId)) {
-//        // this is a good from legend of dragoon
-//        final Good good = GameEngine.REGISTRIES.goods.getEntry(registryId).get();
-//        final APGood apGood = new APGood(good, price);
-//        adjustedContents.add(new ShopScreen.ShopEntry<>(new APStack(apGood, new APPriorityItem(price)), price));
-//      } else if (GameEngine.REGISTRIES.additions.hasEntry(registryId)) {
-//        // this is an addition from legend of dragoon
-//        final Addition addition = GameEngine.REGISTRIES.additions.getEntry(registryId).get();
-//        final Item item = GameEngine.REGISTRIES.items.getEntry(registryId).get();
-//        adjustedContents.add(new ShopScreen.ShopEntry<>(new ItemStack(new APPriorityItem(price)), price));
-//        final APItem apItem = new APItem(price, registryId, locationState.getFlags(), locationState.getItemName(), locationState.getPlayerName());
-//        adjustedContents.add(new ShopScreen.ShopEntry<>(new APPriorityItem(price), price));
-//      } else {
-//       // item exists outside of legend of dragoon
-//        final APItem apItem = new APItem(price, registryId, locationState.getFlags(), locationState.getItemName(), locationState.getPlayerName());
-//        if ((locationState.getFlags() & NetworkItem.ADVANCEMENT) != 0) {
-//          adjustedContents.add(new ShopScreen.ShopEntry<>(new ItemStack(new APPriorityItem(price)), price));
-//        } else {
-//          adjustedContents.add(new ShopScreen.ShopEntry<>(new ItemStack(new APOtherItem(price)), price));
-//        }
-//      }
-//
-//      index++;
     }
 
     event.contents.clear();
@@ -215,7 +179,6 @@ public class Archipelagoon {
     if(!(event.item instanceof APInventoryEntry)) {
       return;
     }
-
 
     final APInventoryEntry entry = (APInventoryEntry)event.item;
     final APContext ctx = APContext.getContext();
