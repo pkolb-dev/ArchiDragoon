@@ -6,7 +6,9 @@ import archipelagoon.ap.mapping.locations.Additions;
 import archipelagoon.ap.mapping.locations.Enemies;
 import archipelagoon.ap.mapping.locations.Locations;
 import archipelagoon.data.SlotData;
+import archipelagoon.randomizer.AdditionManager;
 import archipelagoon.randomizer.MessageManager;
+import io.github.archipelagomw.Client;
 import io.github.archipelagomw.ClientStatus;
 import io.github.archipelagomw.flags.ItemsHandling;
 import io.github.archipelagomw.network.client.CreateAsHint;
@@ -28,10 +30,13 @@ import static java.lang.IO.print;
 
 public class APContext {
   private static final APContext INSTANCE = new APContext();
-  private APClient client;
+  private final APClient client;
   private SlotData slotData;
+  private final AdditionManager additionManager = AdditionManager.getInstance();
 
-  public APContext () {}
+  public APContext () {
+    this.client = new APClient();
+  }
 
   public static APContext getContext() {
     return INSTANCE;
@@ -42,7 +47,6 @@ public class APContext {
   }
 
   public void reconnect() throws URISyntaxException {
-    this.client = new APClient();
     final String address = GameEngine.CONFIG.getConfig(ADDRESS_CONFIG.get());
     final String slotName = GameEngine.CONFIG.getConfig(SLOT_NAME_CONFIG.get());
     final String password = GameEngine.CONFIG.getConfig(PASSWORD_CONFIG.get());
@@ -50,16 +54,11 @@ public class APContext {
   }
 
   public void connect(final String address, final String slotName, final String password) throws URISyntaxException {
-    this.client = new APClient();
     this.client.connectToServer(address, slotName, password);
     this.client.setItemsHandlingFlags(ItemsHandling.SEND_ITEMS + ItemsHandling.SEND_OWN_ITEMS + ItemsHandling.SEND_STARTING_INVENTORY);
   }
 
   public boolean isConnected() {
-    if (this.client == null) {
-      return false;
-    }
-
     return this.client.isConnected();
   }
 
@@ -67,12 +66,8 @@ public class APContext {
     // TODO: figure out how to deathlink
   }
 
-  public void checkShopPurchase(final Long locationId) {
+  public void checkLocation(final Long locationId) {
     this.client.checkLocation(locationId);
-  }
-
-  public void checkAdditionLocation(final RegistryId event_id) {
-    this.client.checkLocation(Additions.getAPLocationIdFromRegistryId(event_id));
   }
 
   public void retrieveLocations() {
@@ -116,7 +111,7 @@ public class APContext {
 
     final Long location = Enemies.getAPLocationIdFromRegistryId(encounterRegistryId);
     if (location != null) {
-      this.client.checkLocation(location);
+      this.checkLocation(locationState.getLocationID());
     }
 
     final Map<Integer, String> goals = Goals.getStaticMap();
@@ -128,6 +123,7 @@ public class APContext {
   }
 
   public List<Long> getReceivedItemIDs() {
+//    GameEngine.CONFIG.getConfig();
     return this.client.getItemManager().getReceivedItemIDs();
   }
 
@@ -143,5 +139,14 @@ public class APContext {
     }
 
     GameEngine.CONFIG.setConfig(LOCATION_STATE_REGISTRY.get(), locationStates);
+  }
+
+  public void initAdditions() {
+    this.additionManager.clearAdditions();
+    this.additionManager.setAdditions();
+  }
+
+  public void retrieveItems() {
+    this.client.getItemManager().getReceivedItems();
   }
 }

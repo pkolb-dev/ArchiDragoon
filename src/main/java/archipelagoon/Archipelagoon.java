@@ -13,7 +13,9 @@ import archipelagoon.data.APIconUiType;
 import archipelagoon.data.APInventoryEntry;
 import archipelagoon.data.APShopEntry;
 import archipelagoon.data.APShopExtension;
+import archipelagoon.randomizer.AdditionManager;
 import legend.core.GameEngine;
+import legend.game.additions.UnlockState;
 import legend.game.combat.deff.RegisterDeffsEvent;
 import legend.game.inventory.Good;
 import legend.game.inventory.Item;
@@ -23,7 +25,6 @@ import legend.game.modding.events.RenderEvent;
 import legend.game.modding.events.battle.BattleEndedEvent;
 import legend.game.modding.events.characters.AdditionUnlockEvent;
 import legend.game.modding.events.gamestate.GameLoadedEvent;
-import legend.game.modding.events.gamestate.GameStateEvent;
 import legend.game.modding.events.gamestate.NewGameEvent;
 import legend.game.modding.events.inventory.GiveGoodsEvent;
 import legend.game.modding.events.inventory.ShopBuyEvent;
@@ -76,6 +77,7 @@ public class Archipelagoon {
 
   private GameState52c state;
   private static final Logger LOGGER = LogManager.getFormatterLogger(Archipelagoon.class);
+  private final AdditionManager additionManager = AdditionManager.getInstance();
 
   public Archipelagoon() {
     EVENTS.register(this);
@@ -109,7 +111,8 @@ public class Archipelagoon {
 
   @EventListener
   public void gameLoaded(final GameLoadedEvent game) {
-    this.state = game.gameState;
+    AdditionManager.getInstance().clearAdditions();
+
     try {
       APContext.getContext().reconnect();
     } catch(final URISyntaxException e) {
@@ -121,16 +124,13 @@ public class Archipelagoon {
 
   @EventListener
   public void additionUnlock(final AdditionUnlockEvent event) {
-    if (!event.additionStats.unlocked) {
-      return;
-    }
-
     if (!Additions.getStaticMap().containsValue(event.addition.getRegistryId().entryId())) {
       return;
     }
 
     final long apId = Additions.getAPLocationIdFromRegistryId(event.addition.getRegistryId());
-    final List<LocationState> locationStates =GameEngine.CONFIG.getConfig(LOCATION_STATE_REGISTRY.get());
+
+    final List<LocationState> locationStates = GameEngine.CONFIG.getConfig(LOCATION_STATE_REGISTRY.get());
     final LocationState locationState = locationStates.stream()
       .filter(ls -> ls.getLocationID() == apId)
       .findFirst()
@@ -146,12 +146,9 @@ public class Archipelagoon {
       return;
     }
 
-    if (!event.addition.isUnlocked(gameState_800babc8, event.charData, event.additionStats)) {
-      return;
-    }
-
-    APContext.getContext().applyLocationState(locationState.getLocationID());
-    APContext.getContext().checkAdditionLocation(event.addition.getRegistryId());
+    final APContext ctx = APContext.getContext();
+    ctx.applyLocationState(locationState.getLocationID());
+    ctx.checkLocation(locationState.getLocationID());
   }
 
   @EventListener
@@ -184,10 +181,10 @@ public class Archipelagoon {
       return;
     }
 
-    final APInventoryEntry entry = (APInventoryEntry)event.item;
+//    final APInventoryEntry entry = (APInventoryEntry)event.item;
 
     final APContext ctx = APContext.getContext();
-    final List<LocationState> locationStates =GameEngine.CONFIG.getConfig(LOCATION_STATE_REGISTRY.get());
+    final List<LocationState> locationStates = GameEngine.CONFIG.getConfig(LOCATION_STATE_REGISTRY.get());
     final LocationState locationState = locationStates.stream()
       .filter(ls -> ls.getLocationID() == entry.locationId)
       .findFirst()
@@ -197,14 +194,13 @@ public class Archipelagoon {
     }
 
     ctx.applyLocationState(locationState.getLocationID());
-    ctx.checkShopPurchase(entry.locationId);
+    ctx.checkLocation(entry.locationId);
   }
 
   @EventListener
   public void giveGood(final GiveGoodsEvent event) {
     // received a good from somewhere SC/AP
     final List<Good> goods = event.givenGoods;
-    final List<LocationState> locationStates = GameEngine.CONFIG.getConfig(LOCATION_STATE_REGISTRY.get());
     final List<Good> allowedGoods = new ArrayList<>();
     final APContext ctx = APContext.getContext();
 
@@ -218,21 +214,11 @@ public class Archipelagoon {
       final long apId = Goods.getAPItemIdFromRegistryId(good.getRegistryId());
       final List<Long> receivedItemIds = ctx.getReceivedItemIDs();
 
-      // if we've received this item via archipelago
-      if (receivedItemIds.contains(apId)) {
-        // AND we haven't stored it before
-        if(!event.goods.has(good)) {
-          // queue it for add
-          allowedGoods.add(good);
-        } else {
-          // must have been SC given later
-          // potentially check?
-          continue;
-        }
+      if (receivedItemIds.contains(apId) && !event.goods.has(good))  {
+        allowedGoods.add(good);
       } else {
-        // this wasn't in our received list, must be from SC
-        // potentially check?
-        continue;
+        ctx.applyLocationState(apId);
+        ctx.checkLocation(apId);
       }
     }
 
@@ -256,10 +242,10 @@ public class Archipelagoon {
     ctx.checkEncounter(event.encounter.getRegistryId());
   }
 
-  @EventListener
-  public void gameStateChanged(final GameStateEvent event) {
-    this.state = event.gameState;
-  }
+//  @EventListener
+//  public void gameStateChanged(final GameStateEvent event) {
+//    this.additionManager.updateState(event.gameState);
+//  }
 
   @EventListener
   public void onRender(final RenderEvent event) {

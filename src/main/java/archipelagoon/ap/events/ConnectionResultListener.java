@@ -51,5 +51,6 @@ public class ConnectionResultListener {
 
     ctx.setSlotData(slotData);
     ctx.retrieveLocations();
+    ctx.initAdditions();
   }
 }

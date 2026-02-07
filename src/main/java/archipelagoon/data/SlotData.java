@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 public final class SlotData {
-  public static final Set<String> EXPECTED_MOD_VERSIONS = new HashSet<>(List.of("0.0.2"));
+  public static final Set<String> EXPECTED_MOD_VERSIONS = new HashSet<>(List.of("0.0.3"));
 
   private SlotData() {
   }
