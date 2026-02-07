@@ -34,6 +34,9 @@ import legend.game.saves.ConfigEntry;
 import legend.game.saves.ConfigRegistryEvent;
 import legend.game.saves.ConfigStorageLocation;
 import legend.game.saves.StringConfigEntry;
+import static legend.game.Scus94491BpeSegment_8005.submapCut_80052c30;
+import legend.game.submap.SMap;
+import legend.game.submap.SubmapState;
 import legend.game.types.GameState52c;
 import legend.lodmod.LodMod;
 import org.apache.logging.log4j.LogManager;
@@ -50,6 +53,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static legend.core.GameEngine.EVENTS;
+import static legend.game.EngineStates.currentEngineState_8004dd04;
 import static legend.game.SItem.buildUiRenderable;
 import static legend.game.Scus94491BpeSegment_800b.gameState_800babc8;
 
@@ -96,8 +100,8 @@ public class Archipelagoon {
 
   @EventListener
   public void newGame(final NewGameEvent event) {
-    // TODO
-    // do stuff for new game
+    submapCut_80052c30 = 10; // warp to seles
+    ((SMap)currentEngineState_8004dd04).smapLoadingStage_800cb430 = SubmapState.CHANGE_SUBMAP_4;
   }
 
   @EventListener
