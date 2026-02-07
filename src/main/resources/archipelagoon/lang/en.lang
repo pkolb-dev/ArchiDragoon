@@ -14,3 +14,5 @@ archipelagoon.config.connecting=Connecting
 archipelagoon.ap.priority.item=AP Item
 archipelagoon.ap.priority.item.description=an item considered progression
 archipelagoon.ap.good.description=A good from your game
+
+archipelagoon.items.ice_trap.use=Ice trap!

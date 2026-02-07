@@ -1,0 +1,118 @@
+; to compile: ./recompiler c -iice_trap.txt -o<output_file>
+
+entrypoint :MAIN
+
+;----------------------------PARAMETERS------------------------------;
+;max hp% damage
+DAMAGE_PERCENTAGE:
+data 10
+
+;if set to 0, script will perform physical hit check
+CANNOT_MISS:
+data 1
+
+;whether to show textbox or not to
+USE_TEXTBOX:
+data 1
+
+;do remember to modify text sizes
+TEXT:
+data str[<sauto=0><arrow=0>Ice trap!]
+
+TEXT_POS_X:
+data 160
+TEXT_POS_Y:
+data 50
+TEXT_SIZE_X:
+data 9
+TEXT_SIZE_Y:
+data 1
+
+;--------------------------PARAMETERS END----------------------------;
+
+TARGET:
+data 0xffffffff
+CASTER:
+data 0xffffffff
+
+MAIN:
+gosub inl[:INIT]
+gosub inl[:LOAD_SOUNDS]
+gosub inl[:LOAD_TEXTBOX]
+gosub inl[:DEAL_DAMAGE]
+gosub inl[:UNLOAD]
+gosub inl[:DEALLOC]
+return
+
+INIT:
+call Battle::scriptGetDeffBentParams, inl[:CASTER], inl[:TARGET]
+;Target is also caster for this deff
+mov inl[:CASTER], inl[:TARGET]
+return
+
+LOAD_SOUNDS:
+call Audio::scriptLoadMonsterAttackSounds, 0xc9
+WAIT_SOUNDS_LOADED:
+call Audio::scriptGetLoadedSoundFiles, stor[26]
+yield
+jmp_cmp &, 0x20, stor[26], inl[:WAIT_SOUNDS_LOADED]
+return
+
+UNLOAD:
+wait 0x10
+call Audio::scriptUnloadSoundFile, 0x6
+jmp_cmp ==, inl[:USE_TEXTBOX], 0x0, inl[:SKIP_TEXTBOX_DEALLOC]
+mov 20, stor[23]
+wait stor[23]
+call Text::FUN_80029ecc, 0x0
+SKIP_TEXTBOX_DEALLOC:
+return
+
+LOAD_TEXTBOX:
+jmp_cmp ==, inl[:USE_TEXTBOX], 0x0, inl[:RETURN]
+call Text::scriptAddTextbox, 0x0, 0x1121, inl[:TEXT_POS_X], inl[:TEXT_POS_Y], inl[:TEXT_SIZE_X], inl[:TEXT_SIZE_Y], inl[:TEXT]
+return
+
+;---damage stuff
+
+DEAL_DAMAGE:
+call Battle::scriptPlayBentSound, 0x1, inl[:TARGET], 0x6, 0x1, 0x0, 0x0, 0x0
+call Battle::scriptAllocateEmptyEffectManagerChild, stor[18]
+mov inl[:CASTER], stor[stor[stor[0], 18], 27]
+mov inl[:TARGET], stor[stor[stor[0], 18], 28]
+mov 0x21, stor[stor[stor[0], 18], 8]
+call SEffe::scriptLoadSameScriptAndJump, stor[18], inl[:FORK_CALL]
+return
+
+FORK_CALL:
+jmp_cmp &, 0x40, stor[stor[stor[0], 28], 7], inl[:DEALLOC] ; operand, left, right, addr
+mov stor[27], stor[30] ; source, dest
+gosub inl[:HIT_HANDLER] ; addr
+fork_reenter stor[28], 0x2, stor[8] ; index, entrypoint, p2
+yield
+deallocate
+
+HIT_HANDLER:
+call Battle::scriptGetBentSlot, stor[28], stor[10], 0x0
+mov stor[8], var[128 + stor[10]][5] ; source, dest
+mov 0x5, var[128 + stor[10]][0] ; source, dest
+call Battle::scriptSetBentStat, stor[30], stor[8], SPELL_ID
+call Battle::scriptSetTempSpellStats, stor[30]
+mov stor[8], var[45][119]
+jmp_cmp ==, 1, inl[:CANNOT_MISS], inl[:SKIP_HIT_CHECK]
+call Battle::scriptCheckPhysicalHit, stor[30], stor[28], stor[9]
+jmp_cmp ==, 0, stor[9], inl[:IS_MISS]
+SKIP_HIT_CHECK:
+call Battle::scriptGetBentStat, stor[30], MAX_HP, stor[8]
+mul inl[:DAMAGE_PERCENTAGE], stor[8]
+div 0x64, stor[8]
+return
+IS_MISS:
+mov 0xffffffff, stor[8] ; source, dest
+return
+
+DEALLOC:
+deallocate
+
+RETURN:
+return

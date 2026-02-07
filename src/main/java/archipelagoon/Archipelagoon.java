@@ -14,17 +14,11 @@ import archipelagoon.data.APInventoryEntry;
 import archipelagoon.data.APShopEntry;
 import archipelagoon.data.APShopExtension;
 import legend.core.GameEngine;
-import legend.game.inventory.Equipment;
+import legend.game.combat.deff.RegisterDeffsEvent;
 import legend.game.inventory.Good;
-import legend.game.inventory.InventoryEntry;
 import legend.game.inventory.Item;
 import legend.game.inventory.ItemRegistryEvent;
-import legend.game.inventory.ItemStack;
 import legend.game.inventory.screens.GatherShopExtensionsEvent;
-import legend.game.inventory.screens.ShopScreen;
-import legend.game.modding.coremod.shops.EquipmentShopExtension;
-import legend.game.modding.coremod.shops.GoodShopExtension;
-import legend.game.modding.coremod.shops.ItemShopExtension;
 import legend.game.modding.events.RenderEvent;
 import legend.game.modding.events.battle.BattleEndedEvent;
 import legend.game.modding.events.characters.AdditionUnlockEvent;
@@ -40,8 +34,13 @@ import legend.game.saves.ConfigEntry;
 import legend.game.saves.ConfigRegistryEvent;
 import legend.game.saves.ConfigStorageLocation;
 import legend.game.saves.StringConfigEntry;
+import static legend.game.Scus94491BpeSegment_8005.submapCut_80052c30;
+import legend.game.submap.SMap;
+import legend.game.submap.SubmapState;
 import legend.game.types.GameState52c;
 import legend.lodmod.LodMod;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.legendofdragoon.modloader.Mod;
 import org.legendofdragoon.modloader.events.EventListener;
 import org.legendofdragoon.modloader.registries.Registrar;
@@ -52,15 +51,14 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Logger;
 
 import static legend.core.GameEngine.EVENTS;
+import static legend.game.EngineStates.currentEngineState_8004dd04;
 import static legend.game.SItem.buildUiRenderable;
 import static legend.game.Scus94491BpeSegment_800b.gameState_800babc8;
 
 @Mod(id = Archipelagoon.MOD_ID, version = "^3.0.0")
 public class Archipelagoon {
-
   public static final String MOD_ID = "archipelagoon";
   public static RegistryId id(final String entryId) {
     return new RegistryId(MOD_ID, entryId);
@@ -77,7 +75,7 @@ public class Archipelagoon {
   public static final RegistryDelegate<LocationStateRegistry> LOCATION_STATE_REGISTRY = CONFIG_REGISTRAR.register("location_states", LocationStateRegistry::new);
 
   private GameState52c state;
-  private static final Logger LOGGER = Logger.getLogger(Archipelagoon.class.getName());
+  private static final Logger LOGGER = LogManager.getFormatterLogger(Archipelagoon.class);
 
   public Archipelagoon() {
     EVENTS.register(this);
@@ -85,8 +83,12 @@ public class Archipelagoon {
 
   @EventListener
   public void registerItems(final ItemRegistryEvent event) {
-    // do stuff when registering items
-    // TODO
+    APItems.register(event);
+  }
+
+  @EventListener
+  public void registerDeffs(final RegisterDeffsEvent event) {
+    APDeffs.register(event);
   }
 
   @EventListener
@@ -96,8 +98,8 @@ public class Archipelagoon {
 
   @EventListener
   public void newGame(final NewGameEvent event) {
-    // TODO
-    // do stuff for new game
+    submapCut_80052c30 = 10; // warp to seles
+    ((SMap)currentEngineState_8004dd04).smapLoadingStage_800cb430 = SubmapState.CHANGE_SUBMAP_4;
   }
 
   @EventListener
@@ -111,7 +113,9 @@ public class Archipelagoon {
     try {
       APContext.getContext().reconnect();
     } catch(final URISyntaxException e) {
-      // TODO ?
+      // Will only happen if the player submits a malformed URL
+      LOGGER.error("User error - malformed URL", e);
+      //TODO should probably display a message or something
     }
   }
 
@@ -176,11 +180,12 @@ public class Archipelagoon {
 
   @EventListener
   public void shopBuy(final ShopBuyEvent event) {
-    if(!(event.item instanceof APInventoryEntry)) {
+    if(!(event.item instanceof final APInventoryEntry entry)) {
       return;
     }
 
     final APInventoryEntry entry = (APInventoryEntry)event.item;
+
     final APContext ctx = APContext.getContext();
     final List<LocationState> locationStates =GameEngine.CONFIG.getConfig(LOCATION_STATE_REGISTRY.get());
     final LocationState locationState = locationStates.stream()
@@ -262,4 +267,11 @@ public class Archipelagoon {
       APIconUiType._ICONS.obj = buildUiRenderable(APIconUiType._ICONS, "AP icons");
     }
   }
+
+/* Example of giving the player an ice trap item impersonating healing breeze
+  @EventListener
+  public void onLoad(final GameLoadedEvent event) {
+    event.gameState.items_2e9.give(APItems.ICE_TRAP.get().impersonate(LodItems.HEALING_BREEZE.get()));
+  }
+*/
 }
