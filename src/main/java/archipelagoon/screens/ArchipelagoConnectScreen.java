@@ -3,7 +3,6 @@ package archipelagoon.screens;
 import archipelagoon.Archipelagoon;
 import archipelagoon.ap.APContext;
 import legend.core.platform.input.InputAction;
-import legend.game.Audio;
 import legend.game.Menus;
 import legend.game.i18n.I18n;
 import legend.game.inventory.WhichMenu;
@@ -22,9 +21,9 @@ import java.net.URISyntaxException;
 import static archipelagoon.Archipelagoon.ADDRESS_CONFIG;
 import static archipelagoon.Archipelagoon.PASSWORD_CONFIG;
 import static archipelagoon.Archipelagoon.SLOT_NAME_CONFIG;
-import static legend.game.Audio.playMenuSound;
 import static legend.game.FullScreenEffects.startFadeEffect;
 import static legend.game.Menus.deallocateRenderables;
+import static legend.game.sound.Audio.playMenuSound;
 
 public class ArchipelagoConnectScreen  extends VerticalLayoutScreen {
     private final Textbox address;
@@ -119,7 +118,7 @@ public class ArchipelagoConnectScreen  extends VerticalLayoutScreen {
         return;
       }
 
-      Audio.playMenuSound(2);
+      playMenuSound(2);
       Menus.whichMenu_800bdc38 = WhichMenu.UNLOAD;
       this.unload.run();
     }
