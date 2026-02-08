@@ -43,10 +43,9 @@ public class ConnectionResultListener {
     if (!SlotData.EXPECTED_MOD_VERSIONS.contains(slotData.getVersion())) {
       ctx.displayMessage("Unexpected APWorld Version.\nGenerated world version: " +
         slotData.getVersion());
+      ctx.disconnect();
       return;
     }
-
-    ctx.disconnect();
 
     ctx.setSlotData(slotData);
     ctx.retrieveLocations();
