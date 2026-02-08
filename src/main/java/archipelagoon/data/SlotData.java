@@ -2,12 +2,14 @@ package archipelagoon.data;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public final class SlotData {
-  public static final Set<String> EXPECTED_MOD_VERSIONS = new HashSet<>(List.of("0.0.3"));
+  public static final Set<String> EXPECTED_MOD_VERSIONS = new HashSet<>(List.of("0.1.0"));
 
   private SlotData() {
   }
@@ -24,6 +26,13 @@ public final class SlotData {
     //  @SerializedName("death_link")
     //  public int deathLink = 0;
 
-    @SerializedName("mod_version")
-    public String modVersion = "0.0.0";
+    @SerializedName("world_version")
+    public List<Integer> worldVersion = new ArrayList<>();
+
+    @SerializedName("enable_shop_sanity")
+    public int enableShopsanity = 0;
+
+    public String getVersion() {
+        return String.format("%s.%s.%s", this.worldVersion.get(0), this.worldVersion.get(1), this.worldVersion.get(2));
+    }
 }

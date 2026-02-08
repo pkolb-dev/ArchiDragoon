@@ -151,4 +151,8 @@ public class APContext {
   public void retrieveItems() {
     this.client.getItemManager().getReceivedItems();
   }
+
+  public void disconnect() {
+    this.client.disconnect();
+  }
 }

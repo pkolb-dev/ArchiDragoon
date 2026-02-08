@@ -13,6 +13,7 @@ import archipelagoon.data.APIconUiType;
 import archipelagoon.data.APInventoryEntry;
 import archipelagoon.data.APShopEntry;
 import archipelagoon.data.APShopExtension;
+import archipelagoon.data.SlotData;
 import archipelagoon.randomizer.AdditionManager;
 import legend.core.GameEngine;
 import legend.game.combat.deff.RegisterDeffsEvent;
@@ -151,6 +152,12 @@ public class Archipelagoon {
 
   @EventListener
   public void shopContents(final ShopContentsEvent event) {
+    final APContext ctx = APContext.getContext();
+    final SlotData slotData = ctx.getSlotData();
+    if (slotData.enableShopsanity == 0) {
+      return;
+    }
+
     final List<Long> shopSlots = Shops.getShopLocationIds(event.shop.getRegistryId().entryId()).stream().toList();
     final List<LocationState> locationStates = GameEngine.CONFIG.getConfig(LOCATION_STATE_REGISTRY.get());
     final List<LocationState> slots = locationStates.stream()

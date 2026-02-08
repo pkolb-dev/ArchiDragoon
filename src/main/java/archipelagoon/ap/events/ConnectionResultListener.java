@@ -40,12 +40,13 @@ public class ConnectionResultListener {
     final APContext ctx = APContext.getContext();
     final SlotData slotData = event.getSlotData(SlotData.class);
 
-    // TODO: once we pass mod version in, we can do this
-//    if (!SlotData.EXPECTED_MOD_VERSIONS.contains(slotData.modVersion)) {
-//      ctx.displayMessage("Mod is not compatible with generated world. Generated world version: " +
-//        slotData.modVersion + ". Expected version one of " + SlotData.EXPECTED_MOD_VERSIONS.stream().map(Object::toString).collect(Collectors.joining(" or ")));
-//      return;
-//    }
+    if (!SlotData.EXPECTED_MOD_VERSIONS.contains(slotData.getVersion())) {
+      ctx.displayMessage("Unexpected APWorld Version.\nGenerated world version: " +
+        slotData.getVersion());
+      return;
+    }
+
+    ctx.disconnect();
 
     ctx.setSlotData(slotData);
     ctx.retrieveLocations();
