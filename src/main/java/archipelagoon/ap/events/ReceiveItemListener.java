@@ -7,12 +7,9 @@ import io.github.archipelagomw.events.ArchipelagoEventListener;
 import io.github.archipelagomw.events.ReceiveItemEvent;
 import legend.core.GameEngine;
 import legend.game.SItem;
-import legend.game.additions.Addition;
-import legend.game.additions.CharacterAdditionStats;
 import legend.game.inventory.Equipment;
 import legend.game.inventory.Good;
 import legend.game.inventory.Item;
-import legend.game.types.CharacterData2c;
 import legend.lodmod.LodMod;
 import org.legendofdragoon.modloader.registries.RegistryId;
 
@@ -22,7 +19,10 @@ import static legend.game.Scus94491BpeSegment_800b.gameState_800babc8;
 public class ReceiveItemListener {
   @ArchipelagoEventListener
   public void onReceiveItem(final ReceiveItemEvent event) {
-    APContext ctx = APContext.getContext();
+    final APContext ctx = APContext.getContext();
+
+    ctx.initAdditions();
+
     final long lastItemReceivedIndex = GameEngine.CONFIG.getConfig(LAST_ITEM_INDEX.get());
     if (event.getIndex() <= lastItemReceivedIndex) {
       return;
@@ -46,7 +46,7 @@ public class ReceiveItemListener {
       final Good good = GameEngine.REGISTRIES.goods.getEntry(registryId).get();
       gameState_800babc8.goods_19c.give(good);
     } else if (GameEngine.REGISTRIES.additions.hasEntry(registryId)) {
-      AdditionManager.getInstance().setAddition(registryId, true);
+      AdditionManager.getInstance().setAddition(registryId);
     }
 
     // queue message

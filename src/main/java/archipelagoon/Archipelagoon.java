@@ -2,9 +2,9 @@ package archipelagoon;
 
 import archipelagoon.ap.APContext;
 import archipelagoon.ap.mapping.LocationState;
-import archipelagoon.ap.mapping.items.Goods;
 import archipelagoon.ap.mapping.items.Items;
 import archipelagoon.ap.mapping.locations.Additions;
+import archipelagoon.ap.mapping.locations.Goods;
 import archipelagoon.ap.mapping.locations.Shops;
 import archipelagoon.config.ArchipelagoConfigEntry;
 import archipelagoon.config.ItemIndexConfigEntry;
@@ -15,7 +15,6 @@ import archipelagoon.data.APShopEntry;
 import archipelagoon.data.APShopExtension;
 import archipelagoon.randomizer.AdditionManager;
 import legend.core.GameEngine;
-import legend.game.additions.UnlockState;
 import legend.game.combat.deff.RegisterDeffsEvent;
 import legend.game.inventory.Good;
 import legend.game.inventory.Item;
@@ -24,6 +23,7 @@ import legend.game.inventory.screens.GatherShopExtensionsEvent;
 import legend.game.modding.events.RenderEvent;
 import legend.game.modding.events.battle.BattleEndedEvent;
 import legend.game.modding.events.characters.AdditionUnlockEvent;
+import legend.game.modding.events.characters.CharacterLevelUpEvent;
 import legend.game.modding.events.gamestate.GameLoadedEvent;
 import legend.game.modding.events.gamestate.NewGameEvent;
 import legend.game.modding.events.inventory.GiveGoodsEvent;
@@ -35,6 +35,7 @@ import legend.game.saves.ConfigEntry;
 import legend.game.saves.ConfigRegistryEvent;
 import legend.game.saves.ConfigStorageLocation;
 import legend.game.saves.StringConfigEntry;
+
 import static legend.game.Scus94491BpeSegment_8005.submapCut_80052c30;
 import legend.game.submap.SMap;
 import legend.game.submap.SubmapState;
@@ -56,7 +57,6 @@ import java.util.List;
 import static legend.core.GameEngine.EVENTS;
 import static legend.game.EngineStates.currentEngineState_8004dd04;
 import static legend.game.SItem.buildUiRenderable;
-import static legend.game.Scus94491BpeSegment_800b.gameState_800babc8;
 
 @Mod(id = Archipelagoon.MOD_ID, version = "^3.0.0")
 public class Archipelagoon {
@@ -111,8 +111,6 @@ public class Archipelagoon {
 
   @EventListener
   public void gameLoaded(final GameLoadedEvent game) {
-    AdditionManager.getInstance().clearAdditions();
-
     try {
       APContext.getContext().reconnect();
     } catch(final URISyntaxException e) {
@@ -160,13 +158,11 @@ public class Archipelagoon {
 
     final List<APShopEntry> adjustedContents = new ArrayList<>();
 
-    int index = 0;
     for (final LocationState locationState : slots) {
       final String itemId = Items.getEntryIdFromAPItemId(locationState.getItemID());
       final RegistryId registryId = new RegistryId(LodMod.MOD_ID, itemId);
-      final int price = event.contents.get(index).price; // original price (for now)
+      final int price = event.contents.getFirst().price; // original price (for now)
       final APInventoryEntry entry = new APInventoryEntry(locationState);
-
 
       adjustedContents.add(new APShopEntry(entry, price, locationState.getLocationID()));
     }
@@ -207,14 +203,13 @@ public class Archipelagoon {
     if (!ctx.isConnected()) {
       return;
     }
-
     // how do we find out if it came from SC or not?
     // check good ap id to list of received id's via ItemManager
     for (final Good good : goods) {
-      final long apId = Goods.getAPItemIdFromRegistryId(good.getRegistryId());
+      final long apId = Goods.getAPLocationIdFromRegistryId(good.getRegistryId());
       final List<Long> receivedItemIds = ctx.getReceivedItemIDs();
 
-      if (receivedItemIds.contains(apId) && !event.goods.has(good))  {
+      if (receivedItemIds.contains(apId)) {
         allowedGoods.add(good);
       } else {
         ctx.applyLocationState(apId);
@@ -237,15 +232,15 @@ public class Archipelagoon {
   }
 
   @EventListener
+  public void characterLevelUp(final CharacterLevelUpEvent event) {
+    AdditionManager.getInstance().checkUnlock(event.charId, event.charData.level_12);
+  }
+
+  @EventListener
   public void battleEnded(final BattleEndedEvent event) {
     final APContext ctx = APContext.getContext();
     ctx.checkEncounter(event.encounter.getRegistryId());
   }
-
-//  @EventListener
-//  public void gameStateChanged(final GameStateEvent event) {
-//    this.additionManager.updateState(event.gameState);
-//  }
 
   @EventListener
   public void onRender(final RenderEvent event) {

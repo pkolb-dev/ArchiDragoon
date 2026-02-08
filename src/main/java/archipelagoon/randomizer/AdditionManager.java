@@ -2,19 +2,17 @@ package archipelagoon.randomizer;
 
 import archipelagoon.ap.APContext;
 import archipelagoon.ap.mapping.items.Additions;
+import archipelagoon.data.AdditionUnlockData;
 import legend.core.GameEngine;
 import legend.game.additions.CharacterAdditionStats;
 import legend.game.additions.UnlockState;
 import legend.game.types.CharacterData2c;
-import legend.game.types.GameState52c;
 import legend.lodmod.LodMod;
 import org.legendofdragoon.modloader.registries.RegistryId;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-
-import static java.lang.IO.print;
+import java.util.Optional;
 import static legend.game.Scus94491BpeSegment_800b.gameState_800babc8;
 
 public final class AdditionManager {
@@ -24,40 +22,12 @@ public final class AdditionManager {
   }
 
   private AdditionManager() {}
-//
-//  private final AdditionUnlockParser additionUnlockParser = AdditionUnlockParser.getInstance();
-
-//  private final Map<Integer, AdditionUnlock> additions = new HashMap<>();
-//
-  public void initialize() {
-    APContext ctx = APContext.getContext();
-  }
-
-  public void updateState(final GameState52c state) {
-    final APContext ctx = APContext.getContext();
-    final List<Long> receivedItemIDs = ctx.getReceivedItemIDs();
-    final Map<Long, String> filteredMap = Additions.getStaticMap().entrySet().stream()
-      .filter(entry -> receivedItemIDs.contains(entry.getKey()))
-      .collect(Collectors.toMap(
-        Map.Entry::getKey,
-        Map.Entry::getValue
-      ));
-
-    for (final CharacterData2c charData : state.charData_32c) {
-      for (final var set : charData.additionStats.entrySet()) {
-        print("Testing");
-      }
-    }
-
-  }
 
   public void clearAdditions() {
     for(int charIndex = 0; charIndex < 9; charIndex++) {
       final CharacterData2c charData = gameState_800babc8.charData_32c[charIndex];
 
-      charData.additionStats.forEach((key, value) -> {
-        value.unlockState = UnlockState.LOCKED;
-      });
+      charData.additionStats.forEach((_, value) -> value.unlockState = UnlockState.LOCKED);
     }
   }
 
@@ -72,11 +42,11 @@ public final class AdditionManager {
     for (final Long id : receivedItemIds) {
       final String entryId = Additions.getEntryIdFromAPItemId(id);
       final RegistryId registryId = new RegistryId(LodMod.MOD_ID, entryId);
-      this.setAddition(registryId, true);
+      this.setAddition(registryId);
     }
   }
 
-  public void setAddition(final RegistryId registryId, final boolean unlocked) {
+  public void setAddition(final RegistryId registryId) {
     if (!GameEngine.REGISTRIES.additions.hasEntry(registryId)) {
       return;
     }
@@ -90,6 +60,15 @@ public final class AdditionManager {
 
       additionStats.unlockState = UnlockState.UNLOCKED;
       break;
+    }
+  }
+
+  public void checkUnlock(final int charId, final int level12) {
+    final Map<Long, Integer> charUnlocks = AdditionUnlockData.getCharUnlocks(charId - 1);
+    if (charUnlocks.containsValue(level12)) {
+      final APContext apContext = APContext.getContext();
+      final Optional<Long> apId = AdditionUnlockData.getApId(charId, level12);
+      apId.ifPresent(apContext::checkLocation);
     }
   }
 }

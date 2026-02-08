@@ -8,6 +8,7 @@ import archipelagoon.ap.mapping.locations.Locations;
 import archipelagoon.data.SlotData;
 import archipelagoon.randomizer.AdditionManager;
 import archipelagoon.randomizer.MessageManager;
+import io.github.archipelagomw.APResult;
 import io.github.archipelagomw.Client;
 import io.github.archipelagomw.ClientStatus;
 import io.github.archipelagomw.flags.ItemsHandling;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 import static archipelagoon.Archipelagoon.ADDRESS_CONFIG;
 import static archipelagoon.Archipelagoon.LOCATION_STATE_REGISTRY;

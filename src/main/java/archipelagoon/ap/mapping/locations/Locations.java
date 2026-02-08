@@ -15,7 +15,7 @@ public final class Locations {
   static {
     LOCATION_MAP.putAll(Additions.getStaticMap());
 //    LOCATION_MAP.putAll(Chests.getStaticMap());
-    LOCATION_MAP.putAll(Goods.getStaticMap());
+//    LOCATION_MAP.putAll(Goods.getStaticMap());
     LOCATION_MAP.putAll(Shops.getStaticFlatMap());
     LOCATION_MAP.putAll(Enemies.getStaticMap());
 
