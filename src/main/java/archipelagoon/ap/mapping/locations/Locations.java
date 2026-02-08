@@ -15,14 +15,13 @@ public final class Locations {
   static {
     LOCATION_MAP.putAll(Additions.getStaticMap());
 //    LOCATION_MAP.putAll(Chests.getStaticMap());
-    LOCATION_MAP.putAll(Shops.getStaticFlatMap()); // TODO: make flat map of... things.
+//    LOCATION_MAP.putAll(Goods.getStaticMap());
+    LOCATION_MAP.putAll(Shops.getStaticFlatMap());
     LOCATION_MAP.putAll(Enemies.getStaticMap());
 
     for (final Map.Entry<Long, String> entry :LOCATION_MAP.entrySet()) {
       LOCATION_MAP_REVERSE.put(entry.getValue(), entry.getKey());
     }
-//    assert LOCATION_MAP.size() == LOCATION_MAP_REVERSE.size();
-//    assert LOCATION_MAP.size() == (Consumables.getStaticMap().size() + Equipment.getStaticMap().size() + Goods.getStaticMap().size());
   }
   private Locations() {}
 

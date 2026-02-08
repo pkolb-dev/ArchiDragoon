@@ -22,10 +22,16 @@ public class LocationInfoListener {
     final List<LocationState> existingStates = GameEngine.CONFIG.getConfig(LOCATION_STATE_REGISTRY.get());
 
     for (final NetworkItem item : event.locations) {
-      final List<LocationState> result = existingStates.stream()
-        .filter(a -> Objects.equals(a.getLocationID(), item.locationID))
-        .toList();
-      final LocationState locationState = new LocationState(item, result.getFirst().isApplied());
+      boolean applied = false;
+
+      if (!existingStates.isEmpty()) {
+        final List<LocationState> result = existingStates.stream()
+          .filter(a -> Objects.equals(a.getLocationID(), item.locationID))
+          .toList();
+          applied = !result.isEmpty() && result.getFirst().isApplied();
+      }
+
+      final LocationState locationState = new LocationState(item, applied);
       locationList.add(locationState);
     }
 

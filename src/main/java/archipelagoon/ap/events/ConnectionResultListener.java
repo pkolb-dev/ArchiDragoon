@@ -8,8 +8,6 @@ import io.github.archipelagomw.network.ConnectionResult;
 import legend.core.GameEngine;
 import legend.game.SItem;
 
-import java.util.stream.Collectors;
-
 import static legend.game.FullScreenEffects.startFadeEffect;
 
 public class ConnectionResultListener {

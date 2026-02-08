@@ -1,6 +1,5 @@
 package archipelagoon.data;
 
-import archipelagoon.ap.APContext;
 import legend.game.i18n.I18n;
 import legend.game.inventory.screens.MessageBoxScreen;
 import legend.game.inventory.screens.ShopExtension;
@@ -13,12 +12,9 @@ import legend.game.types.Shop;
 import static legend.core.GameEngine.EVENTS;
 import static legend.game.SItem.UI_TEXT;
 import static legend.game.SItem.UI_TEXT_DISABLED;
-import static legend.game.SItem.giveItem;
 import static legend.game.SItem.menuStack;
 import static legend.game.Scus94491BpeSegment_800b.gameState_800babc8;
 import static legend.game.SItem.renderFiveDigitNumber;
-import static legend.game.SItem.renderRightAlignedNumber;
-import static legend.game.SItem.renderString;
 import static legend.game.Text.renderText;
 
 public class APShopExtension extends ShopExtension<APInventoryEntry> {
