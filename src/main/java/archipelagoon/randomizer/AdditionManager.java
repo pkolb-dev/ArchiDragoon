@@ -64,7 +64,7 @@ public final class AdditionManager {
   }
 
   public void checkUnlock(final int charId, final int level12) {
-    final Map<Long, Integer> charUnlocks = AdditionUnlockData.getCharUnlocks(charId - 1);
+    final Map<Long, Integer> charUnlocks = AdditionUnlockData.getCharUnlocks(charId);
     if (charUnlocks.containsValue(level12)) {
       final APContext apContext = APContext.getContext();
       final Optional<Long> apId = AdditionUnlockData.getApId(charId, level12);
