@@ -21,7 +21,7 @@ public class ReceiveItemListener {
   public void onReceiveItem(final ReceiveItemEvent event) {
     final APContext ctx = APContext.getContext();
 
-    ctx.initAdditions();
+    ctx.initAdditions(null);
 
     final long lastItemReceivedIndex = GameEngine.CONFIG.getConfig(LAST_ITEM_INDEX.get());
     if (event.getIndex() <= lastItemReceivedIndex) {
@@ -46,7 +46,7 @@ public class ReceiveItemListener {
       final Good good = GameEngine.REGISTRIES.goods.getEntry(registryId).get();
       gameState_800babc8.goods_19c.give(good);
     } else if (GameEngine.REGISTRIES.additions.hasEntry(registryId)) {
-      AdditionManager.getInstance().setAddition(registryId);
+      AdditionManager.getInstance().setAddition(registryId, null);
     }
 
     // queue message

@@ -112,8 +112,15 @@ public class Archipelagoon {
 
   @EventListener
   public void gameLoaded(final GameLoadedEvent game) {
+    final APContext ctx = APContext.getContext();
+
+    if (ctx.isConnected()) {
+      ctx.initAdditions(game.gameState);
+      return;
+    }
+
     try {
-      APContext.getContext().reconnect();
+      ctx.reconnect();
     } catch(final URISyntaxException e) {
       // Will only happen if the player submits a malformed URL
       LOGGER.error("User error - malformed URL", e);
