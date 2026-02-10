@@ -14,6 +14,7 @@ import io.github.archipelagomw.ClientStatus;
 import io.github.archipelagomw.flags.ItemsHandling;
 import io.github.archipelagomw.network.client.CreateAsHint;
 import legend.core.GameEngine;
+import legend.game.types.GameState52c;
 import org.legendofdragoon.modloader.registries.RegistryId;
 
 import java.net.URISyntaxException;
@@ -143,9 +144,10 @@ public class APContext {
     GameEngine.CONFIG.setConfig(LOCATION_STATE_REGISTRY.get(), locationStates);
   }
 
-  public void initAdditions() {
-    this.additionManager.clearAdditions();
-    this.additionManager.setAdditions();
+  public void initAdditions(final GameState52c gameState) {
+    this.additionManager.clearAdditions(gameState);
+    this.additionManager.setAdditions(gameState);
+    this.additionManager.selectAddition(gameState);
   }
 
   public void retrieveItems() {
