@@ -166,8 +166,6 @@ public class Archipelagoon {
     final List<APShopEntry> adjustedContents = new ArrayList<>();
 
     for (final LocationState locationState : slots) {
-      final String itemId = Items.getEntryIdFromAPItemId(locationState.getItemID());
-      final RegistryId registryId = new RegistryId(LodMod.MOD_ID, itemId);
       final int price = event.contents.getFirst().price; // original price (for now)
       final APInventoryEntry entry = new APInventoryEntry(locationState);
 
