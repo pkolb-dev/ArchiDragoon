@@ -144,42 +144,40 @@ public final class Equipment {
     EQUIPMENT_MAP.put(108_10116L,  "scale_armor");
     EQUIPMENT_MAP.put(108_10117L,  "shadow_cutter");
     EQUIPMENT_MAP.put(108_10118L,  "short_bow");
-    EQUIPMENT_MAP.put(108_10120L,  "silver_dg_armor");
-    EQUIPMENT_MAP.put(108_10121L,  "silver_stone");
-    EQUIPMENT_MAP.put(108_10122L,  "silver_vest");
-    EQUIPMENT_MAP.put(108_10123L,  "soft_boots");
-    EQUIPMENT_MAP.put(108_10124L,  "soul_eater");
-    EQUIPMENT_MAP.put(108_10125L,  "soul_headband");
-    EQUIPMENT_MAP.put(108_10126L,  "sparkle_arrow");
-    EQUIPMENT_MAP.put(108_10127L,  "sparkle_dress");
-    EQUIPMENT_MAP.put(108_10128L,  "spear");
-    EQUIPMENT_MAP.put(108_10129L,  "spear_of_terror");
-    EQUIPMENT_MAP.put(108_10130L,  "spirit_cloak");
-    EQUIPMENT_MAP.put(108_10131L,  "spirit_ring");
-    EQUIPMENT_MAP.put(108_10132L,  "spiritual_ring");
-    EQUIPMENT_MAP.put(108_10133L,  "stardust_boots");
-    EQUIPMENT_MAP.put(108_10134L,  "stun_guard");
+    EQUIPMENT_MAP.put(108_10119L,  "silver_dg_armor");
+    EQUIPMENT_MAP.put(108_10120L,  "silver_stone");
+    EQUIPMENT_MAP.put(108_10121L,  "silver_vest");
+    EQUIPMENT_MAP.put(108_10122L,  "soft_boots");
+    EQUIPMENT_MAP.put(108_10123L,  "soul_eater");
+    EQUIPMENT_MAP.put(108_10124L,  "soul_headband");
+    EQUIPMENT_MAP.put(108_10125L,  "sparkle_arrow");
+    EQUIPMENT_MAP.put(108_10126L,  "sparkle_dress");
+    EQUIPMENT_MAP.put(108_10127L,  "spear");
+    EQUIPMENT_MAP.put(108_10128L,  "spear_of_terror");
+    EQUIPMENT_MAP.put(108_10129L,  "spirit_cloak");
+    EQUIPMENT_MAP.put(108_10130L,  "spirit_ring");
+    EQUIPMENT_MAP.put(108_10131L,  "spiritual_ring");
+    EQUIPMENT_MAP.put(108_10132L,  "stardust_boots");
+    EQUIPMENT_MAP.put(108_10133L,  "stun_guard");
     
-    EQUIPMENT_MAP.put(108_10135L,  "talisman");
-    EQUIPMENT_MAP.put(108_10136L,  "therapy_ring");
-    EQUIPMENT_MAP.put(108_10137L,  "thunder_fist");
-    EQUIPMENT_MAP.put(108_10138L,  "tiara");
-    EQUIPMENT_MAP.put(108_10139L,  "tomahawk");
-    EQUIPMENT_MAP.put(108_10140L,  "twister_glaive");
+    EQUIPMENT_MAP.put(108_10134L,  "talisman");
+    EQUIPMENT_MAP.put(108_10135L,  "therapy_ring");
+    EQUIPMENT_MAP.put(108_10136L,  "thunder_fist");
+    EQUIPMENT_MAP.put(108_10137L,  "tiara");
+    EQUIPMENT_MAP.put(108_10138L,  "tomahawk");
+    EQUIPMENT_MAP.put(108_10139L,  "twister_glaive");
     
-    EQUIPMENT_MAP.put(108_10141L,  "ultimate_wargod");
+    EQUIPMENT_MAP.put(108_10140L,  "ultimate_wargod");
     
-    EQUIPMENT_MAP.put(108_10142L,  "violet_dg_armor");
-    EQUIPMENT_MAP.put(108_10143L,  "violet_stone");
-    EQUIPMENT_MAP.put(108_10144L,  "virulent_arrow");
+    EQUIPMENT_MAP.put(108_10141L,  "violet_dg_armor");
+    EQUIPMENT_MAP.put(108_10142L,  "violet_stone");
+    EQUIPMENT_MAP.put(108_10143L,  "virulent_arrow");
     
-    EQUIPMENT_MAP.put(108_10145L,  "war_hammer");
-    EQUIPMENT_MAP.put(108_10146L,  "wargod_calling");
-    EQUIPMENT_MAP.put(108_10147L,  "wargods_amulet");
-    EQUIPMENT_MAP.put(108_10148L,  "wargods_sash");
-     
-
-
+    EQUIPMENT_MAP.put(108_10144L,  "war_hammer");
+    EQUIPMENT_MAP.put(108_10145L,  "wargod_calling");
+    EQUIPMENT_MAP.put(108_10146L,  "wargods_amulet");
+    EQUIPMENT_MAP.put(108_10147L,  "wargods_sash");
+    EQUIPMENT_MAP.put(108_10148L,  "warrior_dress");
 
     for (final Map.Entry<Long, String> entry :EQUIPMENT_MAP.entrySet()) {
       EQUIPMENT_MAP_REVERSE.put(entry.getValue(), entry.getKey());
