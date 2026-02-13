@@ -54,6 +54,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import static legend.core.GameEngine.EVENTS;
 import static legend.game.EngineStates.currentEngineState_8004dd04;
@@ -207,35 +208,27 @@ public class Archipelagoon {
 
   @EventListener
   public void giveGood(final GiveGoodsEvent event) {
-    // received a good from somewhere SC/AP
-    final List<Good> goods = event.givenGoods;
-    final List<Good> allowedGoods = new ArrayList<>();
     final APContext ctx = APContext.getContext();
+    if (!ctx.isConnected()) return;
 
-    if (!ctx.isConnected()) {
-      return;
-    }
-    // how do we find out if it came from SC or not?
-    // check good ap id to list of received id's via ItemManager
-    for (final Good good : goods) {
-      final long apId = Goods.getAPLocationIdFromRegistryId(good.getRegistryId());
-      final List<Long> receivedItemIds = ctx.getReceivedItemIDs();
+    final Set<Long> receivedIds = Set.copyOf(ctx.getReceivedItemIDs());
+    final List<Good> allowedGoods = new ArrayList<>();
 
-      if (receivedItemIds.contains(apId)) {
+    for (final Good good : event.givenGoods) {
+      final Long apId = archipelagoon.ap.mapping.items.Goods.getAPItemIdFromRegistryId(good.getRegistryId());
+      if (apId == null) continue;
+
+      if (receivedIds.contains(apId)) {
         allowedGoods.add(good);
-      } else {
-        ctx.applyLocationState(apId);
-        ctx.checkLocation(apId);
       }
     }
 
     if (allowedGoods.isEmpty()) {
       event.cancel();
-      return;
+    } else {
+      event.givenGoods.clear();
+      event.givenGoods.addAll(allowedGoods);
     }
-
-    event.givenGoods.clear();
-    event.givenGoods.addAll(allowedGoods);
   }
 
   @EventListener
@@ -245,7 +238,7 @@ public class Archipelagoon {
 
   @EventListener
   public void characterLevelUp(final CharacterLevelUpEvent event) {
-    AdditionManager.getInstance().checkUnlock(event.charId, event.charData.level_12);
+    AdditionManager.getInstance().checkUnlock(event.charId, event.charData);
   }
 
   @EventListener
