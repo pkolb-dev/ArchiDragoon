@@ -12,6 +12,7 @@ import legend.game.inventory.screens.controls.Background;
 import legend.game.inventory.screens.controls.Button;
 import legend.game.inventory.screens.controls.Label;
 import legend.game.inventory.screens.controls.Textbox;
+import legend.game.modding.coremod.CoreEngineStateTypes;
 import legend.game.modding.coremod.CoreMod;
 import legend.game.saves.ConfigCollection;
 import org.jetbrains.annotations.NotNull;
@@ -21,6 +22,7 @@ import java.net.URISyntaxException;
 import static archipelagoon.Archipelagoon.ADDRESS_CONFIG;
 import static archipelagoon.Archipelagoon.PASSWORD_CONFIG;
 import static archipelagoon.Archipelagoon.SLOT_NAME_CONFIG;
+import static legend.game.EngineStates.currentEngineState_8004dd04;
 import static legend.game.FullScreenEffects.startFadeEffect;
 import static legend.game.Menus.deallocateRenderables;
 import static legend.game.sound.Audio.playMenuSound;
@@ -84,6 +86,10 @@ public class ArchipelagoConnectScreen  extends VerticalLayoutScreen {
       this.lastConnectedState = this.apContext.isConnected();
       this.statusLabel = new Label(I18n.translate(Archipelagoon.MOD_ID + ".config." + (this.apContext.isConnected() ? "connected" : "not_connected")));
       this.addRow("", this.statusLabel);
+
+      if(currentEngineState_8004dd04.is(CoreEngineStateTypes.TITLE.get())) {
+        return;
+      }
 
       final Button connect = new Button(I18n.translate(Archipelagoon.MOD_ID + ".config.connect"));
       this.addRow("", connect);

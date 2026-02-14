@@ -17,15 +17,6 @@ import static legend.game.Scus94491BpeSegment_800b.gameState_800babc8;
 
 public final class AdditionManager {
   private static final AdditionManager INSTANCE = new AdditionManager();
-  final private static Set<RegistryId> MASTER_ADDITIONS = Set.of(
-    new RegistryId(LodMod.MOD_ID, "blazing_dynamo"),
-    new RegistryId(LodMod.MOD_ID, "flower_storm"),
-    new RegistryId(LodMod.MOD_ID, "demons_dance"),
-    new RegistryId(LodMod.MOD_ID, "omni_sweep"),
-    new RegistryId(LodMod.MOD_ID, "albert_flower_storm"),
-    new RegistryId(LodMod.MOD_ID, "perky_step"),
-    new RegistryId(LodMod.MOD_ID, "bone_crush")
-  );
 
   public static AdditionManager getInstance() {
     return INSTANCE;
@@ -100,7 +91,7 @@ public final class AdditionManager {
     }
   }
 
-  public void checkUnlock(final int charId, final CharacterData2c charData) {
+  public void checkUnlock(final CharacterData2c charData) {
     final GameState52c state = this.resolveState(null);
     final APContext apContext = APContext.getContext();
 

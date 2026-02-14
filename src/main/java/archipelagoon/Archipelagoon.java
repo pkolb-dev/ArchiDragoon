@@ -238,7 +238,7 @@ public class Archipelagoon {
 
   @EventListener
   public void characterLevelUp(final CharacterLevelUpEvent event) {
-    AdditionManager.getInstance().checkUnlock(event.charId, event.charData);
+    AdditionManager.getInstance().checkUnlock(event.charData);
   }
 
   @EventListener
