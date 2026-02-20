@@ -26,7 +26,7 @@ public final class Enemies {
     ENEMY_LOCATIONS.put(108_70012L, "serfius");
     ENEMY_LOCATIONS.put(108_70013L, "danton");
     ENEMY_LOCATIONS.put(108_70014L, "atlow");
-    ENEMY_LOCATIONS.put(108_70015L, "lloyd_dummy_lloyd");
+    ENEMY_LOCATIONS.put(108_70015L, "lloyd");
     ENEMY_LOCATIONS.put(108_70016L, "fruegel_rodriguez_guftas");
     ENEMY_LOCATIONS.put(108_70017L, "kongol_1");
     ENEMY_LOCATIONS.put(108_70018L, "emperor_doel_dragoon_doel");
@@ -40,7 +40,7 @@ public final class Enemies {
     ENEMY_LOCATIONS.put(108_70026L, "grand_jewel");
     ENEMY_LOCATIONS.put(108_70027L, "divine_dragon_divine_cannon_divine_ball");
     ENEMY_LOCATIONS.put(108_70028L, "windigo_snow_cannon_snow_cannon_heart");
-    ENEMY_LOCATIONS.put(108_70029L, "lloyd");
+    ENEMY_LOCATIONS.put(108_70029L, "lloyd_dummy_lloyd");
     ENEMY_LOCATIONS.put(108_70030L, "polter_helm_polter_armor_polter_sword");
     ENEMY_LOCATIONS.put(108_70031L, "last_kraken_cleone_cleone");
     ENEMY_LOCATIONS.put(108_70032L, "magician_faust_mazo_mazo_mazo_mazo");
