@@ -2,14 +2,11 @@ package archipelagoon.ap;
 
 import archipelagoon.ap.mapping.LocationState;
 import archipelagoon.ap.mapping.goals.Goals;
-import archipelagoon.ap.mapping.locations.Additions;
 import archipelagoon.ap.mapping.locations.Enemies;
 import archipelagoon.ap.mapping.locations.Locations;
 import archipelagoon.data.SlotData;
 import archipelagoon.randomizer.AdditionManager;
 import archipelagoon.randomizer.MessageManager;
-import io.github.archipelagomw.APResult;
-import io.github.archipelagomw.Client;
 import io.github.archipelagomw.ClientStatus;
 import io.github.archipelagomw.flags.ItemsHandling;
 import io.github.archipelagomw.network.client.CreateAsHint;
@@ -20,24 +17,21 @@ import org.legendofdragoon.modloader.registries.RegistryId;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.Objects;
-import java.util.logging.Logger;
 
 import static archipelagoon.Archipelagoon.ADDRESS_CONFIG;
 import static archipelagoon.Archipelagoon.LOCATION_STATE_REGISTRY;
 import static archipelagoon.Archipelagoon.PASSWORD_CONFIG;
 import static archipelagoon.Archipelagoon.SLOT_NAME_CONFIG;
-import static java.lang.IO.print;
 
 public class APContext {
   private static final APContext INSTANCE = new APContext();
   private final APClient client;
-  private SlotData slotData;
   private final AdditionManager additionManager = AdditionManager.getInstance();
+  private SlotData slotData;
 
-  public APContext () {
+  public APContext() {
     this.client = new APClient();
   }
 
@@ -87,13 +81,13 @@ public class APContext {
   }
 
   public void checkEncounter(final RegistryId encounterRegistryId) {
-    if (encounterRegistryId == null) {
+    if(encounterRegistryId == null) {
       return;
     }
 
     final Map<String, Long> thing = Enemies.getStaticReverseMap();
 
-    if (!thing.containsKey(encounterRegistryId.entryId())) {
+    if(!thing.containsKey(encounterRegistryId.entryId())) {
       return;
     }
 
@@ -104,29 +98,29 @@ public class APContext {
       .findFirst()
       .orElse(null);
 
-    if (locationState == null) {
+    if(locationState == null) {
       return;
     }
 
-    if (locationState.isApplied()) {
+    if(locationState.isApplied()) {
       return;
     }
 
     final Long location = Enemies.getAPLocationIdFromRegistryId(encounterRegistryId);
-    if (location != null) {
+    if(location != null) {
       this.checkLocation(locationState.getLocationID());
     }
 
     final Map<Integer, String> goals = Goals.getStaticMap();
     final int goalId = APContext.getContext().getSlotData().completionCondition;
 
-    if (Objects.equals(goals.get(goalId), encounterRegistryId.entryId())) {
+    if(Objects.equals(goals.get(goalId), encounterRegistryId.entryId())) {
       this.client.setGameState(ClientStatus.CLIENT_GOAL);
     }
   }
 
   public List<Long> getReceivedItemIDs() {
-//    GameEngine.CONFIG.getConfig();
+    //    GameEngine.CONFIG.getConfig();
     return this.client.getItemManager().getReceivedItemIDs();
   }
 
@@ -134,8 +128,8 @@ public class APContext {
     final List<LocationState> locationStates = new ArrayList<>(GameEngine.CONFIG.getConfig(LOCATION_STATE_REGISTRY.get()));
 
 
-    for (final LocationState ls : locationStates) {
-      if (ls.getLocationID() == locationId) {
+    for(final LocationState ls : locationStates) {
+      if(ls.getLocationID() == locationId) {
         ls.setApplied(true);
         break;
       }

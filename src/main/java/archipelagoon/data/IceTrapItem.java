@@ -26,12 +26,16 @@ public class IceTrapItem extends BattleItem {
     super(ItemIcon.NONE, 0);
   }
 
-  /** Creates an ice trap that impersonates the item being passed in */
+  /**
+   * Creates an ice trap that impersonates the item being passed in
+   */
   public ItemStack impersonate(final Item item) {
     return this.impersonate(new ItemStack(item));
   }
 
-  /** Creates an ice trap that impersonates the item being passed in */
+  /**
+   * Creates an ice trap that impersonates the item being passed in
+   */
   public ItemStack impersonate(final ItemStack stack) {
     final JsonObject data = new JsonObject();
     data.addProperty("id", stack.getRegistryId().toString());
@@ -130,19 +134,19 @@ public class IceTrapItem extends BattleItem {
   }
 
   // Breaks taking item from inventory
-//  @Override
-//  public boolean isSame(final ItemStack stack) {
-//    return this.getImpersonatedStackValue(stack, stack::isSameItem).orElseGet(() -> super.isSame(stack));
-//  }
-
-  @Override
-  public boolean canBeUsedNow(final ItemStack stack, final UsageLocation location) {
-    return this.getImpersonatedStackValue(stack, impersonatedStack -> impersonatedStack.canBeUsedNow(location)).orElseGet(() -> super.canBeUsedNow(stack, location));
-  }
+  //  @Override
+  //  public boolean isSame(final ItemStack stack) {
+  //    return this.getImpersonatedStackValue(stack, stack::isSameItem).orElseGet(() -> super.isSame(stack));
+  //  }
 
   @Override
   public boolean canBeUsed(final ItemStack stack, final UsageLocation location) {
     return this.getImpersonatedStackValue(stack, impersonatedStack -> impersonatedStack.canBeUsed(location)).orElse(false);
+  }
+
+  @Override
+  public boolean canBeUsedNow(final ItemStack stack, final UsageLocation location) {
+    return this.getImpersonatedStackValue(stack, impersonatedStack -> impersonatedStack.canBeUsedNow(location)).orElseGet(() -> super.canBeUsedNow(stack, location));
   }
 
   @Override

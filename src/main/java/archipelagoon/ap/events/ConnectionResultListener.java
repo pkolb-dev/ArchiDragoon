@@ -1,4 +1,5 @@
 package archipelagoon.ap.events;
+
 import archipelagoon.ap.APContext;
 import archipelagoon.data.SlotData;
 import archipelagoon.screens.ArchipelagoConnectScreen;
@@ -14,7 +15,7 @@ public class ConnectionResultListener {
 
   @ArchipelagoEventListener
   public void onConnectionResult(final ConnectionResultEvent event) {
-    if (event.getResult() == null) {
+    if(event.getResult() == null) {
       return;
     }
 
@@ -29,7 +30,7 @@ public class ConnectionResultListener {
       default -> "Unknown Error";
     };
 
-    if (event.getResult() != ConnectionResult.Success) {
+    if(event.getResult() != ConnectionResult.Success) {
       SItem.menuStack.pushScreen(new ArchipelagoConnectScreen(GameEngine.CONFIG, () -> {
         startFadeEffect(2, 10);
         SItem.menuStack.popScreen();
@@ -40,7 +41,7 @@ public class ConnectionResultListener {
     final APContext ctx = APContext.getContext();
     final SlotData slotData = event.getSlotData(SlotData.class);
 
-    if (!SlotData.EXPECTED_MOD_VERSIONS.contains(slotData.getVersion())) {
+    if(!SlotData.EXPECTED_MOD_VERSIONS.contains(slotData.getVersion())) {
       ctx.displayMessage("Unexpected APWorld Version.\nGenerated world version: " +
         slotData.getVersion());
       ctx.disconnect();

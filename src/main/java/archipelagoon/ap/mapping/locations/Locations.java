@@ -14,16 +14,18 @@ public final class Locations {
 
   static {
     LOCATION_MAP.putAll(Additions.getStaticMap());
-//    LOCATION_MAP.putAll(Chests.getStaticMap());
-//    LOCATION_MAP.putAll(Goods.getStaticMap());
+    //    LOCATION_MAP.putAll(Chests.getStaticMap());
+    //    LOCATION_MAP.putAll(Goods.getStaticMap());
     LOCATION_MAP.putAll(Shops.getStaticFlatMap());
     LOCATION_MAP.putAll(Enemies.getStaticMap());
 
-    for (final Map.Entry<Long, String> entry :LOCATION_MAP.entrySet()) {
+    for(final Map.Entry<Long, String> entry : LOCATION_MAP.entrySet()) {
       LOCATION_MAP_REVERSE.put(entry.getValue(), entry.getKey());
     }
   }
-  private Locations() {}
+
+  private Locations() {
+  }
 
   public static Map<Long, String> getStaticMap() {
     return Collections.unmodifiableMap(LOCATION_MAP);
@@ -37,7 +39,7 @@ public final class Locations {
     return getStaticReverseMap().get(registryId.entryId());
   }
 
-  public static String getEntryIdFromAPLocationId (final Long LocationId) {
+  public static String getEntryIdFromAPLocationId(final Long LocationId) {
     return getStaticMap().get(LocationId);
   }
 }

@@ -38,6 +38,7 @@ import legend.game.saves.ConfigStorageLocation;
 import legend.game.saves.StringConfigEntry;
 
 import static legend.game.Scus94491BpeSegment_8005.submapCut_80052c30;
+
 import legend.game.submap.SMap;
 import legend.game.submap.SubmapState;
 import legend.game.types.GameState52c;
@@ -63,26 +64,23 @@ import static legend.game.SItem.buildUiRenderable;
 @Mod(id = Archipelagoon.MOD_ID, version = "^3.0.0")
 public class Archipelagoon {
   public static final String MOD_ID = "archipelagoon";
-  public static RegistryId id(final String entryId) {
-    return new RegistryId(MOD_ID, entryId);
-  }
-
   private static final Registrar<ConfigEntry<?>, ConfigRegistryEvent> CONFIG_REGISTRAR = new Registrar<>(GameEngine.REGISTRIES.config, MOD_ID);
-  private static final Registrar<Item, ItemRegistryEvent> ITEM_REGISTRAR = new Registrar<>(GameEngine.REGISTRIES.items, MOD_ID);
-
   public static final RegistryDelegate<ArchipelagoConfigEntry> ARCHIPELAGO_CONFIG = CONFIG_REGISTRAR.register("archipelago_config", ArchipelagoConfigEntry::new);
   public static final RegistryDelegate<StringConfigEntry> ADDRESS_CONFIG = CONFIG_REGISTRAR.register("address", () -> new StringConfigEntry("archipelago.gg:12345", 1, ConfigStorageLocation.CAMPAIGN, ConfigCategory.OTHER));
   public static final RegistryDelegate<StringConfigEntry> SLOT_NAME_CONFIG = CONFIG_REGISTRAR.register("slot_name", () -> new StringConfigEntry("", 1, ConfigStorageLocation.CAMPAIGN, ConfigCategory.OTHER));
   public static final RegistryDelegate<StringConfigEntry> PASSWORD_CONFIG = CONFIG_REGISTRAR.register("password", () -> new StringConfigEntry("", 1, ConfigStorageLocation.CAMPAIGN, ConfigCategory.OTHER));
   public static final RegistryDelegate<ItemIndexConfigEntry> LAST_ITEM_INDEX = CONFIG_REGISTRAR.register("last_item_index", () -> new ItemIndexConfigEntry(0));
   public static final RegistryDelegate<LocationStateRegistry> LOCATION_STATE_REGISTRY = CONFIG_REGISTRAR.register("location_states", LocationStateRegistry::new);
-
-  private GameState52c state;
+  private static final Registrar<Item, ItemRegistryEvent> ITEM_REGISTRAR = new Registrar<>(GameEngine.REGISTRIES.items, MOD_ID);
   private static final Logger LOGGER = LogManager.getFormatterLogger(Archipelagoon.class);
   private final AdditionManager additionManager = AdditionManager.getInstance();
-
+  private GameState52c state;
   public Archipelagoon() {
     EVENTS.register(this);
+  }
+
+  public static RegistryId id(final String entryId) {
+    return new RegistryId(MOD_ID, entryId);
   }
 
   @EventListener
@@ -108,14 +106,14 @@ public class Archipelagoon {
 
   @EventListener
   public void gatherShopExtensions(final GatherShopExtensionsEvent event) {
-    event.addExtension(new APShopExtension(),999);
+    event.addExtension(new APShopExtension(), 999);
   }
 
   @EventListener
   public void gameLoaded(final GameLoadedEvent game) {
     final APContext ctx = APContext.getContext();
 
-    if (ctx.isConnected()) {
+    if(ctx.isConnected()) {
       ctx.initAdditions(game.gameState);
       return;
     }
@@ -131,7 +129,7 @@ public class Archipelagoon {
 
   @EventListener
   public void additionUnlock(final AdditionUnlockEvent event) {
-    if (!Additions.getStaticMap().containsValue(event.addition.getRegistryId().entryId())) {
+    if(!Additions.getStaticMap().containsValue(event.addition.getRegistryId().entryId())) {
       return;
     }
 
@@ -145,11 +143,11 @@ public class Archipelagoon {
 
     event.cancel();
 
-    if (locationState == null) {
+    if(locationState == null) {
       return;
     }
 
-    if (locationState.isApplied()) {
+    if(locationState.isApplied()) {
       return;
     }
 
@@ -162,7 +160,7 @@ public class Archipelagoon {
   public void shopContents(final ShopContentsEvent event) {
     final APContext ctx = APContext.getContext();
     final SlotData slotData = ctx.getSlotData();
-    if (slotData.enableShopsanity == 0) {
+    if(slotData.enableShopsanity == 0) {
       return;
     }
 
@@ -173,7 +171,7 @@ public class Archipelagoon {
 
     final List<APShopEntry> adjustedContents = new ArrayList<>();
 
-    for (final LocationState locationState : slots) {
+    for(final LocationState locationState : slots) {
       final int price = event.contents.getFirst().price; // original price (for now)
       final APInventoryEntry entry = new APInventoryEntry(locationState);
 
@@ -190,7 +188,7 @@ public class Archipelagoon {
       return;
     }
 
-//    final APInventoryEntry entry = (APInventoryEntry)event.item;
+    //    final APInventoryEntry entry = (APInventoryEntry)event.item;
 
     final APContext ctx = APContext.getContext();
     final List<LocationState> locationStates = GameEngine.CONFIG.getConfig(LOCATION_STATE_REGISTRY.get());
@@ -198,7 +196,7 @@ public class Archipelagoon {
       .filter(ls -> ls.getLocationID() == entry.locationId)
       .findFirst()
       .orElse(null);
-    if (locationState == null) {
+    if(locationState == null) {
       return;
     }
 
@@ -209,21 +207,25 @@ public class Archipelagoon {
   @EventListener
   public void giveGood(final GiveGoodsEvent event) {
     final APContext ctx = APContext.getContext();
-    if (!ctx.isConnected()) return;
+    if(!ctx.isConnected()) {
+      return;
+    }
 
     final Set<Long> receivedIds = Set.copyOf(ctx.getReceivedItemIDs());
     final List<Good> allowedGoods = new ArrayList<>();
 
-    for (final Good good : event.givenGoods) {
+    for(final Good good : event.givenGoods) {
       final Long apId = archipelagoon.ap.mapping.items.Goods.getAPItemIdFromRegistryId(good.getRegistryId());
-      if (apId == null) continue;
+      if(apId == null) {
+        continue;
+      }
 
-      if (receivedIds.contains(apId)) {
+      if(receivedIds.contains(apId)) {
         allowedGoods.add(good);
       }
     }
 
-    if (allowedGoods.isEmpty()) {
+    if(allowedGoods.isEmpty()) {
       event.cancel();
     } else {
       event.givenGoods.clear();
