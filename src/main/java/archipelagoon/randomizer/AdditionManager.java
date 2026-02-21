@@ -18,11 +18,12 @@ import static legend.game.Scus94491BpeSegment_800b.gameState_800babc8;
 public final class AdditionManager {
   private static final AdditionManager INSTANCE = new AdditionManager();
 
+  private AdditionManager() {
+  }
+
   public static AdditionManager getInstance() {
     return INSTANCE;
   }
-
-  private AdditionManager() {}
 
   public void clearAdditions(final GameState52c gameState) {
     final GameState52c state = this.resolveState(gameState);
@@ -39,8 +40,8 @@ public final class AdditionManager {
     final Map<Long, String> additionList = Additions.getStaticMap();
     final GameState52c state = this.resolveState(gameState);
 
-    for (final Long id : ctx.getReceivedItemIDs()) {
-      if (!additionList.containsKey(id)) {
+    for(final Long id : ctx.getReceivedItemIDs()) {
+      if(!additionList.containsKey(id)) {
         continue;
       }
 
@@ -51,7 +52,7 @@ public final class AdditionManager {
   }
 
   public void setAddition(final RegistryId registryId, final GameState52c gameState) {
-    if (!GameEngine.REGISTRIES.additions.hasEntry(registryId)) {
+    if(!GameEngine.REGISTRIES.additions.hasEntry(registryId)) {
       return;
     }
 
@@ -60,7 +61,7 @@ public final class AdditionManager {
     for(int charIndex = 0; charIndex < 9; charIndex++) {
       final CharacterData2c charData = state.charData_32c[charIndex];
       final CharacterAdditionStats additionStats = charData.additionStats.get(registryId);
-      if (additionStats == null) {
+      if(additionStats == null) {
         continue;
       }
 
@@ -74,16 +75,16 @@ public final class AdditionManager {
     for(int charIndex = 0; charIndex < 9; charIndex++) {
       final CharacterData2c charData = state.charData_32c[charIndex];
       final CharacterAdditionStats additionStats = charData.additionStats.get(charData.selectedAddition_19);
-      if (additionStats == null) {
+      if(additionStats == null) {
         continue;
       }
 
-      if (additionStats.unlockState == UnlockState.UNLOCKED) {
+      if(additionStats.unlockState == UnlockState.UNLOCKED) {
         break;
       }
 
-      for (final Map.Entry<RegistryId, CharacterAdditionStats> entry : charData.additionStats.entrySet()) {
-        if (entry.getValue().unlockState == UnlockState.UNLOCKED) {
+      for(final Map.Entry<RegistryId, CharacterAdditionStats> entry : charData.additionStats.entrySet()) {
+        if(entry.getValue().unlockState == UnlockState.UNLOCKED) {
           charData.selectedAddition_19 = entry.getKey();
           break;
         }
@@ -95,20 +96,20 @@ public final class AdditionManager {
     final GameState52c state = this.resolveState(null);
     final APContext apContext = APContext.getContext();
 
-    for (final Map.Entry<RegistryId, CharacterAdditionStats> entry
+    for(final Map.Entry<RegistryId, CharacterAdditionStats> entry
       : charData.additionStats.entrySet()) {
 
       final RegistryId registryId = entry.getKey();
       final CharacterAdditionStats stats = entry.getValue();
 
       final var addition = GameEngine.REGISTRIES.additions.getEntry(registryId).get();
-      if (addition == null) {
+      if(addition == null) {
         continue;
       }
 
-      if (addition.isUnlocked(state, charData, stats)) {
+      if(addition.isUnlocked(state, charData, stats)) {
         final Long apId = archipelagoon.ap.mapping.locations.Additions.getAPLocationIdFromRegistryId(registryId);
-        if (apId != null) {
+        if(apId != null) {
           apContext.checkLocation(apId);
         }
       }

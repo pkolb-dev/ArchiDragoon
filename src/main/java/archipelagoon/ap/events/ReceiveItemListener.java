@@ -24,7 +24,7 @@ public class ReceiveItemListener {
     ctx.initAdditions(null);
 
     final long lastItemReceivedIndex = GameEngine.CONFIG.getConfig(LAST_ITEM_INDEX.get());
-    if (event.getIndex() <= lastItemReceivedIndex) {
+    if(event.getIndex() <= lastItemReceivedIndex) {
       return;
     }
 
@@ -36,16 +36,16 @@ public class ReceiveItemListener {
     GameEngine.CONFIG.setConfig(LAST_ITEM_INDEX.get(), event.getIndex());
 
     // give to player
-    if (GameEngine.REGISTRIES.items.hasEntry(registryId)) {
+    if(GameEngine.REGISTRIES.items.hasEntry(registryId)) {
       final Item item = GameEngine.REGISTRIES.items.getEntry(registryId).get();
       SItem.giveItem(item);
-    } else if (GameEngine.REGISTRIES.equipment.hasEntry(registryId)) {
+    } else if(GameEngine.REGISTRIES.equipment.hasEntry(registryId)) {
       final Equipment equipment = GameEngine.REGISTRIES.equipment.getEntry(registryId).get();
       SItem.giveEquipment(equipment);
-    } else if (GameEngine.REGISTRIES.goods.hasEntry(registryId)) {
+    } else if(GameEngine.REGISTRIES.goods.hasEntry(registryId)) {
       final Good good = GameEngine.REGISTRIES.goods.getEntry(registryId).get();
       gameState_800babc8.goods_19c.give(good);
-    } else if (GameEngine.REGISTRIES.additions.hasEntry(registryId)) {
+    } else if(GameEngine.REGISTRIES.additions.hasEntry(registryId)) {
       AdditionManager.getInstance().setAddition(registryId, null);
     }
 

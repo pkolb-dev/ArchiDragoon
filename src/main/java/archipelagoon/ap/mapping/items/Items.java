@@ -18,13 +18,15 @@ public final class Items {
     ITEM_MAP.putAll(Goods.getStaticMap());
     ITEM_MAP.putAll(Additions.getStaticMap());
 
-    for (final Map.Entry<Long, String> entry :ITEM_MAP.entrySet()) {
+    for(final Map.Entry<Long, String> entry : ITEM_MAP.entrySet()) {
       ITEM_MAP_REVERSE.put(entry.getValue(), entry.getKey());
     }
     assert ITEM_MAP.size() == ITEM_MAP_REVERSE.size();
     assert ITEM_MAP.size() == (Consumables.getStaticMap().size() + Equipment.getStaticMap().size() + Goods.getStaticMap().size() + Additions.getStaticMap().size());
   }
-  private Items() {}
+
+  private Items() {
+  }
 
   public static Map<Long, String> getStaticMap() {
     return Collections.unmodifiableMap(ITEM_MAP);
@@ -38,7 +40,7 @@ public final class Items {
     return getStaticReverseMap().get(registryId.entryId());
   }
 
-  public static String getEntryIdFromAPItemId (final Long itemId) {
+  public static String getEntryIdFromAPItemId(final Long itemId) {
     return getStaticMap().get(itemId);
   }
 }

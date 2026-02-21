@@ -11,14 +11,14 @@ import java.util.List;
 
 import static archipelagoon.Archipelagoon.LOCATION_STATE_REGISTRY;
 
-public class APInventoryEntry implements InventoryEntry<APInventoryEntry>{
+public class APInventoryEntry implements InventoryEntry<APInventoryEntry> {
   public final Long locationId;
   public final int flags;
   public final String playerName;
   public final String itemName;
   public boolean isApplied;
 
-  public APInventoryEntry(final LocationState  locationState) {
+  public APInventoryEntry(final LocationState locationState) {
     this.locationId = locationState.getLocationID();
     this.flags = locationState.getFlags();
     this.playerName = locationState.getPlayerName();
@@ -33,7 +33,7 @@ public class APInventoryEntry implements InventoryEntry<APInventoryEntry>{
 
   @Override
   public ItemIcon getIcon() {
-    if ((this.flags & NetworkItem.ADVANCEMENT) != 0) {
+    if((this.flags & NetworkItem.ADVANCEMENT) != 0) {
       return APIcon.PRIORITY;
     } else {
       return APIcon.OTHER;
