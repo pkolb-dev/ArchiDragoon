@@ -60,7 +60,8 @@ public final class Enemies {
     ENEMY_LOCATIONS.put(108_70046L, "melbu_frahma_melbu_frahma_melbu_frahma_melbu_frahma_melbu_frahma");
     ENEMY_LOCATIONS.put(108_70047L, "jiango");
     ENEMY_LOCATIONS.put(108_70048L, "kamuy_kamuys_tree");
-//    ENEMY_LOCATIONS.put(108_70049L, "sandora_soldier_commander_sandora_soldier");
+    ENEMY_LOCATIONS.put(108_70049L, "sandora_soldier_commander_sandora_soldier");
+    ENEMY_LOCATIONS.put(108_70050L, "sandora_elite");
 
     for(final Map.Entry<Long, String> entry :ENEMY_LOCATIONS.entrySet()) {
       ENEMY_LOCATIONS_REVERSE.put(entry.getValue(), entry.getKey());
