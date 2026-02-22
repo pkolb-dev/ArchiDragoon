@@ -2,9 +2,8 @@ package archipelagoon;
 
 import archipelagoon.ap.APContext;
 import archipelagoon.ap.mapping.LocationState;
-import archipelagoon.ap.mapping.items.Items;
+import archipelagoon.ap.mapping.items.Goods;
 import archipelagoon.ap.mapping.locations.Additions;
-import archipelagoon.ap.mapping.locations.Goods;
 import archipelagoon.ap.mapping.locations.Shops;
 import archipelagoon.config.ArchipelagoConfigEntry;
 import archipelagoon.config.ItemIndexConfigEntry;
@@ -36,13 +35,9 @@ import legend.game.saves.ConfigEntry;
 import legend.game.saves.ConfigRegistryEvent;
 import legend.game.saves.ConfigStorageLocation;
 import legend.game.saves.StringConfigEntry;
-
-import static legend.game.Scus94491BpeSegment_8005.submapCut_80052c30;
-
 import legend.game.submap.SMap;
 import legend.game.submap.SubmapState;
 import legend.game.types.GameState52c;
-import legend.lodmod.LodMod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.legendofdragoon.modloader.Mod;
@@ -55,11 +50,13 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import static legend.core.GameEngine.EVENTS;
 import static legend.game.EngineStates.currentEngineState_8004dd04;
 import static legend.game.SItem.buildUiRenderable;
+import static legend.game.Scus94491BpeSegment_8005.submapCut_80052c30;
 
 @Mod(id = Archipelagoon.MOD_ID, version = "^3.0.0")
 public class Archipelagoon {
@@ -75,6 +72,7 @@ public class Archipelagoon {
   private static final Logger LOGGER = LogManager.getFormatterLogger(Archipelagoon.class);
   private final AdditionManager additionManager = AdditionManager.getInstance();
   private GameState52c state;
+
   public Archipelagoon() {
     EVENTS.register(this);
   }
@@ -215,12 +213,15 @@ public class Archipelagoon {
     final List<Good> allowedGoods = new ArrayList<>();
 
     for(final Good good : event.givenGoods) {
-      final Long apId = archipelagoon.ap.mapping.items.Goods.getAPItemIdFromRegistryId(good.getRegistryId());
+      final Long apId = Goods.getAPItemIdFromRegistryId(good.getRegistryId());
       if(apId == null) {
         continue;
       }
 
       if(receivedIds.contains(apId)) {
+        allowedGoods.add(good);
+      } else if(Objects.equals(good.getRegistryId().entryId(), "law_maker")) {
+        // check for whitelist
         allowedGoods.add(good);
       }
     }
@@ -235,7 +236,22 @@ public class Archipelagoon {
 
   @EventListener
   public void takeGood(final TakeGoodsEvent event) {
-    event.cancel();
+
+    final List<Good> allowedGoods = new ArrayList<>();
+
+    for(final Good good : event.takenGoods) {
+      if(Objects.equals(good.getRegistryId().entryId(), "law_maker")) {
+        allowedGoods.add(good);
+      }
+    }
+
+
+    if(allowedGoods.isEmpty()) {
+      event.cancel();
+    } else {
+      event.takenGoods.clear();
+      event.takenGoods.addAll(allowedGoods);
+    }
   }
 
   @EventListener
