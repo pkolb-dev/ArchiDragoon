@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 public final class SlotData {
-  public static final Set<String> EXPECTED_MOD_VERSIONS = new HashSet<>(List.of("0.1.1"));
+  public static final Set<String> EXPECTED_MOD_VERSIONS = new HashSet<>(List.of("0.1.2"));
 
   @SerializedName("addition_randomizer")
   public int additionRandomizer = 1;
