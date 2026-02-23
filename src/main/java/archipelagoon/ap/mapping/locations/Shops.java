@@ -394,6 +394,16 @@ public final class Shops {
     hellena02ItemShop.put(4, 108_50267L);
     hellena02ItemShop.put(5, 108_50268L);
     SHOP_LOCATIONS.put(LodShops.HELLENA_02_ITEM_SHOP.getId().entryId(), hellena02ItemShop);
+
+    final Map<Integer, Long> blackCastleItemShop = new LinkedHashMap<>();
+    blackCastleItemShop.put(0, 108_50269L);
+    blackCastleItemShop.put(1, 108_50270L);
+    blackCastleItemShop.put(2, 108_50271L);
+    blackCastleItemShop.put(3, 108_50272L);
+    blackCastleItemShop.put(4, 108_50273L);
+    blackCastleItemShop.put(5, 108_50274L);
+    blackCastleItemShop.put(6, 108_50275L);
+    SHOP_LOCATIONS.put(LodShops.BLACK_CASTLE_ITEM_SHOP.getId().entryId(), blackCastleItemShop);
   }
 
   private Shops() {
