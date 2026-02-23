@@ -1,5 +1,6 @@
 package archipelagoon.ap.mapping.items;
 
+import legend.lodmod.LodGoods;
 import org.legendofdragoon.modloader.registries.RegistryId;
 
 import java.util.Collections;
@@ -11,44 +12,44 @@ public final class Goods {
   private static final Map<String, Long> GOOD_MAP_REVERSE = new HashMap<>();
 
   static {
-    GOOD_MAP.put(108_20001L, "red_dragoon_spirit");
-    GOOD_MAP.put(108_20002L, "blue_dragoon_spirit");
-    GOOD_MAP.put(108_20003L, "jade_dragoon_spirit");
-    GOOD_MAP.put(108_20004L, "gold_dragoon_spirit");
-    GOOD_MAP.put(108_20005L, "violet_dragoon_spirit");
-    GOOD_MAP.put(108_20006L, "silver_dragoon_spirit");
-    GOOD_MAP.put(108_20007L, "dark_dragoon_spirit");
-    GOOD_MAP.put(108_20008L, "divine_dragoon_spirit");
+    GOOD_MAP.put(108_20001L, LodGoods.RED_DRAGOON_SPIRIT.getId().entryId());
+    GOOD_MAP.put(108_20002L, LodGoods.BLUE_DRAGOON_SPIRIT.getId().entryId());
+    GOOD_MAP.put(108_20003L, LodGoods.JADE_DRAGOON_SPIRIT.getId().entryId());
+    GOOD_MAP.put(108_20004L, LodGoods.GOLD_DRAGOON_SPIRIT.getId().entryId());
+    GOOD_MAP.put(108_20005L, LodGoods.VIOLET_DRAGOON_SPIRIT.getId().entryId());
+    GOOD_MAP.put(108_20006L, LodGoods.SILVER_DRAGOON_SPIRIT.getId().entryId());
+    GOOD_MAP.put(108_20007L, LodGoods.DARK_DRAGOON_SPIRIT.getId().entryId());
+    GOOD_MAP.put(108_20008L, LodGoods.DIVINE_DRAGOON_SPIRIT.getId().entryId());
 
-    GOOD_MAP.put(108_20009L, "war_bulletin");
-    GOOD_MAP.put(108_20010L, "fathers_stone");
-    GOOD_MAP.put(108_20011L, "prison_key");
-    GOOD_MAP.put(108_20012L, "axe_from_shack");
-    GOOD_MAP.put(108_20013L, "good_spirits");
-    GOOD_MAP.put(108_20014L, "shiny_bag");
-    GOOD_MAP.put(108_20015L, "water_bottle");
-    GOOD_MAP.put(108_20016L, "life_water");
-    GOOD_MAP.put(108_20017L, "magic_oil");
-    GOOD_MAP.put(108_20018L, "yellow_stone");
-    GOOD_MAP.put(108_20019L, "blue_stone");
-    GOOD_MAP.put(108_20020L, "red_stone");
-    GOOD_MAP.put(108_20021L, "letter_from_lynn");
-    GOOD_MAP.put(108_20022L, "pass_for_valley");
-    GOOD_MAP.put(108_20023L, "kates_bouquet");
-    GOOD_MAP.put(108_20024L, "key_to_ship");
-    GOOD_MAP.put(108_20025L, "boat_license");
-    GOOD_MAP.put(108_20026L, "dragon_blocker");
-    GOOD_MAP.put(108_20027L, "moon_gem");
-    GOOD_MAP.put(108_20028L, "moon_dagger");
-    GOOD_MAP.put(108_20029L, "moon_mirror");
-    GOOD_MAP.put(108_20030L, "omega_bomb");
-    GOOD_MAP.put(108_20031L, "omega_master");
-    GOOD_MAP.put(108_20032L, "law_maker");
-    GOOD_MAP.put(108_20033L, "law_output");
-    GOOD_MAP.put(108_20034L, "gold_dragoon_spirit_2");
-    GOOD_MAP.put(108_20035L, "magic_shiny_bag");
-    GOOD_MAP.put(108_20036L, "vanishing_stone");
-    GOOD_MAP.put(108_20037L, "lavitzs_picture");
+    GOOD_MAP.put(108_20009L, LodGoods.WAR_BULLETIN.getId().entryId());
+    GOOD_MAP.put(108_20010L, LodGoods.FATHERS_STONE.getId().entryId());
+    GOOD_MAP.put(108_20011L, LodGoods.PRISON_KEY.getId().entryId());
+    GOOD_MAP.put(108_20012L, LodGoods.AXE_FROM_THE_SHACK.getId().entryId());
+    GOOD_MAP.put(108_20013L, LodGoods.GOOD_SPIRITS.getId().entryId());
+    GOOD_MAP.put(108_20014L, LodGoods.SHINY_BAG.getId().entryId());
+    GOOD_MAP.put(108_20015L, LodGoods.WATER_BOTTLE.getId().entryId());
+    GOOD_MAP.put(108_20016L, LodGoods.LIFE_WATER.getId().entryId());
+    GOOD_MAP.put(108_20017L, LodGoods.MAGIC_OIL.getId().entryId());
+    GOOD_MAP.put(108_20018L, LodGoods.YELLOW_STONE.getId().entryId());
+    GOOD_MAP.put(108_20019L, LodGoods.BLUE_STONE.getId().entryId());
+    GOOD_MAP.put(108_20020L, LodGoods.RED_STONE.getId().entryId());
+    GOOD_MAP.put(108_20021L, LodGoods.LETTER_FROM_LYNN.getId().entryId());
+    GOOD_MAP.put(108_20022L, LodGoods.PASS_FOR_VALLEY.getId().entryId());
+    GOOD_MAP.put(108_20023L, LodGoods.KATES_BOUQUET.getId().entryId());
+    GOOD_MAP.put(108_20024L, LodGoods.KEY_TO_SHIP.getId().entryId());
+    GOOD_MAP.put(108_20025L, LodGoods.BOAT_LICENSE.getId().entryId());
+    GOOD_MAP.put(108_20026L, LodGoods.DRAGON_BLOCKER.getId().entryId());
+    GOOD_MAP.put(108_20027L, LodGoods.MOON_GEM.getId().entryId());
+    GOOD_MAP.put(108_20028L, LodGoods.MOON_DAGGER.getId().entryId());
+    GOOD_MAP.put(108_20029L, LodGoods.MOON_MIRROR.getId().entryId());
+    GOOD_MAP.put(108_20030L, LodGoods.OMEGA_BOMB.getId().entryId());
+    GOOD_MAP.put(108_20031L, LodGoods.OMEGA_MASTER.getId().entryId());
+    GOOD_MAP.put(108_20032L, LodGoods.LAW_MAKER.getId().entryId());
+    GOOD_MAP.put(108_20033L, LodGoods.LAW_OUTPUT.getId().entryId());
+    GOOD_MAP.put(108_20034L, LodGoods.GOLD_DRAGOON_SPIRIT_2.getId().entryId());
+    GOOD_MAP.put(108_20035L, LodGoods.MAGIC_SHINY_BAG.getId().entryId());
+    GOOD_MAP.put(108_20036L, LodGoods.VANISHING_STONE.getId().entryId());
+    GOOD_MAP.put(108_20037L, LodGoods.LAVITZS_PICTURE.getId().entryId());
 
     for(final Map.Entry<Long, String> entry : GOOD_MAP.entrySet()) {
       GOOD_MAP_REVERSE.put(entry.getValue(), entry.getKey());
