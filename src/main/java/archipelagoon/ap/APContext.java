@@ -120,7 +120,6 @@ public class APContext {
   }
 
   public List<Long> getReceivedItemIDs() {
-    //    GameEngine.CONFIG.getConfig();
     return this.client.getItemManager().getReceivedItemIDs();
   }
 
