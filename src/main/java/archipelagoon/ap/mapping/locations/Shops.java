@@ -1,8 +1,9 @@
 package archipelagoon.ap.mapping.locations;
 
+import legend.lodmod.LodShops;
+
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,7 @@ public final class Shops {
     baleEquipmentShop.put(7, 108_50008L);
     baleEquipmentShop.put(8, 108_50009L);
     baleEquipmentShop.put(9, 108_50010L);
-    SHOP_LOCATIONS.put("bale_equipment_shop", baleEquipmentShop);
+    SHOP_LOCATIONS.put(LodShops.BALE_EQUIPMENT_SHOP.getId().entryId(), baleEquipmentShop);
 
     final Map<Integer, Long> serdioItemShop = new LinkedHashMap<>();
     serdioItemShop.put(0, 108_50011L);
@@ -32,7 +33,7 @@ public final class Shops {
     serdioItemShop.put(4, 108_50015L);
     serdioItemShop.put(5, 108_50016L);
     serdioItemShop.put(6, 108_50017L);
-    SHOP_LOCATIONS.put("serdio_item_shop", serdioItemShop);
+    SHOP_LOCATIONS.put(LodShops.SERDIO_ITEM_SHOP.getId().entryId(), serdioItemShop);
 
     final Map<Integer, Long> lohanEquipmentShop = new LinkedHashMap<>();
     lohanEquipmentShop.put(0, 108_50018L);
@@ -47,7 +48,7 @@ public final class Shops {
     lohanEquipmentShop.put(9, 108_50027L);
     lohanEquipmentShop.put(10, 108_50028L);
     lohanEquipmentShop.put(11, 108_50029L);
-    SHOP_LOCATIONS.put("lohan_equipment_shop", lohanEquipmentShop);
+    SHOP_LOCATIONS.put(LodShops.LOHAN_EQUIPMENT_SHOP.getId().entryId(), lohanEquipmentShop);
 
     final Map<Integer, Long> lohanItemShop = new LinkedHashMap<>();
     lohanItemShop.put(0, 108_50030L);
@@ -58,14 +59,14 @@ public final class Shops {
     lohanItemShop.put(5, 108_50035L);
     lohanItemShop.put(6, 108_50036L);
     lohanItemShop.put(7, 108_50037L);
-    SHOP_LOCATIONS.put("lohan_item_shop", lohanItemShop);
+    SHOP_LOCATIONS.put(LodShops.LOHAN_ITEM_SHOP.getId().entryId(), lohanItemShop);
 
     final Map<Integer, Long> kazasEquipmentShop = new LinkedHashMap<>();
     kazasEquipmentShop.put(0, 108_50038L);
     kazasEquipmentShop.put(1, 108_50039L);
     kazasEquipmentShop.put(2, 108_50040L);
     kazasEquipmentShop.put(3, 108_50041L);
-    SHOP_LOCATIONS.put("kazas_equipment_shop", kazasEquipmentShop);
+    SHOP_LOCATIONS.put(LodShops.KAZAS_EQUIPMENT_SHOP.getId().entryId(), kazasEquipmentShop);
 
     final Map<Integer, Long> kazasFortItemShop = new LinkedHashMap<>();
     kazasFortItemShop.put(0, 108_50042L);
@@ -73,7 +74,7 @@ public final class Shops {
     kazasFortItemShop.put(2, 108_50044L);
     kazasFortItemShop.put(3, 108_50045L);
     kazasFortItemShop.put(4, 108_50046L);
-    SHOP_LOCATIONS.put("kazas_fort_item_shop", kazasFortItemShop);
+    SHOP_LOCATIONS.put(LodShops.KAZAS_FORT_ITEM_SHOP.getId().entryId(), kazasFortItemShop);
 
     final Map<Integer, Long> fletzEquipmentShop = new LinkedHashMap<>();
     fletzEquipmentShop.put(0, 108_50047L);
@@ -86,7 +87,7 @@ public final class Shops {
     fletzEquipmentShop.put(7, 108_50054L);
     fletzEquipmentShop.put(8, 108_50055L);
     fletzEquipmentShop.put(9, 108_50056L);
-    SHOP_LOCATIONS.put("fletz_equipment_shop", fletzEquipmentShop);
+    SHOP_LOCATIONS.put(LodShops.FLETZ_EQUIPMENT_SHOP.getId().entryId(), fletzEquipmentShop);
 
 
     final Map<Integer, Long> fletzItemShop = new LinkedHashMap<>();
@@ -99,12 +100,12 @@ public final class Shops {
     fletzItemShop.put(6, 108_50063L);
     fletzItemShop.put(7, 108_50064L);
     fletzItemShop.put(8, 108_50065L);
-    SHOP_LOCATIONS.put("fletz_item_shop", fletzItemShop);
+    SHOP_LOCATIONS.put(LodShops.FLETZ_ITEM_SHOP.getId().entryId(), fletzItemShop);
 
     final Map<Integer, Long> donauEquipmentShop = new LinkedHashMap<>();
     donauEquipmentShop.put(0, 108_50066L);
     donauEquipmentShop.put(1, 108_50067L);
-    SHOP_LOCATIONS.put("donau_equipment_shop", donauEquipmentShop);
+    SHOP_LOCATIONS.put(LodShops.DONAU_EQUIPMENT_SHOP.getId().entryId(), donauEquipmentShop);
 
     final Map<Integer, Long> donauItemShop = new LinkedHashMap<>();
     donauItemShop.put(0, 108_50068L);
@@ -113,7 +114,7 @@ public final class Shops {
     donauItemShop.put(3, 108_50071L);
     donauItemShop.put(4, 108_50072L);
     donauItemShop.put(5, 108_50073L);
-    SHOP_LOCATIONS.put("donau_item_shop", donauItemShop);
+    SHOP_LOCATIONS.put(LodShops.DONAU_ITEM_SHOP.getId().entryId(), donauItemShop);
 
     final Map<Integer, Long> queenFuryEquipmentShop = new LinkedHashMap<>();
     queenFuryEquipmentShop.put(0, 108_50074L);
@@ -121,7 +122,7 @@ public final class Shops {
     queenFuryEquipmentShop.put(2, 108_50076L);
     queenFuryEquipmentShop.put(3, 108_50077L);
     queenFuryEquipmentShop.put(4, 108_50078L);
-    SHOP_LOCATIONS.put("queen_fury_equipment_shop", queenFuryEquipmentShop);
+    SHOP_LOCATIONS.put(LodShops.QUEEN_FURY_EQUIPMENT_SHOP.getId().entryId(), queenFuryEquipmentShop);
 
     final Map<Integer, Long> queenFuryItemShop = new LinkedHashMap<>();
     queenFuryItemShop.put(0, 108_50079L);
@@ -132,7 +133,7 @@ public final class Shops {
     queenFuryItemShop.put(5, 108_50084L);
     queenFuryItemShop.put(6, 108_50085L);
     queenFuryItemShop.put(7, 108_50086L);
-    SHOP_LOCATIONS.put("queen_fury_item_shop", queenFuryItemShop);
+    SHOP_LOCATIONS.put(LodShops.QUEEN_FURY_ITEM_SHOP.getId().entryId(), queenFuryItemShop);
 
     final Map<Integer, Long> fuenoEquipmentShop = new LinkedHashMap<>();
     fuenoEquipmentShop.put(0, 108_50087L);
@@ -141,7 +142,7 @@ public final class Shops {
     fuenoEquipmentShop.put(3, 108_50090L);
     fuenoEquipmentShop.put(4, 108_50091L);
     fuenoEquipmentShop.put(5, 108_50092L);
-    SHOP_LOCATIONS.put("fueno_equipment_shop", fuenoEquipmentShop);
+    SHOP_LOCATIONS.put(LodShops.FUENO_EQUIPMENT_SHOP.getId().entryId(), fuenoEquipmentShop);
 
     final Map<Integer, Long> fuenoItemShop = new LinkedHashMap<>();
     fuenoItemShop.put(0, 108_50093L);
@@ -152,7 +153,7 @@ public final class Shops {
     fuenoItemShop.put(5, 108_50098L);
     fuenoItemShop.put(6, 108_50099L);
     fuenoItemShop.put(7, 108_50100L);
-    SHOP_LOCATIONS.put("fueno_item_shop", fuenoItemShop);
+    SHOP_LOCATIONS.put(LodShops.FUENO_ITEM_SHOP.getId().entryId(), fuenoItemShop);
 
     final Map<Integer, Long> furniEquipmentShop = new LinkedHashMap<>();
     furniEquipmentShop.put(0, 108_50101L);
@@ -161,7 +162,7 @@ public final class Shops {
     furniEquipmentShop.put(3, 108_50104L);
     furniEquipmentShop.put(4, 108_50105L);
     furniEquipmentShop.put(5, 108_50106L);
-    SHOP_LOCATIONS.put("furni_equipment_shop", furniEquipmentShop);
+    SHOP_LOCATIONS.put(LodShops.FURNI_EQUIPMENT_SHOP.getId().entryId(), furniEquipmentShop);
 
     final Map<Integer, Long> furniItemShop = new LinkedHashMap<>();
     furniItemShop.put(0, 108_50107L);
@@ -169,7 +170,7 @@ public final class Shops {
     furniItemShop.put(2, 108_50109L);
     furniItemShop.put(3, 108_50110L);
     furniItemShop.put(4, 108_50111L);
-    SHOP_LOCATIONS.put("furni_item_shop", furniItemShop);
+    SHOP_LOCATIONS.put(LodShops.FURNI_ITEM_SHOP.getId().entryId(), furniItemShop);
 
     final Map<Integer, Long> deningradEquipmentShop = new LinkedHashMap<>();
     deningradEquipmentShop.put(0, 108_50112L);
@@ -184,7 +185,7 @@ public final class Shops {
     deningradEquipmentShop.put(9, 108_50121L);
     deningradEquipmentShop.put(11, 108_50122L);
     deningradEquipmentShop.put(12, 108_50123L);
-    SHOP_LOCATIONS.put("deningrad_equipment_shop", deningradEquipmentShop);
+    SHOP_LOCATIONS.put(LodShops.DENINGRAD_EQUIPMENT_SHOP.getId().entryId(), deningradEquipmentShop);
 
     final Map<Integer, Long> deningradItemShop = new LinkedHashMap<>();
     deningradItemShop.put(0, 108_50124L);
@@ -197,14 +198,14 @@ public final class Shops {
     deningradItemShop.put(7, 108_50131L);
     deningradItemShop.put(8, 108_50132L);
     deningradItemShop.put(9, 108_50133L);
-    SHOP_LOCATIONS.put("deningrad_item_shop", deningradItemShop);
+    SHOP_LOCATIONS.put(LodShops.DENINGRAD_ITEM_SHOP.getId().entryId(), deningradItemShop);
 
     final Map<Integer, Long> winglyForestEquipmentShop = new LinkedHashMap<>();
     winglyForestEquipmentShop.put(0, 108_50134L);
     winglyForestEquipmentShop.put(1, 108_50135L);
     winglyForestEquipmentShop.put(2, 108_50136L);
     winglyForestEquipmentShop.put(3, 108_50137L);
-    SHOP_LOCATIONS.put("wingly_forest_equipment_shop", winglyForestEquipmentShop);
+    SHOP_LOCATIONS.put(LodShops.WINGLY_FOREST_EQUIPMENT_SHOP.getId().entryId(), winglyForestEquipmentShop);
 
     final Map<Integer, Long> winglyForestItemShop = new LinkedHashMap<>();
     winglyForestItemShop.put(0, 108_50138L);
@@ -215,7 +216,7 @@ public final class Shops {
     winglyForestItemShop.put(5, 108_50143L);
     winglyForestItemShop.put(6, 108_50144L);
     winglyForestItemShop.put(7, 108_50145L);
-    SHOP_LOCATIONS.put("wingly_forest_item_shop", winglyForestItemShop);
+    SHOP_LOCATIONS.put(LodShops.WINGLY_FOREST_ITEM_SHOP.getId().entryId(), winglyForestItemShop);
 
     final Map<Integer, Long> vellwebEquipmentShop = new LinkedHashMap<>();
     vellwebEquipmentShop.put(0, 108_50146L);
@@ -223,7 +224,7 @@ public final class Shops {
     vellwebEquipmentShop.put(2, 108_50148L);
     vellwebEquipmentShop.put(3, 108_50149L);
     vellwebEquipmentShop.put(4, 108_50150L);
-    SHOP_LOCATIONS.put("vellweb_equipment_shop", vellwebEquipmentShop);
+    SHOP_LOCATIONS.put(LodShops.VELLWEB_EQUIPMENT_SHOP.getId().entryId(), vellwebEquipmentShop);
 
     final Map<Integer, Long> vellwebItemShop = new LinkedHashMap<>();
     vellwebItemShop.put(0, 108_50151L);
@@ -233,7 +234,7 @@ public final class Shops {
     vellwebItemShop.put(4, 108_50155L);
     vellwebItemShop.put(5, 108_50156L);
     vellwebItemShop.put(6, 108_50157L);
-    SHOP_LOCATIONS.put("vellweb_item_shop", vellwebItemShop);
+    SHOP_LOCATIONS.put(LodShops.VELLWEB_ITEM_SHOP.getId().entryId(), vellwebItemShop);
 
     final Map<Integer, Long> ularaEquipmentShop = new LinkedHashMap<>();
     ularaEquipmentShop.put(0, 108_50158L);
@@ -245,7 +246,7 @@ public final class Shops {
     ularaEquipmentShop.put(6, 108_50164L);
     ularaEquipmentShop.put(7, 108_50165L);
     ularaEquipmentShop.put(8, 108_50166L);
-    SHOP_LOCATIONS.put("ulara_equipment_shop", ularaEquipmentShop);
+    SHOP_LOCATIONS.put(LodShops.ULARA_EQUIPMENT_SHOP.getId().entryId(), ularaEquipmentShop);
 
     final Map<Integer, Long> ularaItemShop = new LinkedHashMap<>();
     ularaItemShop.put(0, 108_50167L);
@@ -259,13 +260,13 @@ public final class Shops {
     ularaItemShop.put(8, 108_50175L);
     ularaItemShop.put(9, 108_50176L);
     ularaItemShop.put(11, 108_50177L);
-    SHOP_LOCATIONS.put("ulara_item_shop", ularaItemShop);
+    SHOP_LOCATIONS.put(LodShops.ULARA_ITEM_SHOP.getId().entryId(), ularaItemShop);
 
     final Map<Integer, Long> rougeEquipmentShop = new LinkedHashMap<>();
     rougeEquipmentShop.put(0, 108_50178L);
     rougeEquipmentShop.put(1, 108_50179L);
     rougeEquipmentShop.put(2, 108_50180L);
-    SHOP_LOCATIONS.put("rouge_equipment_shop", rougeEquipmentShop);
+    SHOP_LOCATIONS.put(LodShops.ROUGE_EQUIPMENT_SHOP.getId().entryId(), rougeEquipmentShop);
 
     final Map<Integer, Long> rougeItemShop = new LinkedHashMap<>();
     rougeItemShop.put(0, 108_50181L);
@@ -275,7 +276,7 @@ public final class Shops {
     rougeItemShop.put(4, 108_50185L);
     rougeItemShop.put(5, 108_50186L);
     rougeItemShop.put(6, 108_50187L);
-    SHOP_LOCATIONS.put("rouge_item_shop", rougeItemShop);
+    SHOP_LOCATIONS.put(LodShops.ROUGE_ITEM_SHOP.getId().entryId(), rougeItemShop);
 
     final Map<Integer, Long> moonEquipmentShop = new LinkedHashMap<>();
     moonEquipmentShop.put(0, 108_50188L);
@@ -294,7 +295,7 @@ public final class Shops {
     moonEquipmentShop.put(14, 108_50201L);
     moonEquipmentShop.put(15, 108_50202L);
     moonEquipmentShop.put(16, 108_50203L);
-    SHOP_LOCATIONS.put("moon_equipment_shop", moonEquipmentShop);
+    SHOP_LOCATIONS.put(LodShops.MOON_EQUIPMENT_SHOP.getId().entryId(), moonEquipmentShop);
 
     final Map<Integer, Long> moonItemShop = new LinkedHashMap<>();
     moonItemShop.put(0, 108_50204L);
@@ -306,13 +307,13 @@ public final class Shops {
     moonItemShop.put(6, 108_50210L);
     moonItemShop.put(7, 108_50211L);
     moonItemShop.put(8, 108_50212L);
-    SHOP_LOCATIONS.put("moon_item_shop", moonItemShop);
+    SHOP_LOCATIONS.put(LodShops.MOON_ITEM_SHOP.getId().entryId(), moonItemShop);
 
     final Map<Integer, Long> hellena01ItemShop = new LinkedHashMap<>();
     hellena01ItemShop.put(0, 108_50213L);
     hellena01ItemShop.put(1, 108_50214L);
     hellena01ItemShop.put(2, 108_50215L);
-    SHOP_LOCATIONS.put("hellena_01_item_shop", hellena01ItemShop);
+    SHOP_LOCATIONS.put(LodShops.HELLENA_01_ITEM_SHOP.getId().entryId(), hellena01ItemShop);
 
     final Map<Integer, Long> kashuaEquipmentShop = new LinkedHashMap<>();
     kashuaEquipmentShop.put(0, 108_50216L);
@@ -322,7 +323,7 @@ public final class Shops {
     kashuaEquipmentShop.put(4, 108_50220L);
     kashuaEquipmentShop.put(5, 108_50221L);
     kashuaEquipmentShop.put(6, 108_50222L);
-    SHOP_LOCATIONS.put("kashua_equipment_shop", kashuaEquipmentShop);
+    SHOP_LOCATIONS.put(LodShops.KASHUA_EQUIPMENT_SHOP.getId().entryId(), kashuaEquipmentShop);
 
     final Map<Integer, Long> kashuaItemShop = new LinkedHashMap<>();
     kashuaItemShop.put(0, 108_50223L);
@@ -331,26 +332,26 @@ public final class Shops {
     kashuaItemShop.put(3, 108_50226L);
     kashuaItemShop.put(4, 108_50227L);
     kashuaItemShop.put(5, 108_50228L);
-    SHOP_LOCATIONS.put("kashua_item_shop", kashuaItemShop);
+    SHOP_LOCATIONS.put(LodShops.KASHUA_ITEM_SHOP.getId().entryId(), kashuaItemShop);
 
     final Map<Integer, Long> fletzAccessoryShop = new LinkedHashMap<>();
     fletzAccessoryShop.put(0, 108_50229L);
     fletzAccessoryShop.put(1, 108_50230L);
     fletzAccessoryShop.put(2, 108_50231L);
     fletzAccessoryShop.put(3, 108_50232L);
-    SHOP_LOCATIONS.put("fletz_accessory_shop", fletzAccessoryShop);
+    SHOP_LOCATIONS.put(LodShops.FLETZ_ACCESSORY_SHOP.getId().entryId(), fletzAccessoryShop);
 
     final Map<Integer, Long> forestItemShop = new LinkedHashMap<>();
     forestItemShop.put(0, 108_50233L);
     forestItemShop.put(1, 108_50234L);
     forestItemShop.put(2, 108_50235L);
     forestItemShop.put(3, 108_50236L);
-    SHOP_LOCATIONS.put("forest_item_shop", forestItemShop);
+    SHOP_LOCATIONS.put(LodShops.FOREST_ITEM_SHOP.getId().entryId(), forestItemShop);
 
     final Map<Integer, Long> kazasFortEquipmentShop = new LinkedHashMap<>();
     kazasFortEquipmentShop.put(0, 108_50237L);
     kazasFortEquipmentShop.put(1, 108_50238L);
-    SHOP_LOCATIONS.put("kazas_fort_equipment_shop", kazasFortEquipmentShop);
+    SHOP_LOCATIONS.put(LodShops.KAZAS_FORT_EQUIPMENT_SHOP.getId().entryId(), kazasFortEquipmentShop);
 
     final Map<Integer, Long> volcanoItemShop = new LinkedHashMap<>();
     volcanoItemShop.put(0, 108_50239L);
@@ -360,7 +361,7 @@ public final class Shops {
     volcanoItemShop.put(4, 108_50243L);
     volcanoItemShop.put(5, 108_50244L);
     volcanoItemShop.put(6, 108_50245L);
-    SHOP_LOCATIONS.put("volcano_item_shop", volcanoItemShop);
+    SHOP_LOCATIONS.put(LodShops.VOLCANO_ITEM_SHOP.getId().entryId(), volcanoItemShop);
 
     final Map<Integer, Long> zenebatosEquipmentShop = new LinkedHashMap<>();
     zenebatosEquipmentShop.put(0, 108_50246L);
@@ -372,7 +373,7 @@ public final class Shops {
     zenebatosEquipmentShop.put(6, 108_50252L);
     zenebatosEquipmentShop.put(7, 108_50253L);
     zenebatosEquipmentShop.put(8, 108_50254L);
-    SHOP_LOCATIONS.put("zenebatos_equipment_shop", zenebatosEquipmentShop);
+    SHOP_LOCATIONS.put(LodShops.ZENEBATOS_EQUIPMENT_SHOP.getId().entryId(), zenebatosEquipmentShop);
 
     final Map<Integer, Long> zenebatosItemShop = new LinkedHashMap<>();
     zenebatosItemShop.put(0, 108_50255L);
@@ -383,7 +384,7 @@ public final class Shops {
     zenebatosItemShop.put(5, 108_50260L);
     zenebatosItemShop.put(6, 108_50261L);
     zenebatosItemShop.put(7, 108_50262L);
-    SHOP_LOCATIONS.put("zenebatos_item_shop", zenebatosItemShop);
+    SHOP_LOCATIONS.put(LodShops.ZENEBATOS_ITEM_SHOP.getId().entryId(), zenebatosItemShop);
 
     final Map<Integer, Long> hellena02ItemShop = new LinkedHashMap<>();
     hellena02ItemShop.put(0, 108_50263L);
@@ -392,7 +393,7 @@ public final class Shops {
     hellena02ItemShop.put(3, 108_50266L);
     hellena02ItemShop.put(4, 108_50267L);
     hellena02ItemShop.put(5, 108_50268L);
-    SHOP_LOCATIONS.put("hellena_02_item_shop", hellena02ItemShop);
+    SHOP_LOCATIONS.put(LodShops.HELLENA_02_ITEM_SHOP.getId().entryId(), hellena02ItemShop);
   }
 
   private Shops() {
@@ -413,14 +414,16 @@ public final class Shops {
 
   public static Long getLocationId(final String shopId, final int slotIndex) {
     final Map<Integer, Long> slots = SHOP_LOCATIONS.get(shopId);
-    if (slots == null) return null;
+    if(slots == null) {
+      return null;
+    }
     return slots.get(slotIndex);
   }
 
   public static Map<Long, String> getStaticFlatMap() {
     final Map<Long, String> locationMap = new LinkedHashMap<>();
-    for (final Map.Entry<String, Map<Integer, Long>> shopInfo : SHOP_LOCATIONS.entrySet()) {
-      for (final Map.Entry<Integer, Long> slotInfo : shopInfo.getValue().entrySet()) {
+    for(final Map.Entry<String, Map<Integer, Long>> shopInfo : SHOP_LOCATIONS.entrySet()) {
+      for(final Map.Entry<Integer, Long> slotInfo : shopInfo.getValue().entrySet()) {
         locationMap.put(slotInfo.getValue(), shopInfo.getKey());
       }
     }

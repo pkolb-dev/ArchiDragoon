@@ -1,5 +1,6 @@
 package archipelagoon.ap.mapping.items;
 
+import legend.lodmod.LodItems;
 import org.legendofdragoon.modloader.registries.RegistryId;
 
 import java.util.Collections;
@@ -11,55 +12,55 @@ public final class Consumables {
   private static final Map<String, Long> CONSUMABLE_MAP_REVERSE = new HashMap<>();
 
   static {
-    CONSUMABLE_MAP.put(108_00001L, "angels_prayer");
-    CONSUMABLE_MAP.put(108_00002L, "healing_potion");
-    CONSUMABLE_MAP.put(108_00003L, "healing_fog");
-    CONSUMABLE_MAP.put(108_00004L, "healing_breeze");
-    CONSUMABLE_MAP.put(108_00005L, "healing_rain");
-    CONSUMABLE_MAP.put(108_00006L, "moon_serenade");
-    CONSUMABLE_MAP.put(108_00007L, "sun_rhapsody");
-    CONSUMABLE_MAP.put(108_00008L, "spirit_potion");
-    CONSUMABLE_MAP.put(108_00009L, "body_purifier");
-    CONSUMABLE_MAP.put(108_00010L, "depetrifier");
-    CONSUMABLE_MAP.put(108_00011L, "mind_purifier");
-    CONSUMABLE_MAP.put(108_00012L, "recovery_ball");
+    CONSUMABLE_MAP.put(108_00001L, LodItems.ANGELS_PRAYER.getId().entryId());
+    CONSUMABLE_MAP.put(108_00002L, LodItems.HEALING_POTION.getId().entryId());
+    CONSUMABLE_MAP.put(108_00003L, LodItems.HEALING_FOG.getId().entryId());
+    CONSUMABLE_MAP.put(108_00004L, LodItems.HEALING_BREEZE.getId().entryId());
+    CONSUMABLE_MAP.put(108_00005L, LodItems.HEALING_RAIN.getId().entryId());
+    CONSUMABLE_MAP.put(108_00006L, LodItems.MOON_SERENADE.getId().entryId());
+    CONSUMABLE_MAP.put(108_00007L, LodItems.SUN_RHAPSODY.getId().entryId());
+    CONSUMABLE_MAP.put(108_00008L, LodItems.SPIRIT_POTION.getId().entryId());
+    CONSUMABLE_MAP.put(108_00009L, LodItems.BODY_PURIFIER.getId().entryId());
+    CONSUMABLE_MAP.put(108_00010L, LodItems.DEPETRIFIER.getId().entryId());
+    CONSUMABLE_MAP.put(108_00011L, LodItems.MIND_PURIFIER.getId().entryId());
+    CONSUMABLE_MAP.put(108_00012L, LodItems.RECOVERY_BALL.getId().entryId());
 
-    CONSUMABLE_MAP.put(108_00013L, "black_rain");
-    CONSUMABLE_MAP.put(108_00014L, "burn_out");
-    CONSUMABLE_MAP.put(108_00015L, "burning_wave");
-    CONSUMABLE_MAP.put(108_00016L, "dancing_ray");
-    CONSUMABLE_MAP.put(108_00017L, "dark_mist");
-    CONSUMABLE_MAP.put(108_00018L, "detonate_rock");
-    CONSUMABLE_MAP.put(108_00019L, "down_burst");
-    CONSUMABLE_MAP.put(108_00020L, "fatal_blizzard");
-    CONSUMABLE_MAP.put(108_00021L, "flash_hall");
-    CONSUMABLE_MAP.put(108_00022L, "frozen_jet");
-    CONSUMABLE_MAP.put(108_00023L, "gravity_grabber");
-    CONSUMABLE_MAP.put(108_00024L, "gushing_magma");
-    CONSUMABLE_MAP.put(108_00025L, "meteor_fall");
-    CONSUMABLE_MAP.put(108_00026L, "night_raid");
-    CONSUMABLE_MAP.put(108_00027L, "pellet");
-    CONSUMABLE_MAP.put(108_00028L, "psyche_bomb");
-    CONSUMABLE_MAP.put(108_00029L, "psyche_bomb_x");
-    CONSUMABLE_MAP.put(108_00030L, "rave_twister");
-    CONSUMABLE_MAP.put(108_00031L, "spark_net");
-    CONSUMABLE_MAP.put(108_00032L, "spear_frost");
-    CONSUMABLE_MAP.put(108_00033L, "spectral_flash");
-    CONSUMABLE_MAP.put(108_00034L, "spinning_gale");
-    CONSUMABLE_MAP.put(108_00035L, "thunderbolt");
-    CONSUMABLE_MAP.put(108_00036L, "trans_light");
-    CONSUMABLE_MAP.put(108_00037L, "attack_ball");
+    CONSUMABLE_MAP.put(108_00013L, LodItems.BLACK_RAIN.getId().entryId());
+    CONSUMABLE_MAP.put(108_00014L, LodItems.BURN_OUT.getId().entryId());
+    CONSUMABLE_MAP.put(108_00015L, LodItems.BURNING_WAVE.getId().entryId());
+    CONSUMABLE_MAP.put(108_00016L, LodItems.DANCING_RAY.getId().entryId());
+    CONSUMABLE_MAP.put(108_00017L, LodItems.DARK_MIST.getId().entryId());
+    CONSUMABLE_MAP.put(108_00018L, LodItems.DETONATE_ROCK.getId().entryId());
+    CONSUMABLE_MAP.put(108_00019L, LodItems.DOWN_BURST.getId().entryId());
+    CONSUMABLE_MAP.put(108_00020L, LodItems.FATAL_BLIZZARD.getId().entryId());
+    CONSUMABLE_MAP.put(108_00021L, LodItems.FLASH_HALL.getId().entryId());
+    CONSUMABLE_MAP.put(108_00022L, LodItems.FROZEN_JET.getId().entryId());
+    CONSUMABLE_MAP.put(108_00023L, LodItems.GRAVITY_GRABBER.getId().entryId());
+    CONSUMABLE_MAP.put(108_00024L, LodItems.GUSHING_MAGMA.getId().entryId());
+    CONSUMABLE_MAP.put(108_00025L, LodItems.METEOR_FALL.getId().entryId());
+    CONSUMABLE_MAP.put(108_00026L, LodItems.NIGHT_RAID.getId().entryId());
+    CONSUMABLE_MAP.put(108_00027L, LodItems.PELLET.getId().entryId());
+    CONSUMABLE_MAP.put(108_00028L, LodItems.PSYCHE_BOMB.getId().entryId());
+    CONSUMABLE_MAP.put(108_00029L, LodItems.PSYCHE_BOMB_X.getId().entryId());
+    CONSUMABLE_MAP.put(108_00030L, LodItems.RAVE_TWISTER.getId().entryId());
+    CONSUMABLE_MAP.put(108_00031L, LodItems.SPARK_NET.getId().entryId());
+    CONSUMABLE_MAP.put(108_00032L, LodItems.SPEAR_FROST.getId().entryId());
+    CONSUMABLE_MAP.put(108_00033L, LodItems.SPECTRAL_FLASH.getId().entryId());
+    CONSUMABLE_MAP.put(108_00034L, LodItems.SPINNING_GALE.getId().entryId());
+    CONSUMABLE_MAP.put(108_00035L, LodItems.THUNDERBOLT.getId().entryId());
+    CONSUMABLE_MAP.put(108_00036L, LodItems.TRANS_LIGHT.getId().entryId());
+    CONSUMABLE_MAP.put(108_00037L, LodItems.ATTACK_BALL.getId().entryId());
 
-    CONSUMABLE_MAP.put(108_00038L, "charm_potion");
-    CONSUMABLE_MAP.put(108_00039L, "magic_sig_stone");
-    CONSUMABLE_MAP.put(108_00040L, "midnight_terror");
-    CONSUMABLE_MAP.put(108_00041L, "pandemonium");
-    CONSUMABLE_MAP.put(108_00042L, "panic_bell");
-    CONSUMABLE_MAP.put(108_00043L, "poison_needle");
-    CONSUMABLE_MAP.put(108_00044L, "sachet");
-    CONSUMABLE_MAP.put(108_00045L, "smoke_ball");
-    CONSUMABLE_MAP.put(108_00046L, "stunning_hammer");
-    CONSUMABLE_MAP.put(108_00047L, "total_vanishing");
+    CONSUMABLE_MAP.put(108_00038L, LodItems.CHARM_POTION.getId().entryId());
+    CONSUMABLE_MAP.put(108_00039L, LodItems.MAGIC_SIG_STONE.getId().entryId());
+    CONSUMABLE_MAP.put(108_00040L, LodItems.MIDNIGHT_TERROR.getId().entryId());
+    CONSUMABLE_MAP.put(108_00041L, LodItems.PANDEMONIUM.getId().entryId());
+    CONSUMABLE_MAP.put(108_00042L, LodItems.PANIC_BELL.getId().entryId());
+    CONSUMABLE_MAP.put(108_00043L, LodItems.POISON_NEEDLE.getId().entryId());
+    CONSUMABLE_MAP.put(108_00044L, LodItems.SACHET.getId().entryId());
+    CONSUMABLE_MAP.put(108_00045L, LodItems.SMOKE_BALL.getId().entryId());
+    CONSUMABLE_MAP.put(108_00046L, LodItems.STUNNING_HAMMER.getId().entryId());
+    CONSUMABLE_MAP.put(108_00047L, LodItems.TOTAL_VANISHING.getId().entryId());
 
 
     for(final Map.Entry<Long, String> entry : CONSUMABLE_MAP.entrySet()) {
@@ -83,7 +84,7 @@ public final class Consumables {
     return getStaticReverseMap().get(registryId.entryId());
   }
 
-  public static String getEntryIdFromAPItemId(final Long itemId) {
+  public static String entryIdFromAPItemId(final Long itemId) {
     return getStaticMap().get(itemId);
   }
 }

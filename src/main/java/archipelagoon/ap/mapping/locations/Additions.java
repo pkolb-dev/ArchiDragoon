@@ -1,5 +1,6 @@
 package archipelagoon.ap.mapping.locations;
 
+import legend.lodmod.LodAdditions;
 import org.legendofdragoon.modloader.registries.RegistryId;
 
 import java.util.Collections;
@@ -11,47 +12,47 @@ public final class Additions {
   private static final Map<String, Long> ADDITION_LOCATIONS_REVERSE = new LinkedHashMap<>();
 
   static {
-    //    ADDITION_LOCATIONS.put(10860000L, "double_slash");
-    ADDITION_LOCATIONS.put(10860001L, "volcano");
-    ADDITION_LOCATIONS.put(10860002L, "burning_rush");
-    ADDITION_LOCATIONS.put(10860003L, "crush_dance");
-    ADDITION_LOCATIONS.put(10860004L, "madness_hero");
-    ADDITION_LOCATIONS.put(10860005L, "moon_strike");
-    ADDITION_LOCATIONS.put(10860006L, "blazing_dynamo");
+    //    ADDITION_LOCATIONS.put(10860000L, LodAdditions.DOUBLE_SLASH.getId().entryId());
+    ADDITION_LOCATIONS.put(10860001L, LodAdditions.VOLCANO.getId().entryId());
+    ADDITION_LOCATIONS.put(10860002L, LodAdditions.BURNING_RUSH.getId().entryId());
+    ADDITION_LOCATIONS.put(10860003L, LodAdditions.CRUSH_DANCE.getId().entryId());
+    ADDITION_LOCATIONS.put(10860004L, LodAdditions.MADNESS_HERO.getId().entryId());
+    ADDITION_LOCATIONS.put(10860005L, LodAdditions.MOON_STRIKE.getId().entryId());
+    ADDITION_LOCATIONS.put(10860006L, LodAdditions.BLAZING_DYNAMO.getId().entryId());
 
-    //    ADDITION_LOCATIONS.put(108_60016L,  "whip_smack");
-    ADDITION_LOCATIONS.put(108_60011L, "more_more");
-    ADDITION_LOCATIONS.put(108_60012L, "hard_blade");
-    ADDITION_LOCATIONS.put(108_60013L, "demons_dance");
+    //    ADDITION_LOCATIONS.put(108_60016L, LodAdditions.WHIP_SMACK.getId().entryId());
+    ADDITION_LOCATIONS.put(108_60011L, LodAdditions.MORE_MORE.getId().entryId());
+    ADDITION_LOCATIONS.put(108_60012L, LodAdditions.HARD_BLADE.getId().entryId());
+    ADDITION_LOCATIONS.put(108_60013L, LodAdditions.DEMONS_DANCE.getId().entryId());
 
-    //    ADDITION_LOCATIONS.put(108_60010L,  "harpoon");
-    ADDITION_LOCATIONS.put(108_60021L, "spinning_cane");
-    ADDITION_LOCATIONS.put(108_60022L, "rod_typhoon");
-    ADDITION_LOCATIONS.put(108_60023L, "gust_of_wind_dance");
-    ADDITION_LOCATIONS.put(108_60024L, "flower_storm");
+    //    ADDITION_LOCATIONS.put(108_60010L, LodAdditions.HARPOON.getId().entryId());
+    ADDITION_LOCATIONS.put(108_60021L, LodAdditions.SPINNING_CANE.getId().entryId());
+    ADDITION_LOCATIONS.put(108_60022L, LodAdditions.ROD_TYPHOON.getId().entryId());
+    ADDITION_LOCATIONS.put(108_60023L, LodAdditions.GUST_OF_WIND_DANCE.getId().entryId());
+    ADDITION_LOCATIONS.put(108_60024L, LodAdditions.FLOWER_STORM.getId().entryId());
 
-    //    ADDITION_LOCATIONS.put(108_60028L,  "albert_harpoon");
-    ADDITION_LOCATIONS.put(108_60031L, "albert_spinning_cane");
-    ADDITION_LOCATIONS.put(108_60032L, "albert_rod_typhoon");
-    ADDITION_LOCATIONS.put(108_60033L, "albert_gust_of_wind_dance");
-    ADDITION_LOCATIONS.put(108_60034L, "albert_flower_storm");
+    //    ADDITION_LOCATIONS.put(108_60028L, LodAdditions.ALBERT_HARPOON.getId().entryId());
+    ADDITION_LOCATIONS.put(108_60031L, LodAdditions.ALBERT_SPINNING_CANE.getId().entryId());
+    ADDITION_LOCATIONS.put(108_60032L, LodAdditions.ALBERT_ROD_TYPHOON.getId().entryId());
+    ADDITION_LOCATIONS.put(108_60033L, LodAdditions.ALBERT_GUST_OF_WIND_DANCE.getId().entryId());
+    ADDITION_LOCATIONS.put(108_60034L, LodAdditions.ALBERT_FLOWER_STORM.getId().entryId());
 
-    //    ADDITION_LOCATIONS.put(108_60021L,  "double_punch");
-    ADDITION_LOCATIONS.put(108_60041L, "ferry_of_styx");
-    ADDITION_LOCATIONS.put(108_60042L, "summon_4_gods");
-    ADDITION_LOCATIONS.put(108_60043L, "five_ring_shattering");
-    ADDITION_LOCATIONS.put(108_60044L, "hex_hammer");
-    ADDITION_LOCATIONS.put(108_60045L, "omni_sweep");
+    //    ADDITION_LOCATIONS.put(108_60021L, LodAdditions.DOUBLE_PUNCH.getId().entryId());
+    ADDITION_LOCATIONS.put(108_60041L, LodAdditions.FERRY_OF_STYX.getId().entryId());
+    ADDITION_LOCATIONS.put(108_60042L, LodAdditions.SUMMON_4_GODS.getId().entryId());
+    ADDITION_LOCATIONS.put(108_60043L, LodAdditions.FIVE_RING_SHATTERING.getId().entryId());
+    ADDITION_LOCATIONS.put(108_60044L, LodAdditions.HEX_HAMMER.getId().entryId());
+    ADDITION_LOCATIONS.put(108_60045L, LodAdditions.OMNI_SWEEP.getId().entryId());
 
-    //    ADDITION_LOCATIONS.put(108_60034L,  "double_smack");
-    ADDITION_LOCATIONS.put(108_60051L, "hammer_spin");
-    ADDITION_LOCATIONS.put(108_60052L, "cool_boogie");
-    ADDITION_LOCATIONS.put(108_60053L, "cats_cradle");
-    ADDITION_LOCATIONS.put(108_60054L, "perky_step");
+    //    ADDITION_LOCATIONS.put(108_60034L, LodAdditions.DOUBLE_SMACK.getId().entryId());
+    ADDITION_LOCATIONS.put(108_60051L, LodAdditions.HAMMER_SPIN.getId().entryId());
+    ADDITION_LOCATIONS.put(108_60052L, LodAdditions.COOL_BOOGIE.getId().entryId());
+    ADDITION_LOCATIONS.put(108_60053L, LodAdditions.CATS_CRADLE.getId().entryId());
+    ADDITION_LOCATIONS.put(108_60054L, LodAdditions.PERKY_STEP.getId().entryId());
 
-    //    ADDITION_LOCATIONS.put(108_60040L,  "pursuit");
-    ADDITION_LOCATIONS.put(108_60061L, "inferno");
-    ADDITION_LOCATIONS.put(108_60062L, "bone_crush");
+    //    ADDITION_LOCATIONS.put(108_60040L, LodAdditions.PURSUIT.getId().entryId());
+    ADDITION_LOCATIONS.put(108_60061L, LodAdditions.INFERNO.getId().entryId());
+    ADDITION_LOCATIONS.put(108_60062L, LodAdditions.BONE_CRUSH.getId().entryId());
 
     for(final Map.Entry<Long, String> entry : ADDITION_LOCATIONS.entrySet()) {
       ADDITION_LOCATIONS_REVERSE.put(entry.getValue(), entry.getKey());

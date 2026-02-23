@@ -85,9 +85,9 @@ public class APContext {
       return;
     }
 
-    final Map<String, Long> thing = Enemies.getStaticReverseMap();
+    final Map<String, Long> reverseMap = Enemies.getStaticReverseMap();
 
-    if(!thing.containsKey(encounterRegistryId.entryId())) {
+    if(!reverseMap.containsKey(encounterRegistryId.entryId())) {
       return;
     }
 
@@ -120,7 +120,6 @@ public class APContext {
   }
 
   public List<Long> getReceivedItemIDs() {
-    //    GameEngine.CONFIG.getConfig();
     return this.client.getItemManager().getReceivedItemIDs();
   }
 
