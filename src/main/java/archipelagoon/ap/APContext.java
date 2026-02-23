@@ -85,9 +85,9 @@ public class APContext {
       return;
     }
 
-    final Map<String, Long> thing = Enemies.getStaticReverseMap();
+    final Map<String, Long> reverseMap = Enemies.getStaticReverseMap();
 
-    if(!thing.containsKey(encounterRegistryId.entryId())) {
+    if(!reverseMap.containsKey(encounterRegistryId.entryId())) {
       return;
     }
 
