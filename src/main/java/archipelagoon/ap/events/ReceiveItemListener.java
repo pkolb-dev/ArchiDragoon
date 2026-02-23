@@ -10,7 +10,6 @@ import legend.game.SItem;
 import legend.game.inventory.Equipment;
 import legend.game.inventory.Good;
 import legend.game.inventory.Item;
-import legend.lodmod.LodMod;
 import org.legendofdragoon.modloader.registries.RegistryId;
 
 import static archipelagoon.Archipelagoon.LAST_ITEM_INDEX;
@@ -29,8 +28,8 @@ public class ReceiveItemListener {
     }
 
     final long apItemId = event.getItemID();
-    final String itemId = Items.getEntryIdFromAPItemId(apItemId);
-    final RegistryId registryId = new RegistryId(LodMod.MOD_ID, itemId);
+    final String itemId = Items.getRegistryIdFromAPItemId(apItemId);
+    final RegistryId registryId = new RegistryId(itemId);
 
     // update index
     GameEngine.CONFIG.setConfig(LAST_ITEM_INDEX.get(), event.getIndex());

@@ -3,7 +3,6 @@ package archipelagoon.ap.mapping.locations;
 import org.legendofdragoon.modloader.registries.RegistryId;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -36,10 +35,10 @@ public final class Locations {
   }
 
   public static Long getAPLocationIdFromRegistryId(final RegistryId registryId) {
-    return getStaticReverseMap().get(registryId.entryId());
+    return getStaticReverseMap().get(registryId.toString());
   }
 
-  public static String getEntryIdFromAPLocationId(final Long LocationId) {
+  public static String getRegistryIdFromAPLocationId(final Long LocationId) {
     return getStaticMap().get(LocationId);
   }
 }

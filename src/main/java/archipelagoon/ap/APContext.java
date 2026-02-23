@@ -87,7 +87,7 @@ public class APContext {
 
     final Map<String, Long> reverseMap = Enemies.getStaticReverseMap();
 
-    if(!reverseMap.containsKey(encounterRegistryId.entryId())) {
+    if(!reverseMap.containsKey(encounterRegistryId.toString())) {
       return;
     }
 
@@ -114,7 +114,7 @@ public class APContext {
     final Map<Integer, String> goals = Goals.getStaticMap();
     final int goalId = APContext.getContext().getSlotData().completionCondition;
 
-    if(Objects.equals(goals.get(goalId), encounterRegistryId.entryId())) {
+    if(Objects.equals(goals.get(goalId), encounterRegistryId.toString())) {
       this.client.setGameState(ClientStatus.CLIENT_GOAL);
     }
   }

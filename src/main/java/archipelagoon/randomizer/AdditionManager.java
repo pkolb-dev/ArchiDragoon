@@ -7,11 +7,9 @@ import legend.game.additions.CharacterAdditionStats;
 import legend.game.additions.UnlockState;
 import legend.game.types.CharacterData2c;
 import legend.game.types.GameState52c;
-import legend.lodmod.LodMod;
 import org.legendofdragoon.modloader.registries.RegistryId;
 
 import java.util.Map;
-import java.util.Set;
 
 import static legend.game.Scus94491BpeSegment_800b.gameState_800babc8;
 
@@ -45,8 +43,7 @@ public final class AdditionManager {
         continue;
       }
 
-      final String entryId = Additions.getEntryIdFromAPItemId(id);
-      final RegistryId registryId = new RegistryId(LodMod.MOD_ID, entryId);
+      final RegistryId registryId = new RegistryId(Additions.getRegistryIdFromAPItemId(id));
       this.setAddition(registryId, state);
     }
   }

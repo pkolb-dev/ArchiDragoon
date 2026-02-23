@@ -37,10 +37,10 @@ public final class Items {
   }
 
   public static Long getAPItemIdFromRegistryId(final RegistryId registryId) {
-    return getStaticReverseMap().get(registryId.entryId());
+    return getStaticReverseMap().get(registryId.toString());
   }
 
-  public static String getEntryIdFromAPItemId(final Long itemId) {
+  public static String getRegistryIdFromAPItemId(final Long itemId) {
     return getStaticMap().get(itemId);
   }
 }

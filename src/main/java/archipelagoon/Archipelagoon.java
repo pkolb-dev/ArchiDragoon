@@ -38,13 +38,13 @@ import legend.game.saves.StringConfigEntry;
 import legend.game.submap.SMap;
 import legend.game.submap.SubmapState;
 import legend.game.types.GameState52c;
+import legend.lodmod.LodGoods;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.legendofdragoon.modloader.Mod;
 import org.legendofdragoon.modloader.events.EventListener;
 import org.legendofdragoon.modloader.registries.Registrar;
 import org.legendofdragoon.modloader.registries.RegistryDelegate;
-import org.legendofdragoon.modloader.registries.RegistryId;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -75,10 +75,6 @@ public class Archipelagoon {
 
   public Archipelagoon() {
     EVENTS.register(this);
-  }
-
-  public static RegistryId id(final String entryId) {
-    return new RegistryId(MOD_ID, entryId);
   }
 
   @EventListener
@@ -127,7 +123,7 @@ public class Archipelagoon {
 
   @EventListener
   public void additionUnlock(final AdditionUnlockEvent event) {
-    if(!Additions.getStaticMap().containsValue(event.addition.getRegistryId().entryId())) {
+    if(!Additions.getStaticMap().containsValue(event.addition.getRegistryId())) {
       return;
     }
 
@@ -162,7 +158,7 @@ public class Archipelagoon {
       return;
     }
 
-    final List<Long> shopSlots = Shops.getShopLocationIds(event.shop.getRegistryId().entryId()).stream().toList();
+    final List<Long> shopSlots = Shops.getShopLocationIds(event.shop.getRegistryId().toString()).stream().toList();
     final List<LocationState> locationStates = GameEngine.CONFIG.getConfig(LOCATION_STATE_REGISTRY.get());
     final List<LocationState> slots = locationStates.stream()
       .filter(ls -> shopSlots.contains(ls.getLocationID())).toList();
@@ -185,8 +181,6 @@ public class Archipelagoon {
     if(!(event.item instanceof final APInventoryEntry entry)) {
       return;
     }
-
-    //    final APInventoryEntry entry = (APInventoryEntry)event.item;
 
     final APContext ctx = APContext.getContext();
     final List<LocationState> locationStates = GameEngine.CONFIG.getConfig(LOCATION_STATE_REGISTRY.get());
@@ -220,7 +214,7 @@ public class Archipelagoon {
 
       if(receivedIds.contains(apId)) {
         allowedGoods.add(good);
-      } else if(Objects.equals(good.getRegistryId().entryId(), "law_maker")) {
+      } else if(Objects.equals(good.getRegistryId(), LodGoods.LAW_MAKER.getId())) {
         // check for whitelist
         allowedGoods.add(good);
       }
@@ -240,7 +234,7 @@ public class Archipelagoon {
     final List<Good> allowedGoods = new ArrayList<>();
 
     for(final Good good : event.takenGoods) {
-      if(Objects.equals(good.getRegistryId().entryId(), "law_maker")) {
+      if(Objects.equals(good.getRegistryId(), LodGoods.LAW_MAKER.getId())) {
         allowedGoods.add(good);
       }
     }
