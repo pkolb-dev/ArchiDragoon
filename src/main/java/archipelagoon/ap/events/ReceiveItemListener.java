@@ -37,7 +37,7 @@ public class ReceiveItemListener {
     // give to player
     if(GameEngine.REGISTRIES.items.hasEntry(registryId)) {
       final Item item = GameEngine.REGISTRIES.items.getEntry(registryId).get();
-      SItem.giveItem(item);
+      gameState_800babc8.items_2e9.give(item);
     } else if(GameEngine.REGISTRIES.equipment.hasEntry(registryId)) {
       final Equipment equipment = GameEngine.REGISTRIES.equipment.getEntry(registryId).get();
       SItem.giveEquipment(equipment);
