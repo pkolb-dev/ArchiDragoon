@@ -17,6 +17,7 @@ import archipelagoon.randomizer.AdditionManager;
 import legend.core.GameEngine;
 import legend.game.combat.deff.RegisterDeffsEvent;
 import legend.game.inventory.Good;
+import legend.game.inventory.GoodsRegistryEvent;
 import legend.game.inventory.Item;
 import legend.game.inventory.ItemRegistryEvent;
 import legend.game.inventory.screens.GatherShopExtensionsEvent;
@@ -37,7 +38,6 @@ import legend.game.saves.ConfigStorageLocation;
 import legend.game.saves.StringConfigEntry;
 import legend.game.submap.SMap;
 import legend.game.submap.SubmapState;
-import legend.game.types.GameState52c;
 import legend.lodmod.LodGoods;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -70,8 +70,6 @@ public class Archipelagoon {
   public static final RegistryDelegate<LocationStateRegistry> LOCATION_STATE_REGISTRY = CONFIG_REGISTRAR.register("location_states", LocationStateRegistry::new);
   private static final Registrar<Item, ItemRegistryEvent> ITEM_REGISTRAR = new Registrar<>(GameEngine.REGISTRIES.items, MOD_ID);
   private static final Logger LOGGER = LogManager.getFormatterLogger(Archipelagoon.class);
-  private final AdditionManager additionManager = AdditionManager.getInstance();
-  private GameState52c state;
 
   public Archipelagoon() {
     EVENTS.register(this);
@@ -80,6 +78,11 @@ public class Archipelagoon {
   @EventListener
   public void registerItems(final ItemRegistryEvent event) {
     APItems.register(event);
+  }
+
+  @EventListener
+  public void registerGoods(final GoodsRegistryEvent event) {
+    APGoods.register(event);
   }
 
   @EventListener
@@ -123,7 +126,7 @@ public class Archipelagoon {
 
   @EventListener
   public void additionUnlock(final AdditionUnlockEvent event) {
-    if(!Additions.getStaticMap().containsValue(event.addition.getRegistryId())) {
+    if(!Additions.getStaticMap().containsValue(event.addition.getRegistryId().toString())) {
       return;
     }
 
@@ -207,15 +210,22 @@ public class Archipelagoon {
     final List<Good> allowedGoods = new ArrayList<>();
 
     for(final Good good : event.givenGoods) {
+      if(Objects.equals(good.getRegistryId(), LodGoods.LAW_MAKER.getId())) {
+        if(receivedIds.contains(Goods.getAPItemIdFromRegistryId(APGoods.LAW_MAKING_LICENSE.getId()))) {
+          allowedGoods.add(good);
+        }
+      } else if(Objects.equals(good.getRegistryId(), LodGoods.LAW_OUTPUT.getId())) {
+        if(receivedIds.contains(Goods.getAPItemIdFromRegistryId(APGoods.LAW_LAUNCHING_LICENSE.getId()))) {
+          allowedGoods.add(good);
+        }
+      }
+
       final Long apId = Goods.getAPItemIdFromRegistryId(good.getRegistryId());
       if(apId == null) {
         continue;
       }
 
       if(receivedIds.contains(apId)) {
-        allowedGoods.add(good);
-      } else if(Objects.equals(good.getRegistryId(), LodGoods.LAW_MAKER.getId())) {
-        // check for whitelist
         allowedGoods.add(good);
       }
     }
@@ -237,8 +247,11 @@ public class Archipelagoon {
       if(Objects.equals(good.getRegistryId(), LodGoods.LAW_MAKER.getId())) {
         allowedGoods.add(good);
       }
-    }
 
+      if(Objects.equals(good.getRegistryId(), LodGoods.LAW_OUTPUT.getId())) {
+        allowedGoods.add(good);
+      }
+    }
 
     if(allowedGoods.isEmpty()) {
       event.cancel();
@@ -261,6 +274,7 @@ public class Archipelagoon {
 
   @EventListener
   public void onRender(final RenderEvent event) {
+    final APContext ctx = APContext.getContext();
     if(APIconUiType._ICONS.obj == null) {
       APIconUiType._ICONS.obj = buildUiRenderable(APIconUiType._ICONS, "AP icons");
     }

@@ -1,7 +1,6 @@
 package archipelagoon.ap;
 
 import archipelagoon.ap.events.ConnectionResultListener;
-import archipelagoon.ap.events.DeathLinkListener;
 import archipelagoon.ap.events.LocationInfoListener;
 import archipelagoon.ap.events.ReceiveItemListener;
 import io.github.archipelagomw.Client;
@@ -10,7 +9,7 @@ import java.net.URISyntaxException;
 
 public class APClient extends Client {
 
-  public APClient(){
+  public APClient() {
     super();
     final String gameName = "The Legend of Dragoon";
     this.setGame(gameName);
