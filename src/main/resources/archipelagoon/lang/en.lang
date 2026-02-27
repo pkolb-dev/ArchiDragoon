@@ -16,3 +16,8 @@ archipelagoon.ap.priority.item.description=an item considered progression
 archipelagoon.ap.good.description=A good from your game
 
 archipelagoon.items.ice_trap.use=Ice trap!
+
+archipelagoon.goods.law_making_license.name=Law Making License
+archipelagoon.goods.law_making_license.description=Allows laws to be made\nin Zenebatos
+archipelagoon.goods.law_launching_license.name=Law Launching License
+archipelagoon.goods.law_launching_license.description=Allows laws to be\nlaunched in Zenebatos

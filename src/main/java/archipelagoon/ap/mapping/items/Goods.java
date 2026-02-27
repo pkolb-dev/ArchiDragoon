@@ -1,5 +1,6 @@
 package archipelagoon.ap.mapping.items;
 
+import archipelagoon.APGoods;
 import legend.lodmod.LodGoods;
 import org.legendofdragoon.modloader.registries.RegistryId;
 
@@ -44,8 +45,8 @@ public final class Goods {
     GOOD_MAP.put(108_20029L, LodGoods.MOON_MIRROR.getId().toString());
     GOOD_MAP.put(108_20030L, LodGoods.OMEGA_BOMB.getId().toString());
     GOOD_MAP.put(108_20031L, LodGoods.OMEGA_MASTER.getId().toString());
-    GOOD_MAP.put(108_20032L, LodGoods.LAW_MAKER.getId().toString());
-    GOOD_MAP.put(108_20033L, LodGoods.LAW_OUTPUT.getId().toString());
+    GOOD_MAP.put(108_20032L, APGoods.LAW_MAKING_LICENSE.getId().toString());
+    GOOD_MAP.put(108_20033L, APGoods.LAW_LAUNCHING_LICENSE.getId().toString());
     GOOD_MAP.put(108_20034L, LodGoods.GOLD_DRAGOON_SPIRIT_2.getId().toString());
     GOOD_MAP.put(108_20035L, LodGoods.MAGIC_SHINY_BAG.getId().toString());
     GOOD_MAP.put(108_20036L, LodGoods.VANISHING_STONE.getId().toString());
