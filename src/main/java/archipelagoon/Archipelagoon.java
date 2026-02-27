@@ -252,7 +252,7 @@ public class Archipelagoon {
         allowedGoods.add(good);
       }
     }
-    
+
     if(allowedGoods.isEmpty()) {
       event.cancel();
     } else {
@@ -278,8 +278,6 @@ public class Archipelagoon {
     if(APIconUiType._ICONS.obj == null) {
       APIconUiType._ICONS.obj = buildUiRenderable(APIconUiType._ICONS, "AP icons");
     }
-
-    ctx.renderMessage();
   }
 
 /* Example of giving the player an ice trap item impersonating healing breeze
