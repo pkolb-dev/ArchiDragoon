@@ -97,6 +97,7 @@ public class Archipelagoon {
 
   @EventListener
   public void newGame(final NewGameEvent event) {
+    // causes error on new game, still works though?
     submapCut_80052c30 = 10; // warp to seles
     ((SMap)currentEngineState_8004dd04).smapLoadingStage_800cb430 = SubmapState.CHANGE_SUBMAP_4;
   }
@@ -278,6 +279,8 @@ public class Archipelagoon {
     if(APIconUiType._ICONS.obj == null) {
       APIconUiType._ICONS.obj = buildUiRenderable(APIconUiType._ICONS, "AP icons");
     }
+
+    ctx.renderMessage();
   }
 
 /* Example of giving the player an ice trap item impersonating healing breeze

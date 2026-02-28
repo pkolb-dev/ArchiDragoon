@@ -29,6 +29,7 @@ public class APContext {
   private static final APContext INSTANCE = new APContext();
   private final APClient client;
   private final AdditionManager additionManager = AdditionManager.getInstance();
+  private final MessageManager messageManager = MessageManager.getInstance();
   private SlotData slotData;
 
   public APContext() {
@@ -40,7 +41,7 @@ public class APContext {
   }
 
   public void displayMessage(final String message) {
-    MessageManager.displayMessage(message);
+    this.messageManager.displayMessage(message);
   }
 
   public void reconnect() throws URISyntaxException {
@@ -51,6 +52,10 @@ public class APContext {
   }
 
   public void connect(final String address, final String slotName, final String password) throws URISyntaxException {
+    if(this.isConnected()) {
+      return;
+    }
+
     this.client.connectToServer(address, slotName, password);
     this.client.setItemsHandlingFlags(ItemsHandling.SEND_ITEMS + ItemsHandling.SEND_OWN_ITEMS + ItemsHandling.SEND_STARTING_INVENTORY);
   }
@@ -149,5 +154,9 @@ public class APContext {
 
   public void disconnect() {
     this.client.disconnect();
+  }
+
+  public void renderMessage() {
+    this.messageManager.render();
   }
 }
