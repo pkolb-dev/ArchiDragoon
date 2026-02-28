@@ -49,7 +49,7 @@ public class ReceiveItemListener {
     }
 
     // queue message
-    final String message = String.format("Received %s\nfrom %s", event.getItemName(), event.getPlayerName());
+    final String message = String.format("Received\n%s\nfrom\n%s", event.getItemName(), event.getPlayerName());
     ctx.displayMessage(message);
   }
 }
