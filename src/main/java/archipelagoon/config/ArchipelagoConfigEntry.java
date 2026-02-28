@@ -16,7 +16,7 @@ import java.util.Map;
 
 import static legend.game.FullScreenEffects.startFadeEffect;
 
-public class ArchipelagoConfigEntry extends ConfigEntry<Map<RegistryDelegate<StringConfigEntry>, List<String>>>{
+public class ArchipelagoConfigEntry extends ConfigEntry<Map<RegistryDelegate<StringConfigEntry>, List<String>>> {
   public ArchipelagoConfigEntry() {
     super(Map.of(), ConfigStorageLocation.CAMPAIGN, ConfigCategory.OTHER, ArchipelagoConfigEntry::serializer, ArchipelagoConfigEntry::deserializer);
 
@@ -35,12 +35,7 @@ public class ArchipelagoConfigEntry extends ConfigEntry<Map<RegistryDelegate<Str
     return new byte[0];
   }
 
-  private static Map<RegistryDelegate<StringConfigEntry>, List<String>> deserializer( final byte[] data) {
+  private static Map<RegistryDelegate<StringConfigEntry>, List<String>> deserializer(final byte[] data) {
     return Map.of();
-  };
-
-  @Override
-  public boolean availableInBattle() {
-    return false;
   }
 }
