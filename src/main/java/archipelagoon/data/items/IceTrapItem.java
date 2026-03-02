@@ -1,4 +1,4 @@
-package archipelagoon.data;
+package archipelagoon.data.items;
 
 import com.google.gson.JsonObject;
 import legend.game.combat.bent.BattleEntity27c;
