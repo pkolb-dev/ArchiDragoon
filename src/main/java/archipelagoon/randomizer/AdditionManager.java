@@ -5,6 +5,7 @@ import archipelagoon.ap.mapping.items.Additions;
 import archipelagoon.data.ProgressiveAdditions;
 import archipelagoon.data.enums.AdditionRandomizerType;
 import legend.core.GameEngine;
+import legend.game.SItem;
 import legend.game.additions.CharacterAdditionStats;
 import legend.game.additions.UnlockState;
 import legend.game.types.CharacterData2c;
@@ -49,7 +50,24 @@ public final class AdditionManager {
         break;
       case AdditionRandomizerType.OFF:
       default:
+        this.setVanilla(gameState);
         break;
+    }
+  }
+
+  private void setVanilla(final GameState52c gameState) {
+    final GameState52c state = this.resolveState(gameState);
+
+    final APContext ctx = APContext.getContext();
+
+    for(int charIndex = 0; charIndex < 9; charIndex++) {
+      final CharacterData2c charData = state.charData_32c[charIndex];
+
+      for(final Map.Entry<RegistryId, CharacterAdditionStats> entry : charData.additionStats.entrySet()) {
+        entry.getValue().unlockState = UnlockState.UNLOCKABLE;
+      }
+
+      SItem.checkForNewlyUnlockedAddition(charIndex);
     }
   }
 
