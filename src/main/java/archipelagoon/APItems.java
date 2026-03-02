@@ -1,6 +1,6 @@
 package archipelagoon;
 
-import archipelagoon.data.IceTrapItem;
+import archipelagoon.data.items.IceTrapItem;
 import legend.game.inventory.Item;
 import legend.game.inventory.ItemRegistryEvent;
 import org.legendofdragoon.modloader.registries.Registrar;

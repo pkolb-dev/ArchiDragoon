@@ -1,7 +1,7 @@
 package archipelagoon;
 
-import archipelagoon.data.LawLaunchingLicense;
-import archipelagoon.data.LawMakingLicense;
+import archipelagoon.data.items.LawLaunchingLicense;
+import archipelagoon.data.items.LawMakingLicense;
 import legend.game.inventory.Good;
 import legend.game.inventory.GoodsRegistryEvent;
 import org.legendofdragoon.modloader.registries.Registrar;

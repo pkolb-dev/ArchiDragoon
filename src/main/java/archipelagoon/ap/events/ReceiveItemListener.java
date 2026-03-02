@@ -29,7 +29,15 @@ public class ReceiveItemListener {
 
     final long apItemId = event.getItemID();
     final String itemId = Items.getRegistryIdFromAPItemId(apItemId);
-    final RegistryId registryId = new RegistryId(itemId);
+
+    final RegistryId registryId;
+    if(itemId == null) {
+      // figure out progressive additions, what do they mean here
+      // if this is progressive addition,
+      registryId = ctx.getProgressiveAdditionMatch(apItemId);
+    } else {
+      registryId = new RegistryId(itemId);
+    }
 
     // update index
     GameEngine.CONFIG.setConfig(LAST_ITEM_INDEX.get(), event.getIndex());
