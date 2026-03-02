@@ -13,6 +13,7 @@ import archipelagoon.data.APInventoryEntry;
 import archipelagoon.data.APShopEntry;
 import archipelagoon.data.APShopExtension;
 import archipelagoon.data.SlotData;
+import archipelagoon.data.enums.AdditionRandomizerType;
 import archipelagoon.randomizer.AdditionManager;
 import legend.core.GameEngine;
 import legend.game.combat.deff.RegisterDeffsEvent;
@@ -127,6 +128,11 @@ public class Archipelagoon {
 
   @EventListener
   public void additionUnlock(final AdditionUnlockEvent event) {
+    final APContext ctx = APContext.getContext();
+    if(AdditionRandomizerType.values()[ctx.getSlotData().additionRandomizer] == AdditionRandomizerType.OFF) {
+      return;
+    }
+
     if(!Additions.getStaticMap().containsValue(event.addition.getRegistryId().toString())) {
       return;
     }
@@ -149,7 +155,6 @@ public class Archipelagoon {
       return;
     }
 
-    final APContext ctx = APContext.getContext();
     ctx.applyLocationState(locationState.getLocationID());
     ctx.checkLocation(locationState.getLocationID());
   }
