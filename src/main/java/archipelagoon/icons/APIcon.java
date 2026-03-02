@@ -1,4 +1,4 @@
-package archipelagoon.data;
+package archipelagoon.icons;
 
 import legend.game.inventory.ItemIcon;
 import legend.game.types.UiType;
