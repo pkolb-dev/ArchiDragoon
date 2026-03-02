@@ -43,7 +43,7 @@ public class APShopExtension extends ShopExtension<APInventoryEntry> {
   }
 
   @Override
-  public boolean selectEntry(ShopScreen screen, Shop shop, GameState52c gameState, ShopScreen.ShopEntry<APInventoryEntry> entry, int index) {
+  public boolean selectEntry(ShopScreen screen, Shop shop, GameState52c gameState, final ShopScreen.ShopEntry<APInventoryEntry> entry, final int index) {
     if(entry.item.isApplied) {
       screen.deferAction(() -> menuStack.pushScreen(new MessageBoxScreen("Already purchased this item", MessageBoxType.ALERT, result -> {})));
     } else if(gameState_800babc8.gold_94 < entry.price) {
