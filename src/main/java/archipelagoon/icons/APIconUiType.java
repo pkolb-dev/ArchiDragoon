@@ -1,4 +1,4 @@
-package archipelagoon.data;
+package archipelagoon.icons;
 
 import legend.core.QueuedModelStandard;
 import legend.core.gpu.Bpp;

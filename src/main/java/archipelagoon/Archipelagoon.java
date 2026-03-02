@@ -8,12 +8,12 @@ import archipelagoon.ap.mapping.locations.Shops;
 import archipelagoon.config.ArchipelagoConfigEntry;
 import archipelagoon.config.ItemIndexConfigEntry;
 import archipelagoon.config.LocationStateRegistry;
-import archipelagoon.data.APIconUiType;
 import archipelagoon.data.APInventoryEntry;
 import archipelagoon.data.APShopEntry;
 import archipelagoon.data.APShopExtension;
 import archipelagoon.data.SlotData;
 import archipelagoon.data.enums.AdditionRandomizerType;
+import archipelagoon.icons.APIconUiType;
 import archipelagoon.randomizer.AdditionManager;
 import legend.core.GameEngine;
 import legend.game.combat.deff.RegisterDeffsEvent;
@@ -280,11 +280,12 @@ public class Archipelagoon {
 
   @EventListener
   public void onRender(final RenderEvent event) {
-    final APContext ctx = APContext.getContext();
+
     if(APIconUiType._ICONS.obj == null) {
       APIconUiType._ICONS.obj = buildUiRenderable(APIconUiType._ICONS, "AP icons");
     }
 
+    final APContext ctx = APContext.getContext();
     ctx.renderMessage();
   }
 

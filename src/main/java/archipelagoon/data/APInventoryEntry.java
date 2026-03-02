@@ -1,15 +1,11 @@
 package archipelagoon.data;
 
 import archipelagoon.ap.mapping.LocationState;
+import archipelagoon.icons.APIcon;
 import io.github.archipelagomw.flags.NetworkItem;
-import legend.core.GameEngine;
 import legend.game.inventory.InventoryEntry;
 import legend.game.inventory.ItemIcon;
 import org.legendofdragoon.modloader.registries.RegistryId;
-
-import java.util.List;
-
-import static archipelagoon.Archipelagoon.LOCATION_STATE_REGISTRY;
 
 public class APInventoryEntry implements InventoryEntry<APInventoryEntry> {
   public final Long locationId;
@@ -47,7 +43,7 @@ public class APInventoryEntry implements InventoryEntry<APInventoryEntry> {
 
   @Override
   public String getDescriptionTranslationKey() {
-    return String.format("%s's %s", this.playerName, this.itemName);
+    return String.format("%s's\n%s", this.playerName, this.itemName);
   }
 
   @Override
