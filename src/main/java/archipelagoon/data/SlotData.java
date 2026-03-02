@@ -11,7 +11,7 @@ public final class SlotData {
   public static final Set<String> EXPECTED_MOD_VERSIONS = new HashSet<>(List.of("0.1.2"));
 
   @SerializedName("addition_randomizer")
-  public int additionRandomizer = 1;
+  public int additionRandomizer = 0;
 
   @SerializedName("random_starting_addition")
   public int randomStartingAddition = 0;

@@ -131,7 +131,6 @@ public class APContext {
   public void applyLocationState(final Long locationId) {
     final List<LocationState> locationStates = new ArrayList<>(GameEngine.CONFIG.getConfig(LOCATION_STATE_REGISTRY.get()));
 
-
     for(final LocationState ls : locationStates) {
       if(ls.getLocationID() == locationId) {
         ls.setApplied(true);
@@ -158,5 +157,9 @@ public class APContext {
 
   public void renderMessage() {
     this.messageManager.render();
+  }
+
+  public RegistryId getProgressiveAdditionMatch(final long itemId) {
+    return this.additionManager.getProgressiveAdditionRegistryId(itemId);
   }
 }
