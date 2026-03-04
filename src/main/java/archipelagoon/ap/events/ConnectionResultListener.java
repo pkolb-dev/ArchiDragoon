@@ -42,7 +42,7 @@ public class ConnectionResultListener {
     final SlotData slotData = event.getSlotData(SlotData.class);
 
     if(!SlotData.EXPECTED_MOD_VERSIONS.contains(slotData.getVersion())) {
-      ctx.displayMessage("Unexpected APWorld Version.\nGenerated world version: " +
+      ctx.displayMessage("Unexpected APWorld Version.\nGenerated world version:\n" +
         slotData.getVersion());
       ctx.disconnect();
       return;
