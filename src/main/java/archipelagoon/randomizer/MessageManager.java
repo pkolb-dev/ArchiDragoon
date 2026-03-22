@@ -1,18 +1,21 @@
 package archipelagoon.randomizer;
 
 import archipelagoon.screens.MessageScreen;
+import legend.game.inventory.WhichMenu;
 import legend.game.inventory.screens.MenuStack;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
 
+import static legend.game.Menus.whichMenu_800bdc38;
+import static legend.game.Text.textZ_800bdf00;
 import static legend.game.sound.Audio.playMenuSound;
 
 public final class MessageManager {
   private static final MessageManager INSTANCE = new MessageManager();
   private final Queue<String> messageQueue = new ArrayDeque<>();
-  private final MenuStack menuStack = new MenuStack();
   private final Object lock = new Object();
+  private MenuStack menuStack;
   private boolean messageActive;
 
   private MessageManager() {
@@ -40,11 +43,18 @@ public final class MessageManager {
       }
 
       if(this.messageQueue.isEmpty()) {
-        this.menuStack.reset();
+        if(whichMenu_800bdc38 == WhichMenu.NONE_0) {
+          textZ_800bdf00 = 13;
+        }
+
+        this.menuStack = null;
         return;
       }
 
       this.messageActive = true;
+      if(this.menuStack == null) {
+        this.menuStack = new MenuStack();
+      }
       playMenuSound(4);
       final MessageScreen screen = new MessageScreen(this.messageQueue.poll(), _ -> {
         synchronized(this.lock) {
@@ -58,6 +68,8 @@ public final class MessageManager {
   }
 
   public void render() {
-    this.menuStack.render();
+    if(this.menuStack != null) {
+      this.menuStack.render();
+    }
   }
 }
