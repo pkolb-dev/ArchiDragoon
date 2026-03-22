@@ -58,6 +58,7 @@ import static legend.core.GameEngine.EVENTS;
 import static legend.game.EngineStates.currentEngineState_8004dd04;
 import static legend.game.SItem.buildUiRenderable;
 import static legend.game.Scus94491BpeSegment_8005.submapCut_80052c30;
+import static legend.game.Scus94491BpeSegment_8006.battleState_8006e398;
 
 @Mod(id = Archipelagoon.MOD_ID, version = "^3.0.0")
 public class Archipelagoon {
@@ -275,7 +276,11 @@ public class Archipelagoon {
   @EventListener
   public void battleEnded(final BattleEndedEvent event) {
     final APContext ctx = APContext.getContext();
-    ctx.checkEncounter(event.encounter.getRegistryId());
+    if(battleState_8006e398.hasAlivePlayers()) {
+      ctx.checkEncounter(event.encounter.getRegistryId());
+    } else {
+      // TODO: we would trigger death link
+    }
   }
 
   @EventListener
