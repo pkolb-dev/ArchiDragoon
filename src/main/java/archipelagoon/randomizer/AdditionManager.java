@@ -58,8 +58,6 @@ public final class AdditionManager {
   private void setVanilla(final GameState52c gameState) {
     final GameState52c state = this.resolveState(gameState);
 
-    final APContext ctx = APContext.getContext();
-
     for(int charIndex = 0; charIndex < 9; charIndex++) {
       final CharacterData2c charData = state.charData_32c[charIndex];
 

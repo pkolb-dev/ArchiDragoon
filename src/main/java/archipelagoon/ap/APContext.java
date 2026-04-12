@@ -85,17 +85,22 @@ public class APContext {
     this.slotData = slotData;
   }
 
-  public void checkEncounter(final RegistryId encounterRegistryId) {
-    if(encounterRegistryId == null) {
+  public void handleEncounter(final RegistryId encounter) {
+    if(encounter == null) {
       return;
     }
 
     final Map<String, Long> reverseMap = Enemies.getStaticReverseMap();
 
-    if(!reverseMap.containsKey(encounterRegistryId.toString())) {
+    if(!reverseMap.containsKey(encounter.toString())) {
       return;
     }
 
+    this.checkEncounter(encounter);
+    this.tryGoal(encounter);
+  }
+
+  public void checkEncounter(final RegistryId encounterRegistryId) {
     final long apId = Enemies.getAPLocationIdFromRegistryId(encounterRegistryId);
     final List<LocationState> locationStates = GameEngine.CONFIG.getConfig(LOCATION_STATE_REGISTRY.get());
     final LocationState locationState = locationStates.stream()
@@ -115,11 +120,13 @@ public class APContext {
     if(location != null) {
       this.checkLocation(locationState.getLocationID());
     }
+  }
 
+  public void tryGoal(final RegistryId encounter) {
     final Map<Integer, String> goals = Goals.getStaticMap();
     final int goalId = APContext.getContext().getSlotData().completionCondition;
 
-    if(Objects.equals(goals.get(goalId), encounterRegistryId.toString())) {
+    if(Objects.equals(goals.get(goalId), encounter.toString())) {
       this.client.setGameState(ClientStatus.CLIENT_GOAL);
     }
   }
