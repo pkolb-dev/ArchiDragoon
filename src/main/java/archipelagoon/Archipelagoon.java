@@ -56,6 +56,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.Set;
 
 import static legend.core.GameEngine.EVENTS;
@@ -217,9 +218,10 @@ public class Archipelagoon {
 
     final List<ShopScreen.ShopEntry<?>> entries = new ArrayList<>();
 
+    final int shopSeed = Shops.getShopIndex(shop.getRegistryId().toString());
+    final Random rand = new Random(slotData.slotSeed + shopSeed);
     for(final LocationState locationState : slots) {
-      // find new price
-      final int price = contents.getFirst().price; // original price (for now)
+      final int price = rand.nextInt((slotData.maximumShopCost - slotData.minimumShopCost) + 1) + slotData.minimumShopCost;
       final APInventoryEntry entry = new APInventoryEntry(locationState);
 
       entries.add(new APShopEntry(entry, price, locationState.getLocationID()));

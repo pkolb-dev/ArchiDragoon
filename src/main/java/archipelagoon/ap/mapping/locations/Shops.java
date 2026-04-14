@@ -926,6 +926,17 @@ public final class Shops {
     return SHOP_LOCATIONS.get(shopId).values();
   }
 
+  public static int getShopIndex(final String shopId) {
+    int index = 0;
+    for(final String key : SHOP_LOCATIONS.keySet()) {
+      if(key.equals(shopId)) {
+        break;
+      }
+      index++;
+    }
+    return index;
+  }
+
   public static Long getLocationId(final String shopId, final int slotIndex) {
     final Map<Integer, Long> slots = SHOP_LOCATIONS.get(shopId);
     if(slots == null) {

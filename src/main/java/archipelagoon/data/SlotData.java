@@ -150,6 +150,14 @@ public final class SlotData {
   @SerializedName("black_castle_item_shop_slots")
   public int blackCastleItemShopSlots = 7;
 
+  @SerializedName("maximum_shop_cost")
+  public int maximumShopCost = 500;
+
+  @SerializedName("minimum_shop_cost")
+  public int minimumShopCost = 10;
+
+  public long slotSeed = 0L;
+
   private SlotData() {
   }
 
@@ -167,7 +175,7 @@ public final class SlotData {
     } else if(registryId.equals(LodShops.LOHAN_ITEM_SHOP.getId())) {
       return this.lohanItemShopSlots;
     } else if(registryId.equals(LodShops.KAZAS_EQUIPMENT_SHOP.getId())) {
-      return this.kazasFortEquipmentShopSlots;
+      return this.kazasEquipmentShopSlots;
     } else if(registryId.equals(LodShops.KAZAS_FORT_ITEM_SHOP.getId())) {
       return this.kazasFortItemShopSlots;
     } else if(registryId.equals(LodShops.FLETZ_EQUIPMENT_SHOP.getId())) {
