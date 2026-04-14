@@ -19,9 +19,12 @@ import legend.core.GameEngine;
 import legend.game.combat.deff.RegisterDeffsEvent;
 import legend.game.inventory.Good;
 import legend.game.inventory.GoodsRegistryEvent;
+import legend.game.inventory.InventoryEntry;
 import legend.game.inventory.Item;
 import legend.game.inventory.ItemRegistryEvent;
+import legend.game.inventory.ItemStack;
 import legend.game.inventory.screens.GatherShopExtensionsEvent;
+import legend.game.inventory.screens.ShopScreen;
 import legend.game.modding.events.RenderEvent;
 import legend.game.modding.events.battle.BattleEndedEvent;
 import legend.game.modding.events.characters.AdditionUnlockEvent;
@@ -59,6 +62,10 @@ import static legend.game.EngineStates.currentEngineState_8004dd04;
 import static legend.game.SItem.buildUiRenderable;
 import static legend.game.Scus94491BpeSegment_8005.submapCut_80052c30;
 import static legend.game.Scus94491BpeSegment_8006.battleState_8006e398;
+import static legend.lodmod.LodItems.ANGELS_PRAYER;
+import static legend.lodmod.LodItems.BODY_PURIFIER;
+import static legend.lodmod.LodItems.HEALING_POTION;
+import static legend.lodmod.LodItems.MIND_PURIFIER;
 
 @Mod(id = Archipelagoon.MOD_ID, version = "^3.0.0")
 public class Archipelagoon {
@@ -168,13 +175,24 @@ public class Archipelagoon {
       return;
     }
 
+    final List<ShopScreen.ShopEntry<?>> adjustedContents = new ArrayList<>();
+
+    if(slotData.allowRepeatConsumables == 1) {
+      final InventoryEntry<?> angelsPrayer = new ItemStack(ANGELS_PRAYER.get());
+      final InventoryEntry<?> healingPotion = new ItemStack(HEALING_POTION.get());
+      final InventoryEntry<?> mindPurifier = new ItemStack(MIND_PURIFIER.get());
+      final InventoryEntry<?> bodyPurifier = new ItemStack(BODY_PURIFIER.get());
+
+      adjustedContents.add(new ShopScreen.ShopEntry<>(angelsPrayer, angelsPrayer.getBuyPrice()));
+      adjustedContents.add(new ShopScreen.ShopEntry<>(healingPotion, healingPotion.getBuyPrice()));
+      adjustedContents.add(new ShopScreen.ShopEntry<>(mindPurifier, mindPurifier.getBuyPrice()));
+      adjustedContents.add(new ShopScreen.ShopEntry<>(bodyPurifier, bodyPurifier.getBuyPrice()));
+    }
+
     final List<Long> shopSlots = Shops.getShopLocationIds(event.shop.getRegistryId().toString()).stream().toList();
     final List<LocationState> locationStates = GameEngine.CONFIG.getConfig(LOCATION_STATE_REGISTRY.get());
     final List<LocationState> slots = locationStates.stream()
       .filter(ls -> shopSlots.contains(ls.getLocationID())).toList();
-
-    final List<APShopEntry> adjustedContents = new ArrayList<>();
-
     for(final LocationState locationState : slots) {
       final int price = event.contents.getFirst().price; // original price (for now)
       final APInventoryEntry entry = new APInventoryEntry(locationState);

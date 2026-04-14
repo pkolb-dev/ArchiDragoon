@@ -25,8 +25,8 @@ public class APShopExtension extends ShopExtension<APInventoryEntry> {
   }
 
   @Override
-  public boolean accepts(ShopScreen.ShopEntry<?> entry) {
-    return entry instanceof APShopEntry;
+  public boolean accepts(final ShopScreen.ShopEntry<?> entry) {
+    return entry.item instanceof APShopEntry;
   }
 
   @Override

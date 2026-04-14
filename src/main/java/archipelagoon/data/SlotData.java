@@ -24,8 +24,12 @@ public final class SlotData {
 
   //  @SerializedName("death_link")
   //  public int deathLink = 0;
+
   @SerializedName("enable_shop_sanity")
   public int enableShopsanity = 0;
+
+  @SerializedName("allow_repeat_consumables")
+  public int allowRepeatConsumables = 1;
 
   private SlotData() {
   }
