@@ -42,6 +42,7 @@ import legend.game.saves.ConfigStorageLocation;
 import legend.game.saves.StringConfigEntry;
 import legend.game.submap.SMap;
 import legend.game.submap.SubmapState;
+import legend.game.types.Shop;
 import legend.lodmod.LodGoods;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -177,31 +178,54 @@ public class Archipelagoon {
 
     final List<ShopScreen.ShopEntry<?>> adjustedContents = new ArrayList<>();
 
-    if(slotData.allowRepeatConsumables == 1) {
-      final InventoryEntry<?> angelsPrayer = new ItemStack(ANGELS_PRAYER.get());
-      final InventoryEntry<?> healingPotion = new ItemStack(HEALING_POTION.get());
-      final InventoryEntry<?> mindPurifier = new ItemStack(MIND_PURIFIER.get());
-      final InventoryEntry<?> bodyPurifier = new ItemStack(BODY_PURIFIER.get());
-
-      adjustedContents.add(new ShopScreen.ShopEntry<>(angelsPrayer, angelsPrayer.getBuyPrice()));
-      adjustedContents.add(new ShopScreen.ShopEntry<>(healingPotion, healingPotion.getBuyPrice()));
-      adjustedContents.add(new ShopScreen.ShopEntry<>(mindPurifier, mindPurifier.getBuyPrice()));
-      adjustedContents.add(new ShopScreen.ShopEntry<>(bodyPurifier, bodyPurifier.getBuyPrice()));
-    }
-
-    final List<Long> shopSlots = Shops.getShopLocationIds(event.shop.getRegistryId().toString()).stream().toList();
-    final List<LocationState> locationStates = GameEngine.CONFIG.getConfig(LOCATION_STATE_REGISTRY.get());
-    final List<LocationState> slots = locationStates.stream()
-      .filter(ls -> shopSlots.contains(ls.getLocationID())).toList();
-    for(final LocationState locationState : slots) {
-      final int price = event.contents.getFirst().price; // original price (for now)
-      final APInventoryEntry entry = new APInventoryEntry(locationState);
-
-      adjustedContents.add(new APShopEntry(entry, price, locationState.getLocationID()));
-    }
+    adjustedContents.addAll(this.getRepeatConsumables());
+    adjustedContents.addAll(this.getShopItems(event.shop, event.contents));
 
     event.contents.clear();
     event.contents.addAll((Collection)adjustedContents);
+  }
+
+  private List<ShopScreen.ShopEntry<?>> getRepeatConsumables() {
+    final APContext ctx = APContext.getContext();
+    final SlotData slotData = ctx.getSlotData();
+    if(slotData.allowRepeatConsumables == 0) {
+      return List.of();
+    }
+
+    final List<ShopScreen.ShopEntry<?>> entries = new ArrayList<>();
+
+    final InventoryEntry<?> angelsPrayer = new ItemStack(ANGELS_PRAYER.get());
+    final InventoryEntry<?> healingPotion = new ItemStack(HEALING_POTION.get());
+    final InventoryEntry<?> mindPurifier = new ItemStack(MIND_PURIFIER.get());
+    final InventoryEntry<?> bodyPurifier = new ItemStack(BODY_PURIFIER.get());
+
+    entries.add(new ShopScreen.ShopEntry<>(angelsPrayer, angelsPrayer.getBuyPrice()));
+    entries.add(new ShopScreen.ShopEntry<>(healingPotion, healingPotion.getBuyPrice()));
+    entries.add(new ShopScreen.ShopEntry<>(mindPurifier, mindPurifier.getBuyPrice()));
+    entries.add(new ShopScreen.ShopEntry<>(bodyPurifier, bodyPurifier.getBuyPrice()));
+    return entries;
+  }
+
+  private List<ShopScreen.ShopEntry<?>> getShopItems(final Shop shop, final List<ShopScreen.ShopEntry<InventoryEntry<?>>> contents) {
+    final APContext ctx = APContext.getContext();
+    final SlotData slotData = ctx.getSlotData();
+
+    final int numberOfSlots = slotData.getShopSlots(shop.getRegistryId());
+    final List<Long> shopSlots = Shops.getShopLocationIds(shop.getRegistryId().toString()).stream().limit(numberOfSlots).toList();
+    final List<LocationState> slots = GameEngine.CONFIG.getConfig(LOCATION_STATE_REGISTRY.get()).stream()
+      .filter(ls -> shopSlots.contains(ls.getLocationID())).toList();
+
+    final List<ShopScreen.ShopEntry<?>> entries = new ArrayList<>();
+
+    for(final LocationState locationState : slots) {
+      // find new price
+      final int price = contents.getFirst().price; // original price (for now)
+      final APInventoryEntry entry = new APInventoryEntry(locationState);
+
+      entries.add(new APShopEntry(entry, price, locationState.getLocationID()));
+    }
+
+    return entries;
   }
 
   @EventListener
