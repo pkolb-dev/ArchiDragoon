@@ -32,7 +32,7 @@ dependencies {
 apply plugin: 'com.gradleup.shadow'
 
 group = "archipelagoon"
-version = "1.7.2"
+version = "1.7.3"
 
 shadowJar {
   dependencies {
