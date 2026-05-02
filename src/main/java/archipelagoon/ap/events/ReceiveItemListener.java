@@ -32,8 +32,6 @@ public class ReceiveItemListener {
 
     final RegistryId registryId;
     if(itemId == null) {
-      // figure out progressive additions, what do they mean here
-      // if this is progressive addition,
       registryId = ctx.getProgressiveAdditionMatch(apItemId);
     } else {
       registryId = new RegistryId(itemId);
