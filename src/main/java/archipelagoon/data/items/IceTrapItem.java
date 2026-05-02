@@ -1,6 +1,9 @@
 package archipelagoon.data.items;
 
 import com.google.gson.JsonObject;
+import legend.game.characters.CharacterData2c;
+import legend.game.characters.StatCollection;
+import legend.game.characters.VitalsStat;
 import legend.game.combat.bent.BattleEntity27c;
 import legend.game.i18n.I18n;
 import legend.game.inventory.Item;
@@ -8,8 +11,6 @@ import legend.game.inventory.ItemIcon;
 import legend.game.inventory.ItemStack;
 import legend.game.inventory.UseItemResponse;
 import legend.game.scripting.ScriptState;
-import legend.game.types.ActiveStatsa0;
-import legend.game.types.CharacterData2c;
 import legend.lodmod.items.BattleItem;
 import org.legendofdragoon.modloader.registries.RegistryDelegate;
 
@@ -17,9 +18,8 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import static legend.core.GameEngine.REGISTRIES;
-import static legend.game.SItem.loadCharacterStats;
 import static legend.game.Scus94491BpeSegment_800b.gameState_800babc8;
-import static legend.game.Scus94491BpeSegment_800b.stats_800be5f8;
+import static legend.lodmod.LodMod.HP_STAT;
 
 public class IceTrapItem extends BattleItem {
   public IceTrapItem() {
@@ -160,13 +160,15 @@ public class IceTrapItem extends BattleItem {
 
   @Override
   public void useInMenu(final ItemStack stack, final UseItemResponse response, final int charId) {
-    final CharacterData2c character = gameState_800babc8.charData_32c[charId];
-    final ActiveStatsa0 stats = stats_800be5f8[charId];
-    final int hpToTake = stats.maxHp_66 / 10;
+    final CharacterData2c character = gameState_800babc8.charData_32c.get(charId);
+    final StatCollection stats = character.stats;
+    final VitalsStat stat = stats.getStat(HP_STAT.get());
+    final int currentHp = stats.getStat(HP_STAT.get()).getCurrent();
+    final int hpToTake = currentHp / 10;
 
-    character.hp_08 = Math.max(1, character.hp_08 - hpToTake);
+    stat.setCurrent(Math.max(1, currentHp - hpToTake));
 
-    loadCharacterStats();
+    //    loadCharacterStats(); // not sure what equivalent is here
     response.success(I18n.translate(this.getTranslationKey("use")));
   }
 
