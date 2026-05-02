@@ -314,14 +314,14 @@ public class Archipelagoon {
 
   @EventListener
   public void characterLevelUp(final CharacterLevelUpEvent event) {
-    AdditionManager.getInstance().checkUnlock(event.charData);
+    AdditionManager.getInstance().checkUnlock(event.character);
   }
 
   @EventListener
   public void battleEnded(final BattleEndedEvent event) {
     final APContext ctx = APContext.getContext();
     if(battleState_8006e398.hasAlivePlayers()) {
-      ctx.checkEncounter(event.encounter.getRegistryId());
+      ctx.handleEncounter(event.encounter.getRegistryId());
     } else {
       // TODO: we would trigger death link
     }

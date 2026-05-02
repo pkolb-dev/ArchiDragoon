@@ -5,10 +5,9 @@ import archipelagoon.ap.mapping.items.Additions;
 import archipelagoon.data.ProgressiveAdditions;
 import archipelagoon.data.enums.AdditionRandomizerType;
 import legend.core.GameEngine;
-import legend.game.SItem;
-import legend.game.additions.CharacterAdditionStats;
 import legend.game.additions.UnlockState;
-import legend.game.types.CharacterData2c;
+import legend.game.characters.CharacterAdditionInfo;
+import legend.game.characters.CharacterData2c;
 import legend.game.types.GameState52c;
 import org.legendofdragoon.modloader.registries.RegistryId;
 
@@ -28,13 +27,15 @@ public final class AdditionManager {
     return INSTANCE;
   }
 
-  public void clearAdditions(final GameState52c gameState) {
+  public void lockAdditions(final GameState52c gameState) {
     final GameState52c state = this.resolveState(gameState);
 
     for(int charIndex = 0; charIndex < 9; charIndex++) {
-      final CharacterData2c charData = state.charData_32c[charIndex];
-
-      charData.additionStats.forEach((_, value) -> value.unlockState = UnlockState.LOCKED);
+      final CharacterData2c charData = state.charData_32c.get(charIndex);
+      charData.getAllAdditions().forEach(addition -> {
+        final int timestamp = 0;
+        charData.getAdditionInfo(addition).setUnlockState(UnlockState.LOCKED, timestamp);
+      });
     }
   }
 
@@ -58,16 +59,12 @@ public final class AdditionManager {
   private void setVanilla(final GameState52c gameState) {
     final GameState52c state = this.resolveState(gameState);
 
-    final APContext ctx = APContext.getContext();
-
     for(int charIndex = 0; charIndex < 9; charIndex++) {
-      final CharacterData2c charData = state.charData_32c[charIndex];
 
-      for(final Map.Entry<RegistryId, CharacterAdditionStats> entry : charData.additionStats.entrySet()) {
-        entry.getValue().unlockState = UnlockState.UNLOCKABLE;
-      }
-
-      SItem.checkForNewlyUnlockedAddition(charIndex);
+      final CharacterData2c charData = state.charData_32c.get(charIndex);
+      charData.getAllAdditions().forEach(addition -> {
+        charData.getAdditionInfo(addition).setUnlockState(UnlockState.UNLOCKABLE, state.timestamp_a0);
+      });
     }
   }
 
@@ -93,7 +90,7 @@ public final class AdditionManager {
     final List<Long> receivedItems = ctx.getReceivedItemIDs();
 
     for(int charIndex = 0; charIndex < 9; charIndex++) {
-      final CharacterData2c charData = state.charData_32c[charIndex];
+      final CharacterData2c charData = state.charData_32c.get(charIndex);
       final Long progressiveId = Additions.getAPItemIdFromCharacterIndex(charIndex);
       final int totalReceived = Collections.frequency(receivedItems, progressiveId);
       final Map<Integer, RegistryId> additions = ProgressiveAdditions.getAdditionsForChar(charIndex);
@@ -105,12 +102,8 @@ public final class AdditionManager {
 
         final RegistryId registryId = additions.get(i);
 
-        final CharacterAdditionStats additionStats = charData.additionStats.get(registryId);
-        if(additionStats == null) {
-          continue;
-        }
         // we want to enable what we've received.
-        additionStats.unlockState = UnlockState.UNLOCKED;
+        charData.getAdditionInfo(registryId).setUnlockState(UnlockState.UNLOCKED, state.timestamp_a0);
       }
     }
   }
@@ -123,33 +116,32 @@ public final class AdditionManager {
     final GameState52c state = this.resolveState(gameState);
 
     for(int charIndex = 0; charIndex < 9; charIndex++) {
-      final CharacterData2c charData = state.charData_32c[charIndex];
-      final CharacterAdditionStats additionStats = charData.additionStats.get(registryId);
-      if(additionStats == null) {
+      final CharacterData2c charData = state.charData_32c.get(charIndex);
+      final CharacterAdditionInfo info = charData.getAdditionInfo(registryId);
+      if(info == null) {
         continue;
       }
 
-      additionStats.unlockState = UnlockState.UNLOCKED;
-      break;
+      charData.getAdditionInfo(registryId).setUnlockState(UnlockState.UNLOCKED, state.timestamp_a0);
     }
   }
 
   public void selectAddition(final GameState52c gameState) {
     final GameState52c state = this.resolveState(gameState);
     for(int charIndex = 0; charIndex < 9; charIndex++) {
-      final CharacterData2c charData = state.charData_32c[charIndex];
-      final CharacterAdditionStats additionStats = charData.additionStats.get(charData.selectedAddition_19);
-      if(additionStats == null) {
+      final CharacterData2c charData = state.charData_32c.get(charIndex);
+      final CharacterAdditionInfo addition = charData.getAdditionInfo(charData.selectedAddition_19);
+      if(addition == null) {
         continue;
       }
 
-      if(additionStats.unlockState == UnlockState.UNLOCKED) {
+      if(addition.getUnlockState() == UnlockState.UNLOCKED) {
         break;
       }
 
-      for(final Map.Entry<RegistryId, CharacterAdditionStats> entry : charData.additionStats.entrySet()) {
-        if(entry.getValue().unlockState == UnlockState.UNLOCKED) {
-          charData.selectedAddition_19 = entry.getKey();
+      for(final RegistryId entry : charData.getAllAdditions()) {
+        if(charData.getAdditionInfo(entry).getUnlockState() == UnlockState.UNLOCKED) {
+          charData.selectedAddition_19 = entry;
           break;
         }
       }
@@ -160,19 +152,17 @@ public final class AdditionManager {
     final GameState52c state = this.resolveState(null);
     final APContext apContext = APContext.getContext();
 
-    for(final Map.Entry<RegistryId, CharacterAdditionStats> entry
-      : charData.additionStats.entrySet()) {
+    for(final RegistryId id : charData.getAllAdditions()) {
 
-      final RegistryId registryId = entry.getKey();
-      final CharacterAdditionStats stats = entry.getValue();
+      final CharacterAdditionInfo info = charData.getAdditionInfo(id);
 
-      final var addition = GameEngine.REGISTRIES.additions.getEntry(registryId).get();
+      final var addition = GameEngine.REGISTRIES.additions.getEntry(id).get();
       if(addition == null) {
         continue;
       }
 
-      if(addition.isUnlocked(state, charData, stats)) {
-        final Long apId = archipelagoon.ap.mapping.locations.Additions.getAPLocationIdFromRegistryId(registryId);
+      if(info.getUnlockState().isUsable()) {
+        final Long apId = archipelagoon.ap.mapping.locations.Additions.getAPLocationIdFromRegistryId(id);
         if(apId != null) {
           apContext.checkLocation(apId);
         }

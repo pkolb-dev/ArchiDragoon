@@ -85,7 +85,7 @@ public class APContext {
     this.slotData = slotData;
   }
 
-  public void checkEncounter(final RegistryId encounterRegistryId) {
+  public void handleEncounter(final RegistryId encounterRegistryId) {
     if(encounterRegistryId == null) {
       return;
     }
@@ -96,6 +96,11 @@ public class APContext {
       return;
     }
 
+    this.checkEncounter(encounterRegistryId);
+    this.tryGoal(encounterRegistryId);
+  }
+
+  public void checkEncounter(final RegistryId encounterRegistryId) {
     final long apId = Enemies.getAPLocationIdFromRegistryId(encounterRegistryId);
     final List<LocationState> locationStates = GameEngine.CONFIG.getConfig(LOCATION_STATE_REGISTRY.get());
     final LocationState locationState = locationStates.stream()
@@ -115,11 +120,13 @@ public class APContext {
     if(location != null) {
       this.checkLocation(locationState.getLocationID());
     }
+  }
 
+  public void tryGoal(final RegistryId encounter) {
     final Map<Integer, String> goals = Goals.getStaticMap();
     final int goalId = APContext.getContext().getSlotData().completionCondition;
 
-    if(Objects.equals(goals.get(goalId), encounterRegistryId.toString())) {
+    if(Objects.equals(goals.get(goalId), encounter.toString())) {
       this.client.setGameState(ClientStatus.CLIENT_GOAL);
     }
   }
@@ -142,7 +149,7 @@ public class APContext {
   }
 
   public void initAdditions(final GameState52c gameState) {
-    this.additionManager.clearAdditions(gameState);
+    this.additionManager.lockAdditions(gameState);
     this.additionManager.setAdditions(gameState);
     this.additionManager.selectAddition(gameState);
   }
