@@ -85,19 +85,19 @@ public class APContext {
     this.slotData = slotData;
   }
 
-  public void handleEncounter(final RegistryId encounter) {
-    if(encounter == null) {
+  public void handleEncounter(final RegistryId encounterRegistryId) {
+    if(encounterRegistryId == null) {
       return;
     }
 
     final Map<String, Long> reverseMap = Enemies.getStaticReverseMap();
 
-    if(!reverseMap.containsKey(encounter.toString())) {
+    if(!reverseMap.containsKey(encounterRegistryId.toString())) {
       return;
     }
 
-    this.checkEncounter(encounter);
-    this.tryGoal(encounter);
+    this.checkEncounter(encounterRegistryId);
+    this.tryGoal(encounterRegistryId);
   }
 
   public void checkEncounter(final RegistryId encounterRegistryId) {
@@ -149,7 +149,7 @@ public class APContext {
   }
 
   public void initAdditions(final GameState52c gameState) {
-    this.additionManager.clearAdditions(gameState);
+    this.additionManager.lockAdditions(gameState);
     this.additionManager.setAdditions(gameState);
     this.additionManager.selectAddition(gameState);
   }

@@ -14,23 +14,23 @@ import static legend.core.GameEngine.EVENTS;
 import static legend.game.SItem.UI_TEXT;
 import static legend.game.SItem.UI_TEXT_DISABLED;
 import static legend.game.SItem.menuStack;
-import static legend.game.SItem.renderFiveDigitNumber;
+import static legend.game.SItem.renderNumber;
 import static legend.game.Scus94491BpeSegment_800b.gameState_800babc8;
 import static legend.game.Text.renderText;
 
 public class APShopExtension extends ShopExtension<APInventoryEntry> {
   @Override
-  public String getName(ShopScreen.ShopEntry<APInventoryEntry> entry) {
+  public String getName(final ShopScreen.ShopEntry<APInventoryEntry> entry) {
     return "AP Item Store";
   }
 
   @Override
-  public boolean accepts(ShopScreen.ShopEntry<?> entry) {
+  public boolean accepts(final ShopScreen.ShopEntry<?> entry) {
     return entry instanceof APShopEntry;
   }
 
   @Override
-  public void drawShopRow(ShopScreen screen, Shop shop, GameState52c gameState, ShopScreen.ShopEntry<APInventoryEntry> entry, int index, final int x, final int y) {
+  public void drawShopRow(final ShopScreen screen, final Shop shop, final GameState52c gameState, final ShopScreen.ShopEntry<APInventoryEntry> entry, final int index, final int x, final int y) {
     // TODO: this isn't updated after purchase.
     if(entry.item.isApplied) {
       renderText(I18n.translate(entry.item.getNameTranslationKey()), x + 20, y + 2, UI_TEXT_DISABLED);
@@ -38,12 +38,12 @@ public class APShopExtension extends ShopExtension<APInventoryEntry> {
       renderText(I18n.translate(entry.item.getNameTranslationKey()), x + 20, y + 2, UI_TEXT);
     }
 
-    renderFiveDigitNumber(x + 176, y + 4, entry.price);
+    renderNumber(x + 176, y + 4, entry.price, 0x2, 6);
     entry.item.renderIcon(x + 3, y, 0x8);
   }
 
   @Override
-  public boolean selectEntry(ShopScreen screen, Shop shop, GameState52c gameState, final ShopScreen.ShopEntry<APInventoryEntry> entry, final int index) {
+  public boolean selectEntry(final ShopScreen screen, final Shop shop, final GameState52c gameState, final ShopScreen.ShopEntry<APInventoryEntry> entry, final int index) {
     if(entry.item.isApplied) {
       screen.deferAction(() -> menuStack.pushScreen(new MessageBoxScreen("Already purchased this item", MessageBoxType.ALERT, result -> {})));
     } else if(gameState_800babc8.gold_94 < entry.price) {
