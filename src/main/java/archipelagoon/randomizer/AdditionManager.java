@@ -149,7 +149,6 @@ public final class AdditionManager {
   }
 
   public void checkUnlock(final CharacterData2c charData) {
-    final GameState52c state = this.resolveState(null);
     final APContext apContext = APContext.getContext();
 
     for(final RegistryId id : charData.getAllAdditions()) {
@@ -161,12 +160,15 @@ public final class AdditionManager {
         continue;
       }
 
-      if(info.getUnlockState().isUsable()) {
+      final UnlockState unlockState = info.getUnlockState();
+      info.setUnlockState(UnlockState.UNLOCKABLE, charData.gameState.timestamp_a0);
+      if(info.checkUnlock(charData)) {
         final Long apId = archipelagoon.ap.mapping.locations.Additions.getAPLocationIdFromRegistryId(id);
         if(apId != null) {
           apContext.checkLocation(apId);
         }
       }
+      info.setUnlockState(unlockState, charData.gameState.timestamp_a0);
     }
   }
 

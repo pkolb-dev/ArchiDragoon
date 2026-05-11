@@ -4,24 +4,25 @@ import archipelagoon.ap.APContext;
 import archipelagoon.ap.mapping.LocationState;
 import archipelagoon.ap.mapping.items.Goods;
 import archipelagoon.ap.mapping.locations.Additions;
-import archipelagoon.ap.mapping.locations.Shops;
 import archipelagoon.config.ArchipelagoConfigEntry;
 import archipelagoon.config.ItemIndexConfigEntry;
 import archipelagoon.config.LocationStateRegistry;
 import archipelagoon.data.APInventoryEntry;
-import archipelagoon.data.APShopEntry;
 import archipelagoon.data.APShopExtension;
 import archipelagoon.data.SlotData;
 import archipelagoon.data.enums.AdditionRandomizerType;
 import archipelagoon.icons.APIconUiType;
 import archipelagoon.randomizer.AdditionManager;
+import archipelagoon.randomizer.ShopManager;
 import legend.core.GameEngine;
+import legend.game.characters.CharacterData2c;
 import legend.game.combat.deff.RegisterDeffsEvent;
 import legend.game.inventory.Good;
 import legend.game.inventory.GoodsRegistryEvent;
 import legend.game.inventory.Item;
 import legend.game.inventory.ItemRegistryEvent;
 import legend.game.inventory.screens.GatherShopExtensionsEvent;
+import legend.game.inventory.screens.ShopScreen;
 import legend.game.modding.events.RenderEvent;
 import legend.game.modding.events.battle.BattleEndedEvent;
 import legend.game.modding.events.characters.AdditionUnlockEvent;
@@ -68,6 +69,7 @@ public class Archipelagoon {
   public static final RegistryDelegate<StringConfigEntry> ADDRESS_CONFIG = CONFIG_REGISTRAR.register("address", () -> new StringConfigEntry("archipelago.gg:12345", 1, ConfigStorageLocation.CAMPAIGN, ConfigCategory.OTHER));
   public static final RegistryDelegate<StringConfigEntry> SLOT_NAME_CONFIG = CONFIG_REGISTRAR.register("slot_name", () -> new StringConfigEntry("", 1, ConfigStorageLocation.CAMPAIGN, ConfigCategory.OTHER));
   public static final RegistryDelegate<StringConfigEntry> PASSWORD_CONFIG = CONFIG_REGISTRAR.register("password", () -> new StringConfigEntry("", 1, ConfigStorageLocation.CAMPAIGN, ConfigCategory.OTHER));
+
   public static final RegistryDelegate<ItemIndexConfigEntry> LAST_ITEM_INDEX = CONFIG_REGISTRAR.register("last_item_index", () -> new ItemIndexConfigEntry(0));
   public static final RegistryDelegate<LocationStateRegistry> LOCATION_STATE_REGISTRY = CONFIG_REGISTRAR.register("location_states", LocationStateRegistry::new);
   private static final Registrar<Item, ItemRegistryEvent> ITEM_REGISTRAR = new Registrar<>(GameEngine.REGISTRIES.items, MOD_ID);
@@ -168,19 +170,10 @@ public class Archipelagoon {
       return;
     }
 
-    final List<Long> shopSlots = Shops.getShopLocationIds(event.shop.getRegistryId().toString()).stream().toList();
-    final List<LocationState> locationStates = GameEngine.CONFIG.getConfig(LOCATION_STATE_REGISTRY.get());
-    final List<LocationState> slots = locationStates.stream()
-      .filter(ls -> shopSlots.contains(ls.getLocationID())).toList();
+    final List<ShopScreen.ShopEntry<?>> adjustedContents = new ArrayList<>();
 
-    final List<APShopEntry> adjustedContents = new ArrayList<>();
-
-    for(final LocationState locationState : slots) {
-      final int price = event.contents.getFirst().price; // original price (for now)
-      final APInventoryEntry entry = new APInventoryEntry(locationState);
-
-      adjustedContents.add(new APShopEntry(entry, price, locationState.getLocationID()));
-    }
+    adjustedContents.addAll(ShopManager.getInstance().getRepeatConsumables());
+    adjustedContents.addAll(ShopManager.getInstance().getShopItems(event.shop));
 
     event.contents.clear();
     event.contents.addAll((Collection)adjustedContents);
@@ -247,7 +240,6 @@ public class Archipelagoon {
 
   @EventListener
   public void takeGood(final TakeGoodsEvent event) {
-
     final List<Good> allowedGoods = new ArrayList<>();
 
     for(final Good good : event.takenGoods) {
@@ -270,7 +262,10 @@ public class Archipelagoon {
 
   @EventListener
   public void characterLevelUp(final CharacterLevelUpEvent event) {
-    AdditionManager.getInstance().checkUnlock(event.character);
+    final CharacterData2c character = event.character;
+    character.level_12 += event.levelsToAdd; // bump to appropriate level
+    AdditionManager.getInstance().checkUnlock(character);
+    character.level_12 -= event.levelsToAdd; // reset to allow other level changes.
   }
 
   @EventListener
