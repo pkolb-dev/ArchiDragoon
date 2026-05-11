@@ -71,14 +71,14 @@ public class ArchipelagoConnectScreen extends VerticalLayoutScreen {
 
     this.slotName = new Textbox();
     this.slotName.setText(this.config.getConfig(SLOT_NAME_CONFIG.get()));
-    this.slotName.setMaxLength(15);
+    this.slotName.setMaxLength(30);
     this.slotName.setZ(35);
 
     this.addRow(I18n.translate(Archipelagoon.MOD_ID + ".config.slot_name.label"), this.slotName);
 
     this.password = new Textbox();
     this.password.setText(this.config.getConfig(PASSWORD_CONFIG.get()));
-    this.password.setMaxLength(15);
+    this.password.setMaxLength(30);
     this.password.setZ(35);
 
     this.addRow(I18n.translate(Archipelagoon.MOD_ID + ".config.password.label"), this.password);
