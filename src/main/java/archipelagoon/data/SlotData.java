@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 public final class SlotData {
-  public static final Set<String> EXPECTED_MOD_VERSIONS = new HashSet<>(List.of("1.3.0", "1.3.1"));
+  public static final Set<String> EXPECTED_MOD_VERSIONS = new HashSet<>(List.of("2.0.0"));
 
   @SerializedName("addition_randomizer")
   public int additionRandomizer = 0;
@@ -150,11 +150,11 @@ public final class SlotData {
   @SerializedName("black_castle_item_shop_slots")
   public int blackCastleItemShopSlots = 7;
 
-  @SerializedName("maximum_shop_cost")
-  public int maximumShopCost = 500;
+  @SerializedName("maximum_shop_price")
+  public int maximumShopPrice = 500;
 
-  @SerializedName("minimum_shop_cost")
-  public int minimumShopCost = 10;
+  @SerializedName("minimum_shop_price")
+  public int minimumShopPrice = 10;
 
   public long slotSeed = 0L;
 
