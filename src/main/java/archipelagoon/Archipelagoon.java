@@ -4,25 +4,23 @@ import archipelagoon.ap.APContext;
 import archipelagoon.ap.mapping.LocationState;
 import archipelagoon.ap.mapping.items.Goods;
 import archipelagoon.ap.mapping.locations.Additions;
-import archipelagoon.ap.mapping.locations.Shops;
 import archipelagoon.config.ArchipelagoConfigEntry;
 import archipelagoon.config.ItemIndexConfigEntry;
 import archipelagoon.config.LocationStateRegistry;
 import archipelagoon.data.APInventoryEntry;
-import archipelagoon.data.APShopEntry;
 import archipelagoon.data.APShopExtension;
 import archipelagoon.data.SlotData;
 import archipelagoon.data.enums.AdditionRandomizerType;
 import archipelagoon.icons.APIconUiType;
 import archipelagoon.randomizer.AdditionManager;
+import archipelagoon.randomizer.ShopManager;
 import legend.core.GameEngine;
+import legend.game.characters.CharacterData2c;
 import legend.game.combat.deff.RegisterDeffsEvent;
 import legend.game.inventory.Good;
 import legend.game.inventory.GoodsRegistryEvent;
-import legend.game.inventory.InventoryEntry;
 import legend.game.inventory.Item;
 import legend.game.inventory.ItemRegistryEvent;
-import legend.game.inventory.ItemStack;
 import legend.game.inventory.screens.GatherShopExtensionsEvent;
 import legend.game.inventory.screens.ShopScreen;
 import legend.game.modding.events.RenderEvent;
@@ -42,7 +40,6 @@ import legend.game.saves.ConfigStorageLocation;
 import legend.game.saves.StringConfigEntry;
 import legend.game.submap.SMap;
 import legend.game.submap.SubmapState;
-import legend.game.types.Shop;
 import legend.lodmod.LodGoods;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -56,7 +53,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 import java.util.Set;
 
 import static legend.core.GameEngine.EVENTS;
@@ -64,10 +60,6 @@ import static legend.game.EngineStates.currentEngineState_8004dd04;
 import static legend.game.SItem.buildUiRenderable;
 import static legend.game.Scus94491BpeSegment_8005.submapCut_80052c30;
 import static legend.game.Scus94491BpeSegment_8006.battleState_8006e398;
-import static legend.lodmod.LodItems.ANGELS_PRAYER;
-import static legend.lodmod.LodItems.BODY_PURIFIER;
-import static legend.lodmod.LodItems.HEALING_POTION;
-import static legend.lodmod.LodItems.MIND_PURIFIER;
 
 @Mod(id = Archipelagoon.MOD_ID, version = "^3.0.0")
 public class Archipelagoon {
@@ -77,6 +69,7 @@ public class Archipelagoon {
   public static final RegistryDelegate<StringConfigEntry> ADDRESS_CONFIG = CONFIG_REGISTRAR.register("address", () -> new StringConfigEntry("archipelago.gg:12345", 1, ConfigStorageLocation.CAMPAIGN, ConfigCategory.OTHER));
   public static final RegistryDelegate<StringConfigEntry> SLOT_NAME_CONFIG = CONFIG_REGISTRAR.register("slot_name", () -> new StringConfigEntry("", 1, ConfigStorageLocation.CAMPAIGN, ConfigCategory.OTHER));
   public static final RegistryDelegate<StringConfigEntry> PASSWORD_CONFIG = CONFIG_REGISTRAR.register("password", () -> new StringConfigEntry("", 1, ConfigStorageLocation.CAMPAIGN, ConfigCategory.OTHER));
+
   public static final RegistryDelegate<ItemIndexConfigEntry> LAST_ITEM_INDEX = CONFIG_REGISTRAR.register("last_item_index", () -> new ItemIndexConfigEntry(0));
   public static final RegistryDelegate<LocationStateRegistry> LOCATION_STATE_REGISTRY = CONFIG_REGISTRAR.register("location_states", LocationStateRegistry::new);
   private static final Registrar<Item, ItemRegistryEvent> ITEM_REGISTRAR = new Registrar<>(GameEngine.REGISTRIES.items, MOD_ID);
@@ -179,55 +172,11 @@ public class Archipelagoon {
 
     final List<ShopScreen.ShopEntry<?>> adjustedContents = new ArrayList<>();
 
-    adjustedContents.addAll(this.getRepeatConsumables());
-    adjustedContents.addAll(this.getShopItems(event.shop, event.contents));
+    adjustedContents.addAll(ShopManager.getInstance().getRepeatConsumables());
+    adjustedContents.addAll(ShopManager.getInstance().getShopItems(event.shop));
 
     event.contents.clear();
     event.contents.addAll((Collection)adjustedContents);
-  }
-
-  private List<ShopScreen.ShopEntry<?>> getRepeatConsumables() {
-    final APContext ctx = APContext.getContext();
-    final SlotData slotData = ctx.getSlotData();
-    if(slotData.allowRepeatConsumables == 0) {
-      return List.of();
-    }
-
-    final List<ShopScreen.ShopEntry<?>> entries = new ArrayList<>();
-
-    final InventoryEntry<?> angelsPrayer = new ItemStack(ANGELS_PRAYER.get());
-    final InventoryEntry<?> healingPotion = new ItemStack(HEALING_POTION.get());
-    final InventoryEntry<?> mindPurifier = new ItemStack(MIND_PURIFIER.get());
-    final InventoryEntry<?> bodyPurifier = new ItemStack(BODY_PURIFIER.get());
-
-    entries.add(new ShopScreen.ShopEntry<>(angelsPrayer, angelsPrayer.getBuyPrice()));
-    entries.add(new ShopScreen.ShopEntry<>(healingPotion, healingPotion.getBuyPrice()));
-    entries.add(new ShopScreen.ShopEntry<>(mindPurifier, mindPurifier.getBuyPrice()));
-    entries.add(new ShopScreen.ShopEntry<>(bodyPurifier, bodyPurifier.getBuyPrice()));
-    return entries;
-  }
-
-  private List<ShopScreen.ShopEntry<?>> getShopItems(final Shop shop, final List<ShopScreen.ShopEntry<InventoryEntry<?>>> contents) {
-    final APContext ctx = APContext.getContext();
-    final SlotData slotData = ctx.getSlotData();
-
-    final int numberOfSlots = slotData.getShopSlots(shop.getRegistryId());
-    final List<Long> shopSlots = Shops.getShopLocationIds(shop.getRegistryId().toString()).stream().limit(numberOfSlots).toList();
-    final List<LocationState> slots = GameEngine.CONFIG.getConfig(LOCATION_STATE_REGISTRY.get()).stream()
-      .filter(ls -> shopSlots.contains(ls.getLocationID())).toList();
-
-    final List<ShopScreen.ShopEntry<?>> entries = new ArrayList<>();
-
-    final int shopSeed = Shops.getShopIndex(shop.getRegistryId().toString());
-    final Random rand = new Random(slotData.slotSeed + shopSeed);
-    for(final LocationState locationState : slots) {
-      final int price = rand.nextInt((slotData.maximumShopCost - slotData.minimumShopCost) + 1) + slotData.minimumShopCost;
-      final APInventoryEntry entry = new APInventoryEntry(locationState);
-
-      entries.add(new APShopEntry(entry, price, locationState.getLocationID()));
-    }
-
-    return entries;
   }
 
   @EventListener
@@ -291,7 +240,6 @@ public class Archipelagoon {
 
   @EventListener
   public void takeGood(final TakeGoodsEvent event) {
-
     final List<Good> allowedGoods = new ArrayList<>();
 
     for(final Good good : event.takenGoods) {
@@ -314,7 +262,10 @@ public class Archipelagoon {
 
   @EventListener
   public void characterLevelUp(final CharacterLevelUpEvent event) {
-    AdditionManager.getInstance().checkUnlock(event.character);
+    final CharacterData2c character = event.character;
+    character.level_12 += event.levelsToAdd; // bump to appropriate level
+    AdditionManager.getInstance().checkUnlock(character);
+    character.level_12 -= event.levelsToAdd; // reset to allow other level changes.
   }
 
   @EventListener
