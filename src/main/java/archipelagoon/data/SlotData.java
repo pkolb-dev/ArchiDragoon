@@ -14,18 +14,15 @@ public final class SlotData {
 
   @SerializedName("addition_randomizer")
   public int additionRandomizer = 0;
-
-  @SerializedName("random_starting_addition")
-  public int randomStartingAddition = 0;
-
+  
   @SerializedName("lod_completion_condition")
   public int completionCondition = 1;
 
   @SerializedName("world_version")
   public List<Integer> worldVersion = new ArrayList<>();
 
-  //  @SerializedName("death_link")
-  //  public int deathLink = 0;
+  @SerializedName("death_link")
+  public int deathLink = 0;
 
   @SerializedName("enable_shop_sanity")
   public int enableShopsanity = 0;
