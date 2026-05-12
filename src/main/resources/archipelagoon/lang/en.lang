@@ -10,6 +10,10 @@ archipelagoon.config.not_connected=Not Connected
 archipelagoon.config.connected=Connected
 archipelagoon.config.connect=Connect
 archipelagoon.config.connecting=Connecting
+archipelagoon.config.xp_multiplier.label=Battle XP Gain
+archipelagoon.config.xp_multiplier.help=Increases xp given after combat
+archipelagoon.config.gold_multiplier.label=Battle Gold Gain
+archipelagoon.config.gold_multiplier.help=Increases gold given after combat
 
 archipelagoon.ap.priority.item=AP Item
 archipelagoon.ap.priority.item.description=an item considered progression
