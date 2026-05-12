@@ -5,8 +5,10 @@ import archipelagoon.ap.mapping.LocationState;
 import archipelagoon.ap.mapping.items.Goods;
 import archipelagoon.ap.mapping.locations.Additions;
 import archipelagoon.config.ArchipelagoConfigEntry;
+import archipelagoon.config.GoldMultiplierConfigEntry;
 import archipelagoon.config.ItemIndexConfigEntry;
 import archipelagoon.config.LocationStateRegistry;
+import archipelagoon.config.XpMultiplierConfigEntry;
 import archipelagoon.data.APInventoryEntry;
 import archipelagoon.data.APShopExtension;
 import archipelagoon.data.SlotData;
@@ -25,6 +27,7 @@ import legend.game.inventory.screens.GatherShopExtensionsEvent;
 import legend.game.inventory.screens.ShopScreen;
 import legend.game.modding.events.RenderEvent;
 import legend.game.modding.events.battle.BattleEndedEvent;
+import legend.game.modding.events.battle.EnemyRewardsEvent;
 import legend.game.modding.events.characters.AdditionUnlockEvent;
 import legend.game.modding.events.characters.CharacterLevelUpEvent;
 import legend.game.modding.events.gamestate.GameLoadedEvent;
@@ -69,7 +72,8 @@ public class Archipelagoon {
   public static final RegistryDelegate<StringConfigEntry> ADDRESS_CONFIG = CONFIG_REGISTRAR.register("address", () -> new StringConfigEntry("archipelago.gg:12345", 1, ConfigStorageLocation.CAMPAIGN, ConfigCategory.OTHER));
   public static final RegistryDelegate<StringConfigEntry> SLOT_NAME_CONFIG = CONFIG_REGISTRAR.register("slot_name", () -> new StringConfigEntry("", 1, ConfigStorageLocation.CAMPAIGN, ConfigCategory.OTHER));
   public static final RegistryDelegate<StringConfigEntry> PASSWORD_CONFIG = CONFIG_REGISTRAR.register("password", () -> new StringConfigEntry("", 1, ConfigStorageLocation.CAMPAIGN, ConfigCategory.OTHER));
-
+  public static final RegistryDelegate<XpMultiplierConfigEntry> XP_MULTIPLIER_CONFIG = CONFIG_REGISTRAR.register("xp_multiplier", XpMultiplierConfigEntry::new);
+  public static final RegistryDelegate<GoldMultiplierConfigEntry> GOLD_MULTIPLIER_CONFIG = CONFIG_REGISTRAR.register("gold_multiplier", GoldMultiplierConfigEntry::new);
   public static final RegistryDelegate<ItemIndexConfigEntry> LAST_ITEM_INDEX = CONFIG_REGISTRAR.register("last_item_index", () -> new ItemIndexConfigEntry(0));
   public static final RegistryDelegate<LocationStateRegistry> LOCATION_STATE_REGISTRY = CONFIG_REGISTRAR.register("location_states", LocationStateRegistry::new);
   private static final Registrar<Item, ItemRegistryEvent> ITEM_REGISTRAR = new Registrar<>(GameEngine.REGISTRIES.items, MOD_ID);
@@ -279,6 +283,12 @@ public class Archipelagoon {
     if(ctx.getSlotData().deathLink == 1) {
       ctx.sendDeathlink();
     }
+  }
+
+  @EventListener
+  public void enemyRewards(final EnemyRewardsEvent event) {
+    event.xp *= GameEngine.CONFIG.getConfig(XP_MULTIPLIER_CONFIG.get());
+    event.gold *= GameEngine.CONFIG.getConfig(GOLD_MULTIPLIER_CONFIG.get());
   }
 
   @EventListener
