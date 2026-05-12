@@ -11,11 +11,22 @@ archipelagoon.config.connected=Connected
 archipelagoon.config.connect=Connect
 archipelagoon.config.connecting=Connecting
 
+archipelagoon.connection.slot_already_taken=Slot already in use.
+archipelagoon.connection.success=Connection successful.
+archipelagoon.connection.invalid_slot=Invalid Slot name./nPlease mae sure\nyou types it correctly.
+archipelagoon.connection.invalid_password=Invalid password.
+archipelagoon.connection.incompatible_version=Server Rejected\nour connection\ndue to an incompatible\ncommunication protocol.
+archipelagoon.connection.invalid_game=Invalid Game.\nCheck your slot.
+archipelagoon.connection.unexpected_version=Unexpected APWorld Version.\nGenerated world version:\n
+archipelagoon.connection.unknown_error=Unknown error
+
 archipelagoon.ap.priority.item=AP Item
 archipelagoon.ap.priority.item.description=an item considered progression
 archipelagoon.ap.good.description=A good from your game
 
 archipelagoon.items.ice_trap.use=Ice trap!
+
+archipelagoon.ap.event.deathlink=deathlink from\n%s\n%s
 
 archipelagoon.goods.law_making_license.name=Law Making License
 archipelagoon.goods.law_making_license.description=Allows laws to be made\nin Zenebatos

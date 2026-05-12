@@ -8,6 +8,7 @@ import io.github.archipelagomw.events.ConnectionResultEvent;
 import io.github.archipelagomw.network.ConnectionResult;
 import legend.core.GameEngine;
 import legend.game.SItem;
+import legend.game.i18n.I18n;
 
 import java.math.BigInteger;
 
@@ -21,15 +22,14 @@ public class ConnectionResultListener {
       return;
     }
 
-    // TODO - I18n these strings
     final String msg = switch(event.getResult()) {
-      case SlotAlreadyTaken -> "Slot already in use.";
-      case Success -> "Connection Successful.";
-      case InvalidSlot -> "Invalid Slot Name.\nPlease make sure\nyou typed it correctly.";
-      case InvalidPassword -> "Invalid Password";
-      case IncompatibleVersion -> "Server Rejected\nour connection\ndue to an\nincompatible\ncommunication protocol.";
-      case InvalidGame -> "Invalid Game.\nCheck your slot.";
-      default -> "Unknown Error";
+      case SlotAlreadyTaken -> "archipelagoon.connection.slot_already_taken";
+      case Success -> "archipelagoon.connection.success"; // unused
+      case InvalidSlot -> "archipelagoon.connection.invalid_slot";
+      case InvalidPassword -> "archipelagoon.connection.invalid_password";
+      case IncompatibleVersion -> "archipelagoon.connection.incompatible_version";
+      case InvalidGame -> "archipelagoon.connection.invalid_game";
+      default -> "archipelagoon.connection.unknown_error";
     };
 
     final APContext ctx = APContext.getContext();
@@ -39,15 +39,16 @@ public class ConnectionResultListener {
         SItem.menuStack.popScreen();
       }));
 
-      ctx.displayMessage(msg);
+      ctx.displayMessage(I18n.translate(msg));
+      ctx.disconnect();
       return;
     }
 
     final SlotData slotData = event.getSlotData(SlotData.class);
 
     if(!SlotData.EXPECTED_MOD_VERSIONS.contains(slotData.getVersion())) {
-      ctx.displayMessage("Unexpected APWorld Version.\nGenerated world version:\n" +
-        slotData.getVersion());
+      final String versionMessage = I18n.translate("archipelagoon.connection.unexpected_version") + slotData.getVersion();
+      ctx.displayMessage(versionMessage);
       ctx.disconnect();
       return;
     }
@@ -58,6 +59,10 @@ public class ConnectionResultListener {
     slotData.slotSeed = seedName;
 
     ctx.setSlotData(slotData);
+    if(slotData.deathLink == 1) {
+      ctx.enableDeathlink();
+    }
+
     ctx.retrieveLocations();
   }
 }

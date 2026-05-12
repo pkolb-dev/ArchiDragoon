@@ -11,6 +11,10 @@ import io.github.archipelagomw.ClientStatus;
 import io.github.archipelagomw.flags.ItemsHandling;
 import io.github.archipelagomw.network.client.CreateAsHint;
 import legend.core.GameEngine;
+import legend.game.characters.CharacterData2c;
+import legend.game.characters.StatCollection;
+import legend.game.characters.VitalsStat;
+import legend.game.i18n.I18n;
 import legend.game.types.GameState52c;
 import org.legendofdragoon.modloader.registries.RegistryId;
 
@@ -24,6 +28,8 @@ import static archipelagoon.Archipelagoon.ADDRESS_CONFIG;
 import static archipelagoon.Archipelagoon.LOCATION_STATE_REGISTRY;
 import static archipelagoon.Archipelagoon.PASSWORD_CONFIG;
 import static archipelagoon.Archipelagoon.SLOT_NAME_CONFIG;
+import static legend.game.Scus94491BpeSegment_800b.gameState_800babc8;
+import static legend.lodmod.LodMod.HP_STAT;
 
 public class APContext {
   private static final APContext INSTANCE = new APContext();
@@ -45,6 +51,10 @@ public class APContext {
   }
 
   public void reconnect() throws URISyntaxException {
+    if(this.isConnected()) {
+      this.disconnect();
+    }
+    
     final String address = GameEngine.CONFIG.getConfig(ADDRESS_CONFIG.get());
     final String slotName = GameEngine.CONFIG.getConfig(SLOT_NAME_CONFIG.get());
     final String password = GameEngine.CONFIG.getConfig(PASSWORD_CONFIG.get());
@@ -64,8 +74,20 @@ public class APContext {
     return this.client.isConnected();
   }
 
-  public void triggerDeathFromAP() {
-    // TODO: figure out how to deathlink
+  public void triggerDeathFromAP(final String source, final String cause) {
+    final String deathMessage = String.format(I18n.translate("archipelagoon.ap.event.deathlink"), source, cause);
+    this.messageManager.displayMessage(deathMessage);
+    for(int charIndex = 0; charIndex < 9; charIndex++) {
+      final CharacterData2c character = gameState_800babc8.charData_32c.get(charIndex);
+      final StatCollection stats = character.stats;
+      final VitalsStat stat = stats.getStat(HP_STAT.get());
+
+      stat.setCurrent(0);
+    }
+  }
+
+  public void sendDeathlink() {
+    this.client.sendDeathlink(this.client.getMyName(), "Party KO");
   }
 
   public void checkLocation(final Long locationId) {
@@ -168,5 +190,9 @@ public class APContext {
 
   public RegistryId getProgressiveAdditionMatch(final long itemId) {
     return this.additionManager.getProgressiveAdditionRegistryId(itemId);
+  }
+
+  public void enableDeathlink() {
+    this.client.setDeathLinkEnabled(true);
   }
 }
