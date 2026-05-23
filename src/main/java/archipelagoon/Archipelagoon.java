@@ -25,7 +25,7 @@ import legend.game.inventory.screens.GatherShopExtensionsEvent;
 import legend.game.modding.events.RenderEvent;
 import legend.game.modding.events.battle.BattleEndedEvent;
 import legend.game.modding.events.characters.AdditionUnlockEvent;
-import legend.game.modding.events.characters.CharacterLevelUpEvent;
+import legend.game.modding.events.characters.PostCharacterLevelUpEvent;
 import legend.game.modding.events.gamestate.GameLoadedEvent;
 import legend.game.modding.events.gamestate.NewGameEvent;
 import legend.game.modding.events.inventory.GiveGoodsEvent;
@@ -269,7 +269,7 @@ public class Archipelagoon {
   }
 
   @EventListener
-  public void characterLevelUp(final CharacterLevelUpEvent event) {
+  public void characterLevelUp(final PostCharacterLevelUpEvent event) {
     AdditionManager.getInstance().checkUnlock(event.character);
   }
 
