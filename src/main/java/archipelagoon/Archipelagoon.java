@@ -29,7 +29,7 @@ import legend.game.modding.events.RenderEvent;
 import legend.game.modding.events.battle.BattleEndedEvent;
 import legend.game.modding.events.battle.EnemyRewardsEvent;
 import legend.game.modding.events.characters.AdditionUnlockEvent;
-import legend.game.modding.events.characters.CharacterLevelUpEvent;
+import legend.game.modding.events.characters.PostCharacterLevelUpEvent;
 import legend.game.modding.events.gamestate.GameLoadedEvent;
 import legend.game.modding.events.gamestate.NewGameEvent;
 import legend.game.modding.events.inventory.GiveGoodsEvent;
@@ -265,11 +265,8 @@ public class Archipelagoon {
   }
 
   @EventListener
-  public void characterLevelUp(final CharacterLevelUpEvent event) {
-    final CharacterData2c character = event.character;
-    character.level_12 += event.levelsToAdd; // bump to appropriate level
-    AdditionManager.getInstance().checkUnlock(character);
-    character.level_12 -= event.levelsToAdd; // reset to allow other level changes.
+  public void characterLevelUp(final PostCharacterLevelUpEvent event) {
+    AdditionManager.getInstance().checkUnlock(event.character);
   }
 
   @EventListener
