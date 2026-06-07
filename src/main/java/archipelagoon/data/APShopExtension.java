@@ -38,7 +38,7 @@ public class APShopExtension extends ShopExtension<APInventoryEntry> {
       renderText(I18n.translate(entry.item.getNameTranslationKey()), x + 20, y + 2, UI_TEXT);
     }
 
-    renderNumber(x + 176, y + 4, entry.price, 0x2, 6);
+    renderNumber(x + 176, y + 4, entry.price, 2, 6);
     entry.item.renderIcon(x + 3, y, 0x8);
   }
 
