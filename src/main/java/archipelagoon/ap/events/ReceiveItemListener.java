@@ -3,6 +3,7 @@ package archipelagoon.ap.events;
 import archipelagoon.ap.APContext;
 import archipelagoon.ap.mapping.items.Items;
 import archipelagoon.randomizer.AdditionManager;
+import archipelagoon.randomizer.MagicManager;
 import io.github.archipelagomw.events.ArchipelagoEventListener;
 import io.github.archipelagomw.events.ReceiveItemEvent;
 import legend.core.GameEngine;
@@ -20,8 +21,6 @@ public class ReceiveItemListener {
   public void onReceiveItem(final ReceiveItemEvent event) {
     final APContext ctx = APContext.getContext();
 
-    ctx.initAdditions(null);
-
     final long lastItemReceivedIndex = GameEngine.CONFIG.getConfig(LAST_ITEM_INDEX.get());
     if(event.getIndex() <= lastItemReceivedIndex) {
       return;
@@ -31,10 +30,15 @@ public class ReceiveItemListener {
     final String itemId = Items.getRegistryIdFromAPItemId(apItemId);
 
     final RegistryId registryId;
-    if(itemId == null) {
-      registryId = ctx.getProgressiveAdditionMatch(apItemId);
-    } else {
+    if(itemId != null) {
       registryId = new RegistryId(itemId);
+    } else if(ctx.getProgressiveAdditionMatch(apItemId) != null) {
+      registryId = ctx.getProgressiveAdditionMatch(apItemId);
+    } else if(ctx.getProgressiveMagicMatch(apItemId) != null) {
+      registryId = ctx.getProgressiveMagicMatch(apItemId);
+    } else {
+      // no match found, not supported.
+      return;
     }
 
     // update index
@@ -52,6 +56,8 @@ public class ReceiveItemListener {
       gameState_800babc8.goods_19c.give(good);
     } else if(GameEngine.REGISTRIES.additions.hasEntry(registryId)) {
       AdditionManager.getInstance().setAddition(registryId, null);
+    } else if(GameEngine.REGISTRIES.spells.hasEntry(registryId)) {
+      MagicManager.getInstance().setSpell(registryId, null);
     }
 
     // queue message
