@@ -4,5 +4,4 @@ public enum AdditionRandomizerType {
   OFF,
   ADDITIONSANITY,
   PROGRESSIVE,
-  ;
 }

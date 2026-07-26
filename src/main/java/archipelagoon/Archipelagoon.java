@@ -15,9 +15,9 @@ import archipelagoon.data.SlotData;
 import archipelagoon.data.enums.AdditionRandomizerType;
 import archipelagoon.icons.APIconUiType;
 import archipelagoon.randomizer.AdditionManager;
+import archipelagoon.randomizer.MagicManager;
 import archipelagoon.randomizer.ShopManager;
 import legend.core.GameEngine;
-import legend.game.characters.CharacterData2c;
 import legend.game.combat.deff.RegisterDeffsEvent;
 import legend.game.inventory.Good;
 import legend.game.inventory.GoodsRegistryEvent;
@@ -29,6 +29,7 @@ import legend.game.modding.events.RenderEvent;
 import legend.game.modding.events.battle.BattleEndedEvent;
 import legend.game.modding.events.battle.EnemyRewardsEvent;
 import legend.game.modding.events.characters.AdditionUnlockEvent;
+import legend.game.modding.events.characters.PostCharacterDragoonLevelUpEvent;
 import legend.game.modding.events.characters.PostCharacterLevelUpEvent;
 import legend.game.modding.events.gamestate.GameLoadedEvent;
 import legend.game.modding.events.gamestate.NewGameEvent;
@@ -121,6 +122,7 @@ public class Archipelagoon {
 
     if(ctx.isConnected()) {
       ctx.initAdditions(game.gameState);
+      ctx.initMagic(game.gameState);
       return;
     }
 
@@ -270,13 +272,18 @@ public class Archipelagoon {
   }
 
   @EventListener
+  public void dragoonLevelUp(final PostCharacterDragoonLevelUpEvent event) {
+    MagicManager.getInstance().checkUnlock(event.character);
+  }
+
+  @EventListener
   public void battleEnded(final BattleEndedEvent event) {
     final APContext ctx = APContext.getContext();
     if(battleState_8006e398.hasAlivePlayers()) {
       ctx.handleEncounter(event.encounter.getRegistryId());
       return;
     }
-    
+
     if(ctx.getSlotData().deathLink == 1) {
       ctx.sendDeathlink();
     }

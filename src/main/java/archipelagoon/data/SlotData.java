@@ -14,7 +14,10 @@ public final class SlotData {
 
   @SerializedName("addition_randomizer")
   public int additionRandomizer = 0;
-  
+
+  @SerializedName("magic_randomizer")
+  public int magicRandomizer = 0;
+
   @SerializedName("lod_completion_condition")
   public int completionCondition = 1;
 
