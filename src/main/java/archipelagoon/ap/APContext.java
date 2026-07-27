@@ -1,5 +1,6 @@
 package archipelagoon.ap;
 
+import archipelagoon.Archipelagoon;
 import archipelagoon.ap.mapping.LocationState;
 import archipelagoon.ap.mapping.goals.Goals;
 import archipelagoon.ap.mapping.locations.DragoonLevels;
@@ -78,7 +79,7 @@ public class APContext {
   }
 
   public void triggerDeathFromAP(final String source, final String cause) {
-    final String deathMessage = String.format(I18n.translate("archipelagoon.ap.event.deathlink"), source, cause);
+    final String deathMessage = I18n.translate(Archipelagoon.MOD_ID + ".ap.event.deathlink", source, cause);
     this.messageManager.displayMessage(deathMessage);
     for(int charIndex = 0; charIndex < 9; charIndex++) {
       final CharacterData2c character = gameState_800babc8.charData_32c.get(charIndex);
