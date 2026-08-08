@@ -2,8 +2,8 @@ package archipelagoon.config;
 
 import archipelagoon.Archipelagoon;
 import archipelagoon.screens.ArchipelagoConnectScreen;
+import legend.core.lang.I18nText;
 import legend.game.SItem;
-import legend.game.i18n.I18n;
 import legend.game.inventory.screens.controls.Button;
 import legend.game.saves.ConfigCategory;
 import legend.game.saves.ConfigEntry;
@@ -21,7 +21,7 @@ public class ArchipelagoConfigEntry extends ConfigEntry<Map<RegistryDelegate<Str
     super(Map.of(), ConfigStorageLocation.CAMPAIGN, ConfigCategory.OTHER, ArchipelagoConfigEntry::serializer, ArchipelagoConfigEntry::deserializer);
 
     this.setEditControl((current, configCollection) -> {
-      final Button button = new Button(I18n.translate(Archipelagoon.MOD_ID + ".config.archipelago.configure"));
+      final Button button = new Button(new I18nText(Archipelagoon.MOD_ID + ".config.archipelago.configure"));
       button.onPressed(() -> button.getScreen().getStack().pushScreen(new ArchipelagoConnectScreen(configCollection, () -> {
         startFadeEffect(2, 10);
         SItem.menuStack.popScreen();
