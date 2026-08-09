@@ -34,6 +34,7 @@ apply plugin: 'com.gradleup.shadow'
 group = "archipelagoon"
 version = "2.0.0"
 
+
 shadowJar {
   dependencies {
     exclude(dependency(files("$projectDir/lod-game-snapshot-2.jar")))
