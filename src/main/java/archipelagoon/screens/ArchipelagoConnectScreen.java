@@ -2,8 +2,10 @@ package archipelagoon.screens;
 
 import archipelagoon.Archipelagoon;
 import archipelagoon.ap.APContext;
+import legend.core.lang.I18nText;
+import legend.core.lang.RawText;
+import legend.core.lang.TextComponent;
 import legend.core.platform.input.InputAction;
-import legend.game.i18n.I18n;
 import legend.game.inventory.screens.InputPropagation;
 import legend.game.inventory.screens.VerticalLayoutScreen;
 import legend.game.inventory.screens.controls.Background;
@@ -35,12 +37,12 @@ public class ArchipelagoConnectScreen extends VerticalLayoutScreen {
   private final Runnable unload;
   private final ConfigCollection config;
 
-  private final String connectedText =
-    I18n.translate(Archipelagoon.MOD_ID + ".config.connected");
-  private final String notConnectedText =
-    I18n.translate(Archipelagoon.MOD_ID + ".config.not_connected");
-  private final String connectingText =
-    I18n.translate(Archipelagoon.MOD_ID + ".config.connecting");
+  private final TextComponent connectedText =
+    new I18nText(Archipelagoon.MOD_ID + ".config.connected");
+  private final TextComponent notConnectedText =
+    new I18nText(Archipelagoon.MOD_ID + ".config.not_connected");
+  private final TextComponent connectingText =
+    new I18nText(Archipelagoon.MOD_ID + ".config.connecting");
   private boolean connecting;
   private Boolean lastConnectedState;
 
@@ -67,33 +69,33 @@ public class ArchipelagoConnectScreen extends VerticalLayoutScreen {
     this.address.setMaxLength(30);
     this.address.setZ(35);
 
-    this.addRow(I18n.translate(Archipelagoon.MOD_ID + ".config.address.label"), this.address);
+    this.addRow(new I18nText(Archipelagoon.MOD_ID + ".config.address.label"), this.address);
 
     this.slotName = new Textbox();
     this.slotName.setText(this.config.getConfig(SLOT_NAME_CONFIG.get()));
     this.slotName.setMaxLength(30);
     this.slotName.setZ(35);
 
-    this.addRow(I18n.translate(Archipelagoon.MOD_ID + ".config.slot_name.label"), this.slotName);
+    this.addRow(new I18nText(Archipelagoon.MOD_ID + ".config.slot_name.label"), this.slotName);
 
     this.password = new Textbox();
     this.password.setText(this.config.getConfig(PASSWORD_CONFIG.get()));
     this.password.setMaxLength(30);
     this.password.setZ(35);
 
-    this.addRow(I18n.translate(Archipelagoon.MOD_ID + ".config.password.label"), this.password);
+    this.addRow(new I18nText(Archipelagoon.MOD_ID + ".config.password.label"), this.password);
 
     final APContext ctx = APContext.getContext();
     this.lastConnectedState = ctx.isConnected();
-    this.statusLabel = new Label(I18n.translate(Archipelagoon.MOD_ID + ".config." + (ctx.isConnected() ? "connected" : "not_connected")));
-    this.addRow("", this.statusLabel);
+    this.statusLabel = new Label(new I18nText(Archipelagoon.MOD_ID + ".config." + (ctx.isConnected() ? "connected" : "not_connected")));
+    this.addRow(new RawText(""), this.statusLabel);
 
     if(currentEngineState_8004dd04.is(CoreEngineStateTypes.TITLE.get())) {
       return;
     }
 
-    final Button connect = new Button(I18n.translate(Archipelagoon.MOD_ID + ".config.connect"));
-    this.addRow("", connect);
+    final Button connect = new Button(new I18nText(Archipelagoon.MOD_ID + ".config.connect"));
+    this.addRow(new RawText(""), connect);
     connect.onPressed(() -> {
       this.connecting = true;
       this.statusLabel.setText(this.connectingText);
