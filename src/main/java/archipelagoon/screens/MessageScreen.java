@@ -1,5 +1,6 @@
 package archipelagoon.screens;
 
+import legend.core.lang.RawText;
 import legend.core.platform.input.InputAction;
 import legend.game.i18n.I18n;
 import legend.game.inventory.screens.InputPropagation;
@@ -24,7 +25,9 @@ public class MessageScreen extends MenuScreen {
   public MessageScreen(final String messageKey, final Consumer<MessageBoxResult> onResult) {
     this.framesRemaining = 180;
     setMessageBoxText(this.messageBox, I18n.translate(messageKey), MessageBoxType.ALERT);
-    setMessageBoxOptions(this.messageBox, "", "null");
+    final RawText yes = new RawText("");
+    final RawText no = new RawText("null");
+    setMessageBoxOptions(this.messageBox, yes, no);
 
     this.messageBox.x_1c = displayWidth_1f8003e0 - 190;
     this.messageBox.y_1e = 5;
