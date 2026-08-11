@@ -136,13 +136,14 @@ public class MagicManager {
 
   public void checkUnlock(final CharacterData2c charData) {
     final APContext ctx = APContext.getContext();
-    final Long apId = DragoonLevels.getLocationId(charData.template.getRegistryId(), charData.dlevel_13);
+    for(int i = 0; i < charData.dlevel_13; i++) {
+      final Long apId = DragoonLevels.getLocationId(charData.template.getRegistryId(), i);
+      if(apId == null || apId == -1L) {
+        return;
+      }
 
-    if(apId == null || apId == -1L) {
-      return;
+      ctx.checkLocation(apId);
     }
-
-    ctx.checkLocation(apId);
   }
 
   public RegistryId getProgressiveMagicRegistryId(final long itemId) {
