@@ -95,11 +95,13 @@ public final class Additions {
   }
 
   public static Integer getCharacterIndexFromAPItemId(final Long apItemId) {
-    if(PROGRESSIVE_ADDITION_MAP.containsValue(apItemId)) {
-      for(final Map.Entry<Integer, Long> entry : PROGRESSIVE_ADDITION_MAP.entrySet()) {
-        if(Objects.equals(entry.getValue(), apItemId)) {
-          return entry.getKey();
-        }
+    if(!PROGRESSIVE_ADDITION_MAP.containsValue(apItemId)) {
+      return -1;
+    }
+
+    for(final Map.Entry<Integer, Long> entry : PROGRESSIVE_ADDITION_MAP.entrySet()) {
+      if(Objects.equals(entry.getValue(), apItemId)) {
+        return entry.getKey();
       }
     }
 

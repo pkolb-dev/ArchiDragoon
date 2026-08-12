@@ -1,4 +1,4 @@
-package archipelagoon.data;
+package archipelagoon.data.tables;
 
 import legend.lodmod.LodAdditions;
 import org.legendofdragoon.modloader.registries.RegistryId;

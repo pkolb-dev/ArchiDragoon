@@ -2,8 +2,8 @@ package archipelagoon.randomizer;
 
 import archipelagoon.ap.APContext;
 import archipelagoon.ap.mapping.items.Additions;
-import archipelagoon.data.ProgressiveAdditions;
 import archipelagoon.data.enums.AdditionRandomizerType;
+import archipelagoon.data.tables.ProgressiveAdditions;
 import legend.core.GameEngine;
 import legend.game.additions.UnlockState;
 import legend.game.characters.CharacterAdditionInfo;
@@ -25,6 +25,57 @@ public final class AdditionManager {
 
   public static AdditionManager getInstance() {
     return INSTANCE;
+  }
+
+  public void initAdditions(final GameState52c gameState) {
+    final GameState52c state = this.resolveState(gameState);
+    final APContext ctx = APContext.getContext();
+    final List<Long> receivedItems = ctx.getReceivedItemIDs();
+
+    // do we need to lock additions?
+
+    for(int charIndex = 0; charIndex < 9; charIndex++) {
+      final CharacterData2c charData = state.charData_32c.get(charIndex);
+
+      // set additions based on setting
+      switch(AdditionRandomizerType.values()[ctx.getSlotData().additionRandomizer]) {
+        case AdditionRandomizerType.ADDITIONSANITY:
+          final Map<Long, String> additionList = Additions.getStaticMap();
+
+          //
+          for(final Long id : receivedItems) {
+            if(!additionList.containsKey(id)) {
+              continue;
+            }
+
+            final RegistryId registryId = new RegistryId(Additions.getRegistryIdFromAPItemId(id));
+            this.setAddition(registryId, state);
+          }
+          break;
+        case AdditionRandomizerType.PROGRESSIVE:
+          final Long progressiveId = Additions.getAPItemIdFromCharacterIndex(charIndex);
+          final int totalReceived = Collections.frequency(receivedItems, progressiveId);
+          final Map<Integer, RegistryId> additions = ProgressiveAdditions.getAdditionsForChar(charIndex);
+
+          for(int i = 1; i <= totalReceived; i++) {
+            if(!additions.containsKey(i)) {
+              break;
+            }
+
+            final RegistryId registryId = additions.get(i);
+
+            // we want to enable what we've received.
+            charData.getAdditionInfo(registryId).setUnlockState(UnlockState.UNLOCKED, state.timestamp_a0);
+          }
+          break;
+        case AdditionRandomizerType.OFF:
+        default:
+          charData.getAllAdditions().forEach(addition -> {
+            charData.getAdditionInfo(addition).setUnlockState(UnlockState.UNLOCKABLE, state.timestamp_a0);
+          });
+          break;
+      }
+    }
   }
 
   public void lockAdditions(final GameState52c gameState) {
@@ -160,15 +211,12 @@ public final class AdditionManager {
         continue;
       }
 
-      final UnlockState unlockState = info.getUnlockState();
-      info.setUnlockState(UnlockState.UNLOCKABLE, charData.gameState.timestamp_a0);
-      if(info.checkUnlock(charData)) {
+      if(info.checkUnlockCriteria(charData)) {
         final Long apId = archipelagoon.ap.mapping.locations.Additions.getAPLocationIdFromRegistryId(id);
         if(apId != null) {
           apContext.checkLocation(apId);
         }
       }
-      info.setUnlockState(unlockState, charData.gameState.timestamp_a0);
     }
   }
 

@@ -2,10 +2,12 @@ package archipelagoon.ap;
 
 import archipelagoon.ap.mapping.LocationState;
 import archipelagoon.ap.mapping.goals.Goals;
+import archipelagoon.ap.mapping.locations.DragoonLevels;
 import archipelagoon.ap.mapping.locations.Enemies;
 import archipelagoon.ap.mapping.locations.Locations;
 import archipelagoon.data.SlotData;
 import archipelagoon.randomizer.AdditionManager;
+import archipelagoon.randomizer.MagicManager;
 import archipelagoon.randomizer.MessageManager;
 import io.github.archipelagomw.ClientStatus;
 import io.github.archipelagomw.flags.ItemsHandling;
@@ -35,6 +37,7 @@ public class APContext {
   private static final APContext INSTANCE = new APContext();
   private final APClient client;
   private final AdditionManager additionManager = AdditionManager.getInstance();
+  private final MagicManager magicManager = MagicManager.getInstance();
   private final MessageManager messageManager = MessageManager.getInstance();
   private SlotData slotData;
 
@@ -54,7 +57,7 @@ public class APContext {
     if(this.isConnected()) {
       this.disconnect();
     }
-    
+
     final String address = GameEngine.CONFIG.getConfig(ADDRESS_CONFIG.get());
     final String slotName = GameEngine.CONFIG.getConfig(SLOT_NAME_CONFIG.get());
     final String password = GameEngine.CONFIG.getConfig(PASSWORD_CONFIG.get());
@@ -96,6 +99,7 @@ public class APContext {
 
   public void retrieveLocations() {
     final ArrayList<Long> locationIDs = new ArrayList<>(Locations.getStaticMap().keySet());
+    locationIDs.addAll(DragoonLevels.getAllLocationIds());
     final var result = this.client.scoutLocations(locationIDs, CreateAsHint.NO);
   }
 
@@ -176,6 +180,11 @@ public class APContext {
     this.additionManager.selectAddition(gameState);
   }
 
+  public void initMagic(final GameState52c gameState) {
+    this.magicManager.lockSpells(gameState);
+    this.magicManager.setMagic(gameState);
+  }
+
   public void retrieveItems() {
     this.client.getItemManager().getReceivedItems();
   }
@@ -190,6 +199,10 @@ public class APContext {
 
   public RegistryId getProgressiveAdditionMatch(final long itemId) {
     return this.additionManager.getProgressiveAdditionRegistryId(itemId);
+  }
+
+  public RegistryId getProgressiveMagicMatch(final long itemId) {
+    return this.magicManager.getProgressiveMagicRegistryId(itemId);
   }
 
   public void enableDeathlink() {
