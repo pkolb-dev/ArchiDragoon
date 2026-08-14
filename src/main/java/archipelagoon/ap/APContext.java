@@ -175,14 +175,19 @@ public class APContext {
   }
 
   public void initAdditions(final GameState52c gameState) {
-    this.additionManager.lockAdditions(gameState);
+    //    this.additionManager.lockAdditions(gameState);
     this.additionManager.setAdditions(gameState);
     this.additionManager.selectAddition(gameState);
   }
 
   public void initMagic(final GameState52c gameState) {
-    this.magicManager.lockSpells(gameState);
+    //    this.magicManager.lockSpells(gameState);
     this.magicManager.setMagic(gameState);
+  }
+
+  public void initGame(final GameState52c state) {
+    this.additionManager.lockAdditions(state);
+    this.magicManager.lockSpells(state);
   }
 
   public void retrieveItems() {

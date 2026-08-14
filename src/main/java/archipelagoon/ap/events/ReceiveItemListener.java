@@ -21,6 +21,9 @@ public class ReceiveItemListener {
   public void onReceiveItem(final ReceiveItemEvent event) {
     final APContext ctx = APContext.getContext();
 
+    ctx.initAdditions(null);
+    ctx.initMagic(null);
+
     final long lastItemReceivedIndex = GameEngine.CONFIG.getConfig(LAST_ITEM_INDEX.get());
     if(event.getIndex() <= lastItemReceivedIndex) {
       return;
