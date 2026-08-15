@@ -13,67 +13,67 @@ public final class DragoonLevels {
 
   static {
     final Map<Integer, Long> dart_levels = new LinkedHashMap<>();
-    dart_levels.put(2, 10870000L);
-    dart_levels.put(3, 10870001L);
-    dart_levels.put(4, 10870002L);
-    dart_levels.put(5, 10870003L);
+    dart_levels.put(2, 108_90000L);
+    dart_levels.put(3, 108_90001L);
+    dart_levels.put(4, 108_90002L);
+    dart_levels.put(5, 108_90003L);
     CHARACTER_MAGIC_LOCATIONS.put(LodCharacterTemplates.DART.getId(), dart_levels);
 
     final Map<Integer, Long> lavitz_spells = new LinkedHashMap<>();
-    lavitz_spells.put(2, 10870010L);
-    lavitz_spells.put(3, 10870011L);
-    lavitz_spells.put(4, 10870012L);
-    lavitz_spells.put(5, 10870013L);
+    lavitz_spells.put(2, 108_90010L);
+    lavitz_spells.put(3, 108_90011L);
+    lavitz_spells.put(4, 108_90012L);
+    lavitz_spells.put(5, 108_90013L);
     CHARACTER_MAGIC_LOCATIONS.put(LodCharacterTemplates.LAVITZ.getId(), lavitz_spells);
 
     final Map<Integer, Long> shana_spells = new LinkedHashMap<>();
-    shana_spells.put(2, 10870020L);
-    shana_spells.put(3, 10870021L);
-    shana_spells.put(4, 10870022L);
-    shana_spells.put(5, 10870023L);
+    shana_spells.put(2, 108_90020L);
+    shana_spells.put(3, 108_90021L);
+    shana_spells.put(4, 108_90022L);
+    shana_spells.put(5, 108_90023L);
     CHARACTER_MAGIC_LOCATIONS.put(LodCharacterTemplates.SHANA.getId(), shana_spells);
 
     final Map<Integer, Long> rose_spells = new LinkedHashMap<>();
-    rose_spells.put(2, 10870030L);
-    rose_spells.put(3, 10870031L);
-    rose_spells.put(4, 10870032L);
-    rose_spells.put(5, 10870033L);
+    rose_spells.put(2, 108_90030L);
+    rose_spells.put(3, 108_90031L);
+    rose_spells.put(4, 108_90032L);
+    rose_spells.put(5, 108_90033L);
     CHARACTER_MAGIC_LOCATIONS.put(LodCharacterTemplates.ROSE.getId(), rose_spells);
 
     // Haschel
     final Map<Integer, Long> haschel_spells = new LinkedHashMap<>();
-    haschel_spells.put(2, 10870040L);
-    haschel_spells.put(3, 10870041L);
-    haschel_spells.put(4, 10870042L);
-    haschel_spells.put(5, 10870043L);
+    haschel_spells.put(2, 108_90040L);
+    haschel_spells.put(3, 108_90041L);
+    haschel_spells.put(4, 108_90042L);
+    haschel_spells.put(5, 108_90043L);
     CHARACTER_MAGIC_LOCATIONS.put(LodCharacterTemplates.HASCHEL.getId(), haschel_spells);
 
     final Map<Integer, Long> albert_spells = new LinkedHashMap<>();
-    albert_spells.put(2, 10870050L);
-    albert_spells.put(3, 10870051L);
-    albert_spells.put(4, 10870052L);
-    albert_spells.put(5, 10870053L);
+    albert_spells.put(2, 108_90050L);
+    albert_spells.put(3, 108_90051L);
+    albert_spells.put(4, 108_90052L);
+    albert_spells.put(5, 108_90053L);
     CHARACTER_MAGIC_LOCATIONS.put(LodCharacterTemplates.ALBERT.getId(), albert_spells);
 
     final Map<Integer, Long> meru_spells = new LinkedHashMap<>();
-    meru_spells.put(2, 10870060L);
-    meru_spells.put(3, 10870061L);
-    meru_spells.put(4, 10870062L);
-    meru_spells.put(5, 10870063L);
+    meru_spells.put(2, 108_90060L);
+    meru_spells.put(3, 108_90061L);
+    meru_spells.put(4, 108_90062L);
+    meru_spells.put(5, 108_90063L);
     CHARACTER_MAGIC_LOCATIONS.put(LodCharacterTemplates.MERU.getId(), meru_spells);
 
     final Map<Integer, Long> kongol_spells = new LinkedHashMap<>();
-    kongol_spells.put(2, 10870070L);
-    kongol_spells.put(3, 10870071L);
-    kongol_spells.put(4, 10870072L);
-    kongol_spells.put(5, 10870073L);
+    kongol_spells.put(2, 108_90070L);
+    kongol_spells.put(3, 108_90071L);
+    kongol_spells.put(4, 108_90072L);
+    kongol_spells.put(5, 108_90073L);
     CHARACTER_MAGIC_LOCATIONS.put(LodCharacterTemplates.KONGOL.getId(), kongol_spells);
 
     final Map<Integer, Long> miranda_spells = new LinkedHashMap<>();
-    miranda_spells.put(2, 10870080L);
-    miranda_spells.put(3, 10870081L);
-    miranda_spells.put(4, 10870082L);
-    miranda_spells.put(5, 10870083L);
+    miranda_spells.put(2, 108_90080L);
+    miranda_spells.put(3, 108_90081L);
+    miranda_spells.put(4, 108_90082L);
+    miranda_spells.put(5, 108_90083L);
     CHARACTER_MAGIC_LOCATIONS.put(LodCharacterTemplates.MIRANDA.getId(), miranda_spells);
   }
 
