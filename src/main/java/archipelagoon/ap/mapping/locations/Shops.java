@@ -147,7 +147,7 @@ public final class Shops {
     kazasFortItemShop.put(16, 108_50517L);
     kazasFortItemShop.put(17, 108_50518L);
     kazasFortItemShop.put(18, 108_50519L);
-    kazasFortItemShop.put(19, 108_50521L);
+    kazasFortItemShop.put(19, 108_50520L);
     SHOP_LOCATIONS.put(LodShops.KAZAS_FORT_ITEM_SHOP.getId().toString(), kazasFortItemShop);
 
     final Map<Integer, Long> fletzEquipmentShop = new LinkedHashMap<>();
@@ -216,7 +216,7 @@ public final class Shops {
     donauEquipmentShop.put(16, 108_50817L);
     donauEquipmentShop.put(17, 108_50818L);
     donauEquipmentShop.put(18, 108_50819L);
-    donauEquipmentShop.put(19, 108_50821L);
+    donauEquipmentShop.put(19, 108_50820L);
     SHOP_LOCATIONS.put(LodShops.DONAU_EQUIPMENT_SHOP.getId().toString(), donauEquipmentShop);
 
     final Map<Integer, Long> donauItemShop = new LinkedHashMap<>();
