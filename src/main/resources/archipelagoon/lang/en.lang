@@ -27,10 +27,11 @@ archipelagoon.connection.unknown_error=Unknown error
 archipelagoon.ap.priority.item=AP Item
 archipelagoon.ap.priority.item.description=an item considered progression
 archipelagoon.ap.good.description=A good from your game
+archipelagoon.ap.item.description=%s's\n%s
 
 archipelagoon.items.ice_trap.use=Ice trap!
 
-archipelagoon.ap.event.deathlink=deathlink from\n%s\n%s
+archipelagoon.ap.event.deathlink=Deathlink Received!\nfrom: %s\n%s
 
 archipelagoon.goods.law_making_license.name=Law Making License
 archipelagoon.goods.law_making_license.description=Allows laws to be made\nin Zenebatos

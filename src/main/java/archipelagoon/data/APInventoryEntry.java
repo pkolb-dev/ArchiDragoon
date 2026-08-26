@@ -43,7 +43,7 @@ public class APInventoryEntry implements InventoryEntry<APInventoryEntry> {
 
   @Override
   public String getDescriptionTranslationKey() {
-    return String.format("%s's\n%s", this.playerName, this.itemName);
+    return "archipelagoon.ap.item.description";
   }
 
   @Override
