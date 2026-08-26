@@ -35,7 +35,8 @@ public final class APIconUiType {
     @Override
     public void useTexture(@NotNull final QueuedModelStandard model) {
       if(TEXTURE == null) {
-        TEXTURE = Texture.png(Path.of("mods", "archipelagoon", "icons", "iconsheet.png"));
+        TEXTURE = Texture.png("Iconsheet", Path.of("mods", "archipelagoon", "icons", "iconsheet.png"));
+        TEXTURE.persistent = true;
       }
 
       model.texture(TEXTURE);
