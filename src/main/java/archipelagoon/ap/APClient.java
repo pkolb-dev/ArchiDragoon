@@ -1,6 +1,7 @@
 package archipelagoon.ap;
 
 import archipelagoon.ap.events.ConnectionResultListener;
+import archipelagoon.ap.events.DeathLinkListener;
 import archipelagoon.ap.events.LocationInfoListener;
 import archipelagoon.ap.events.ReceiveItemListener;
 import io.github.archipelagomw.Client;
@@ -35,8 +36,7 @@ public class APClient extends Client {
 
   private void registerDefaultListeners() {
     this.getEventManager().registerListener(new ConnectionResultListener());
-    // TODO: Enable once deathlink is figured out.
-    //    this.getEventManager().registerListener(new DeathLinkListener());
+    this.getEventManager().registerListener(new DeathLinkListener());
     this.getEventManager().registerListener(new ReceiveItemListener());
     this.getEventManager().registerListener(new LocationInfoListener());
   }
