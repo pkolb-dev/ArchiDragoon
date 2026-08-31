@@ -288,6 +288,7 @@ public class Archipelagoon {
 
     if(APIconUiType._ICONS.obj == null) {
       APIconUiType._ICONS.obj = buildUiRenderable(APIconUiType._ICONS, "AP icons");
+      APIconUiType._ICONS.obj.persistent = true;
     }
 
     final APContext ctx = APContext.getContext();
