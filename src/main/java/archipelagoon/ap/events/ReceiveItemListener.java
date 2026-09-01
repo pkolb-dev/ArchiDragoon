@@ -10,6 +10,7 @@ import legend.core.GameEngine;
 import legend.game.SItem;
 import legend.game.inventory.Equipment;
 import legend.game.inventory.Good;
+import legend.game.inventory.GoodsSource;
 import legend.game.inventory.Item;
 import org.legendofdragoon.modloader.registries.RegistryId;
 
@@ -56,7 +57,7 @@ public class ReceiveItemListener {
       SItem.giveEquipment(equipment);
     } else if(GameEngine.REGISTRIES.goods.hasEntry(registryId)) {
       final Good good = GameEngine.REGISTRIES.goods.getEntry(registryId).get();
-      gameState_800babc8.goods_19c.give(good);
+      gameState_800babc8.goods_19c.give(good, GoodsSource.EXTERNAL);
     } else if(GameEngine.REGISTRIES.additions.hasEntry(registryId)) {
       AdditionManager.getInstance().setAddition(registryId, null);
     } else if(GameEngine.REGISTRIES.spells.hasEntry(registryId)) {
