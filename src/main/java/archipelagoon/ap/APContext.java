@@ -8,15 +8,13 @@ import archipelagoon.ap.mapping.locations.Enemies;
 import archipelagoon.ap.mapping.locations.Locations;
 import archipelagoon.data.SlotData;
 import archipelagoon.randomizer.AdditionManager;
+import archipelagoon.randomizer.DeathlinkManager;
 import archipelagoon.randomizer.MagicManager;
 import archipelagoon.randomizer.MessageManager;
 import io.github.archipelagomw.ClientStatus;
 import io.github.archipelagomw.flags.ItemsHandling;
 import io.github.archipelagomw.network.client.CreateAsHint;
 import legend.core.GameEngine;
-import legend.game.characters.CharacterData2c;
-import legend.game.characters.StatCollection;
-import legend.game.characters.VitalsStat;
 import legend.game.i18n.I18n;
 import legend.game.types.GameState52c;
 import org.legendofdragoon.modloader.registries.RegistryId;
@@ -31,8 +29,6 @@ import static archipelagoon.Archipelagoon.ADDRESS_CONFIG;
 import static archipelagoon.Archipelagoon.LOCATION_STATE_REGISTRY;
 import static archipelagoon.Archipelagoon.PASSWORD_CONFIG;
 import static archipelagoon.Archipelagoon.SLOT_NAME_CONFIG;
-import static legend.game.Scus94491BpeSegment_800b.gameState_800babc8;
-import static legend.lodmod.LodMod.HP_STAT;
 
 public class APContext {
   private static final APContext INSTANCE = new APContext();
@@ -40,6 +36,7 @@ public class APContext {
   private final AdditionManager additionManager = AdditionManager.getInstance();
   private final MagicManager magicManager = MagicManager.getInstance();
   private final MessageManager messageManager = MessageManager.getInstance();
+  private final DeathlinkManager deathlinkManager = DeathlinkManager.getInstance();
   private SlotData slotData;
 
   public APContext() {
@@ -81,17 +78,11 @@ public class APContext {
   public void triggerDeathFromAP(final String source, final String cause) {
     final String deathMessage = I18n.translate(Archipelagoon.MOD_ID + ".ap.event.deathlink", source, cause);
     this.messageManager.displayMessage(deathMessage);
-    for(int charIndex = 0; charIndex < 9; charIndex++) {
-      final CharacterData2c character = gameState_800babc8.charData_32c.get(charIndex);
-      final StatCollection stats = character.stats;
-      final VitalsStat stat = stats.getStat(HP_STAT.get());
-
-      stat.setCurrent(0);
-    }
+    this.deathlinkManager.receiveDeathlink();
   }
 
   public void sendDeathlink() {
-    this.client.sendDeathlink(this.client.getMyName(), "Party KO");
+    this.deathlinkManager.sendDeathlink(this.client);
   }
 
   public void checkLocation(final Long locationId) {
@@ -176,14 +167,19 @@ public class APContext {
   }
 
   public void initAdditions(final GameState52c gameState) {
-    this.additionManager.lockAdditions(gameState);
+    //    this.additionManager.lockAdditions(gameState);
     this.additionManager.setAdditions(gameState);
     this.additionManager.selectAddition(gameState);
   }
 
   public void initMagic(final GameState52c gameState) {
-    this.magicManager.lockSpells(gameState);
+    //    this.magicManager.lockSpells(gameState);
     this.magicManager.setMagic(gameState);
+  }
+
+  public void initGame(final GameState52c state) {
+    this.additionManager.lockAdditions(state);
+    this.magicManager.lockSpells(state);
   }
 
   public void retrieveItems() {

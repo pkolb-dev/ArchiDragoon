@@ -1,5 +1,6 @@
 package archipelagoon.data;
 
+import legend.game.SItem;
 import legend.game.i18n.I18n;
 import legend.game.inventory.screens.MessageBoxScreen;
 import legend.game.inventory.screens.ShopExtension;
@@ -40,6 +41,12 @@ public class APShopExtension extends ShopExtension<APInventoryEntry> {
 
     renderNumber(x + 176, y + 4, entry.price, 2, 6);
     entry.item.renderIcon(x + 3, y, 0x8);
+  }
+
+  @Override
+  public void drawShopDescription(ShopScreen screen, Shop shop, GameState52c gameState, final ShopScreen.ShopEntry<APInventoryEntry> entry, final int x, final int y) {
+    final String message = String.format(I18n.translate(entry.item.getDescriptionTranslationKey()), entry.item.playerName, entry.item.itemName);
+    SItem.renderString(x, y, message, false);
   }
 
   @Override

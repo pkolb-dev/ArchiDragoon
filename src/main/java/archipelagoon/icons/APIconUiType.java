@@ -1,8 +1,8 @@
 package archipelagoon.icons;
 
-import legend.core.QueuedModelStandard;
 import legend.core.gpu.Bpp;
-import legend.core.opengl.Texture;
+import legend.core.renderer.QueuedModelStandard;
+import legend.core.renderer.Texture;
 import legend.game.types.RenderableMetrics14;
 import legend.game.types.UiPart;
 import legend.game.types.UiType;
@@ -35,7 +35,8 @@ public final class APIconUiType {
     @Override
     public void useTexture(@NotNull final QueuedModelStandard model) {
       if(TEXTURE == null) {
-        TEXTURE = Texture.png(Path.of("mods", "archipelagoon", "icons", "iconsheet.png"));
+        TEXTURE = Texture.png("Iconsheet", Path.of("mods", "archipelagoon", "icons", "iconsheet.png"));
+        TEXTURE.persistent = true;
       }
 
       model.texture(TEXTURE);
