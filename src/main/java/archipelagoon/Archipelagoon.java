@@ -121,7 +121,6 @@ public class Archipelagoon {
     if(ctx.isConnected()) {
       ctx.initAdditions(game.gameState);
       ctx.initMagic(game.gameState);
-      return;
     }
 
     try {
@@ -147,10 +146,7 @@ public class Archipelagoon {
     final long apId = Additions.getAPLocationIdFromRegistryId(event.addition.getRegistryId());
 
     final List<LocationState> locationStates = GameEngine.CONFIG.getConfig(LOCATION_STATE_REGISTRY.get());
-    final LocationState locationState = locationStates.stream()
-      .filter(ls -> ls.getLocationID() == apId)
-      .findFirst()
-      .orElse(null);
+    final LocationState locationState = locationStates.stream().filter(ls -> ls.getLocationID() == apId).findFirst().orElse(null);
 
     event.cancel();
 
@@ -191,10 +187,7 @@ public class Archipelagoon {
 
     final APContext ctx = APContext.getContext();
     final List<LocationState> locationStates = GameEngine.CONFIG.getConfig(LOCATION_STATE_REGISTRY.get());
-    final LocationState locationState = locationStates.stream()
-      .filter(ls -> ls.getLocationID() == entry.locationId)
-      .findFirst()
-      .orElse(null);
+    final LocationState locationState = locationStates.stream().filter(ls -> ls.getLocationID() == entry.locationId).findFirst().orElse(null);
     if(locationState == null) {
       return;
     }

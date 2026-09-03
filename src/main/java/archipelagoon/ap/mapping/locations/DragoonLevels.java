@@ -13,6 +13,7 @@ public final class DragoonLevels {
 
   static {
     final Map<Integer, Long> dart_levels = new LinkedHashMap<>();
+
     dart_levels.put(2, 108_90001L);
     dart_levels.put(3, 108_90002L);
     dart_levels.put(4, 108_90003L);
@@ -40,7 +41,6 @@ public final class DragoonLevels {
     rose_spells.put(5, 108_90034L);
     CHARACTER_MAGIC_LOCATIONS.put(LodCharacterTemplates.ROSE.getId(), rose_spells);
 
-    // Haschel
     final Map<Integer, Long> haschel_spells = new LinkedHashMap<>();
     haschel_spells.put(2, 108_90041L);
     haschel_spells.put(3, 108_90042L);
