@@ -13,7 +13,6 @@ public final class DragoonLevels {
 
   static {
     final Map<Integer, Long> dart_levels = new LinkedHashMap<>();
-
     dart_levels.put(2, 108_90001L);
     dart_levels.put(3, 108_90002L);
     dart_levels.put(4, 108_90003L);
