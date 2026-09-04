@@ -4,6 +4,7 @@ import archipelagoon.ap.APContext;
 import archipelagoon.ap.mapping.LocationState;
 import archipelagoon.ap.mapping.items.Goods;
 import archipelagoon.ap.mapping.locations.Additions;
+import archipelagoon.ap.mapping.locations.GoodsLocations;
 import archipelagoon.config.ArchipelagoConfigEntry;
 import archipelagoon.config.GoldMultiplierConfigEntry;
 import archipelagoon.config.ItemIndexConfigEntry;
@@ -21,6 +22,7 @@ import legend.core.GameEngine;
 import legend.game.combat.deff.RegisterDeffsEvent;
 import legend.game.inventory.Good;
 import legend.game.inventory.GoodsRegistryEvent;
+import legend.game.inventory.GoodsSource;
 import legend.game.inventory.Item;
 import legend.game.inventory.ItemRegistryEvent;
 import legend.game.inventory.screens.GatherShopExtensionsEvent;
@@ -49,6 +51,7 @@ import org.legendofdragoon.modloader.Mod;
 import org.legendofdragoon.modloader.events.EventListener;
 import org.legendofdragoon.modloader.registries.Registrar;
 import org.legendofdragoon.modloader.registries.RegistryDelegate;
+import org.legendofdragoon.modloader.registries.RegistryId;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -206,17 +209,66 @@ public class Archipelagoon {
     final Set<Long> receivedIds = Set.copyOf(ctx.getReceivedItemIDs());
     final List<Good> allowedGoods = new ArrayList<>();
 
-    for(final Good good : event.givenGoods) {
-      if(Objects.equals(good.getRegistryId(), LodGoods.LAW_MAKER.getId())) {
-        if(receivedIds.contains(Goods.getAPItemIdFromRegistryId(APGoods.LAW_MAKING_LICENSE.getId()))) {
-          allowedGoods.add(good);
-        }
-      } else if(Objects.equals(good.getRegistryId(), LodGoods.LAW_OUTPUT.getId())) {
-        if(receivedIds.contains(Goods.getAPItemIdFromRegistryId(APGoods.LAW_LAUNCHING_LICENSE.getId()))) {
-          allowedGoods.add(good);
-        }
+    switch(event.source) {
+      case GoodsSource.INITIALIZATION:
+        // probably can ignore?
+        break;
+      case GoodsSource.DEBUGGER:
+      case GoodsSource.EXTERNAL:
+        allowedGoods.addAll(this.handleExternalGoods(event.givenGoods, receivedIds));
+        // handle AP? good
+        break;
+      case GoodsSource.GAMEPLAY:
+        // given from story
+        allowedGoods.addAll(this.handleGameplayGoods(event.givenGoods, receivedIds));
+        break;
+      default:
+        break;
+    }
+
+    if(allowedGoods.isEmpty()) {
+      event.cancel();
+    } else {
+      event.givenGoods.clear();
+      event.givenGoods.addAll(allowedGoods);
+    }
+  }
+
+  private Collection<? extends Good> handleGameplayGoods(final List<Good> givenGoods, final Set<Long> receivedIds) {
+    final List<Good> allowedGoods = new ArrayList<>();
+
+    for(final Good good : givenGoods) {
+      final RegistryId id = good.getRegistryId();
+      final Long apId;
+      if(Objects.equals(id, LodGoods.LAW_MAKER.getId())) {
+        apId = Goods.getAPItemIdFromRegistryId(APGoods.LAW_MAKING_LICENSE.getId());
+      } else if(Objects.equals(id, LodGoods.LAW_OUTPUT.getId())) {
+        apId = Goods.getAPItemIdFromRegistryId(APGoods.LAW_LAUNCHING_LICENSE.getId());
+      } else {
+        // if not law maker or law output, we check a location
+        //        apId = Goods.getAPItemIdFromRegistryId(id);
+        final APContext ctx = APContext.getContext();
+        ctx.checkLocation(GoodsLocations.getAPLocationId(id));
+        // no good to add here
+        apId = null;
       }
 
+      if(apId == null) {
+        continue;
+      }
+
+      if(receivedIds.contains(apId)) {
+        allowedGoods.add(good);
+      }
+    }
+
+    return allowedGoods;
+  }
+
+  private Collection<? extends Good> handleExternalGoods(final List<Good> givenGoods, final Set<Long> receivedIds) {
+    final List<Good> allowedGoods = new ArrayList<>();
+
+    for(final Good good : givenGoods) {
       final Long apId = Goods.getAPItemIdFromRegistryId(good.getRegistryId());
       if(apId == null) {
         continue;
@@ -227,12 +279,7 @@ public class Archipelagoon {
       }
     }
 
-    if(allowedGoods.isEmpty()) {
-      event.cancel();
-    } else {
-      event.givenGoods.clear();
-      event.givenGoods.addAll(allowedGoods);
-    }
+    return allowedGoods;
   }
 
   @EventListener
