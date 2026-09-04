@@ -22,9 +22,6 @@ public class ReceiveItemListener {
   public void onReceiveItem(final ReceiveItemEvent event) {
     final APContext ctx = APContext.getContext();
 
-    ctx.initAdditions(null);
-    ctx.initMagic(null);
-
     final long lastItemReceivedIndex = GameEngine.CONFIG.getConfig(LAST_ITEM_INDEX.get());
     if(event.getIndex() <= lastItemReceivedIndex) {
       return;
@@ -59,7 +56,7 @@ public class ReceiveItemListener {
       final Good good = GameEngine.REGISTRIES.goods.getEntry(registryId).get();
       gameState_800babc8.goods_19c.give(good, GoodsSource.EXTERNAL);
     } else if(GameEngine.REGISTRIES.additions.hasEntry(registryId)) {
-      AdditionManager.getInstance().setAddition(registryId, null);
+      AdditionManager.getInstance().unlockAddition(registryId, null);
     } else if(GameEngine.REGISTRIES.spells.hasEntry(registryId)) {
       MagicManager.getInstance().setSpell(registryId, null);
     }

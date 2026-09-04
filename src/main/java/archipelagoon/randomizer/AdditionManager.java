@@ -27,57 +27,6 @@ public final class AdditionManager {
     return INSTANCE;
   }
 
-  public void initAdditions(final GameState52c gameState) {
-    final GameState52c state = this.resolveState(gameState);
-    final APContext ctx = APContext.getContext();
-    final List<Long> receivedItems = ctx.getReceivedItemIDs();
-
-    // do we need to lock additions?
-
-    for(int charIndex = 0; charIndex < 9; charIndex++) {
-      final CharacterData2c charData = state.charData_32c.get(charIndex);
-
-      // set additions based on setting
-      switch(AdditionRandomizerType.values()[ctx.getSlotData().additionRandomizer]) {
-        case AdditionRandomizerType.ADDITIONSANITY:
-          final Map<Long, String> additionList = Additions.getStaticMap();
-
-          //
-          for(final Long id : receivedItems) {
-            if(!additionList.containsKey(id)) {
-              continue;
-            }
-
-            final RegistryId registryId = new RegistryId(Additions.getRegistryIdFromAPItemId(id));
-            this.setAddition(registryId, state);
-          }
-          break;
-        case AdditionRandomizerType.PROGRESSIVE:
-          final Long progressiveId = Additions.getAPItemIdFromCharacterIndex(charIndex);
-          final int totalReceived = Collections.frequency(receivedItems, progressiveId);
-          final Map<Integer, RegistryId> additions = ProgressiveAdditions.getAdditionsForChar(charIndex);
-
-          for(int i = 1; i <= totalReceived; i++) {
-            if(!additions.containsKey(i)) {
-              break;
-            }
-
-            final RegistryId registryId = additions.get(i);
-
-            // we want to enable what we've received.
-            charData.getAdditionInfo(registryId).setUnlockState(UnlockState.UNLOCKED, state.timestamp_a0);
-          }
-          break;
-        case AdditionRandomizerType.OFF:
-        default:
-          charData.getAllAdditions().forEach(addition -> {
-            charData.getAdditionInfo(addition).setUnlockState(UnlockState.UNLOCKABLE, state.timestamp_a0);
-          });
-          break;
-      }
-    }
-  }
-
   public void lockAdditions(final GameState52c gameState) {
     final GameState52c state = this.resolveState(gameState);
 
@@ -114,7 +63,13 @@ public final class AdditionManager {
 
       final CharacterData2c charData = state.charData_32c.get(charIndex);
       charData.getAllAdditions().forEach(addition -> {
-        charData.getAdditionInfo(addition).setUnlockState(UnlockState.UNLOCKABLE, state.timestamp_a0);
+        final CharacterAdditionInfo additionInfo = charData.getAdditionInfo(addition);
+
+        if(additionInfo.checkUnlockCriteria(charData)) {
+          additionInfo.setUnlockState(UnlockState.UNLOCKED, -1);
+        } else {
+          additionInfo.setUnlockState(UnlockState.UNLOCKABLE, -1);
+        }
       });
     }
   }
@@ -130,7 +85,7 @@ public final class AdditionManager {
       }
 
       final RegistryId registryId = new RegistryId(Additions.getRegistryIdFromAPItemId(id));
-      this.setAddition(registryId, state);
+      this.unlockAddition(registryId, state);
     }
   }
 
@@ -159,7 +114,7 @@ public final class AdditionManager {
     }
   }
 
-  public void setAddition(final RegistryId registryId, final GameState52c gameState) {
+  public void unlockAddition(final RegistryId registryId, final GameState52c gameState) {
     if(!GameEngine.REGISTRIES.additions.hasEntry(registryId)) {
       return;
     }
@@ -173,7 +128,10 @@ public final class AdditionManager {
         continue;
       }
 
-      charData.getAdditionInfo(registryId).setUnlockState(UnlockState.UNLOCKED, state.timestamp_a0);
+      final CharacterAdditionInfo additionInfo = charData.getAdditionInfo(registryId);
+      if(additionInfo.getUnlockState() != UnlockState.UNLOCKED) {
+        additionInfo.setUnlockState(UnlockState.UNLOCKED, state.timestamp_a0);
+      }
     }
   }
 
